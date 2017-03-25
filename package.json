@@ -1,0 +1,26 @@
+{
+  "name": "qiqiblog",
+  "version": "1.0.0",
+  "description": "博客",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zxcchen/blog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "qiqi.chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zxcchen/blog/issues"
+  },
+  "homepage": "https://github.com/zxcchen/blog#readme",
+  "devDependencies": {
+    "express": "^4.15.2"
+  }
+}
