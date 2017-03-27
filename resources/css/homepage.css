@@ -30,6 +30,7 @@ a{
 
 #header{
     height:8%;
+    margin-top:-2%;
 }
 
 #header #logo,#banner_ul,#banner_search{
