@@ -25,6 +25,7 @@ a{
 #container{
     width:70%;
     height:2800px;
+    min-height:2200px;
     margin:0 auto;
 }
 
