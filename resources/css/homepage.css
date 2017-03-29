@@ -1,29 +1,61 @@
-*{
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{
     margin:0;
     padding:0;
-    font-family:'黑体';
+}
+
+body{
+    font:1em,"宋体","Arial Narrow",
+    HELVETICA;background:#fff;
+    -webkit-text-size-adjust:100%;
+}
+
+a{
+    color:#2d374b;
+    text-decoration:none;
+}
+
+em{
+    font-style:normal;
+}
+
+li{
+    list-style:none;
+    display:inline-block;
+}
+
+img{
+    border:0;vertical-align:middle;
+}
+
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+}
+p{
+    word-wrap:break-word;
 }
 
 div{
     box-sizing:border-box;
 }
 
-ul{
-    list-style:none;
-}
-
-li{
-    display:inline-block;
-}
-
 a{
     text-decoration:none;
-    font-size: 1.5em;
+    font-size: 0.875em;
     color:black;
+    border-bottom:1px solid white;
+    
+    -webkit-transition:border-bottom 0.6s ease-in-out;
+    -moz-transition:border-bottom 0.6s ease-in-out;
+    transition:border-bottom 0.6s ease-in-out;
+}
+
+a:hover{
+    border-bottom:1px solid rgb(164,164,164);
 }
 
 #container{
-    width:70%;
+    width:80%;
     margin:0 auto;
 }
 
@@ -33,7 +65,7 @@ a{
 
 #header #logo,#banner_ul,#banner_search{
     display:inline-block;
-    height:180px;
+    height:60%;
     vertical-align:bottom;
     margin-top:6%;
 }
@@ -53,14 +85,14 @@ a{
 #header #logo #search{
     position:relative;
     top:10%; 
-    width: 45%;
-    height: 12%;
+    width: 42%;
+    height: 14%;
     border-bottom: 2px solid black;
 }
 
 #header #logo #search input{
     border: none;
-    width: 80%;
+    width: 70%;
 }
 
 #header #logo #search button{
@@ -82,6 +114,10 @@ a{
 }
 
 #header #banner_ul li a{
+    display: inline-block;
+    height: 18%;
+    width: 80%;
+    text-align: center;
     font-size: 1em;
 }
 
@@ -92,9 +128,12 @@ a{
 
 #header #banner_search a{
     display:inline-block;
+    height: 10%;
+    width: 60%;
+    text-align: center;
     margin-top:3%;
     margin-left: 2%;
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 #section1{
@@ -116,17 +155,18 @@ a{
     width:12%;
     text-align:center;
     margin-right:1%;
-    line-height:120px;
-    font-size:18px;
+    margin-top:2%;
 }
 
-#section1 #nav ul li:nth-of-type(1){
-    margin-left:3%;
+#section1 #nav ul li a{
+    display: inline-block;
+    width: 110%;
+    height: 20%;
+    font-size: 1.6em;
 }
 
 #section1 #slide{
     height:82%;
-    font-size:0;
     border:1px solid rgb(234,234,234);
 }
 
@@ -142,7 +182,7 @@ a{
 
 #section1 #slide #scroll_banner{
     width:75%;
-    position:relative;
+    float: right;
 }
 
 #section1 #slide #scroll_changebtn{
@@ -152,9 +192,11 @@ a{
 }
 
 #section1 #slide #btn_left,#btn_right{
-    width:30px;
-    height:30px;
-    border: 1px solid black;
+    width:2%;
+    height:104%;
+    border: 12px solid black;
+    border-left: 5px solid black;
+    border-right: 5px solid black;
     cursor: pointer;
 }
 
@@ -170,32 +212,41 @@ a{
     right: 1%;
 }
 
-#section1 #slide #blogname{
+#section1 #slide span{
     position:relative;
-    top:-40%;
-    left:14%;
-    font-size: 80px;
+    font-size: 6em;
+    position: relative;
+    top:64%;
+    left: 72%;
 }
 
 #section1 #slide #scroll_btn{
     position:relative;
-    top:-27%;
+    top:-16%;
     margin-left:3%;
     width:20%;
-    height:2%;
+    height:6%;
 }
 
 #section1 #slide #scroll_btn  ul li{
     box-sizing: border-box;
-    width:20%;
+    width:16%;
     height: 4px;
     border-right:1px solid white;
     background-color:rgb(194,194,194);
     cursor: pointer;
+    
+    -webkit-transition:background-color 0.4s ease-in-out;
+    -moz-transition:background-color 0.4s ease-in-out;
+    transition:background-color 0.4s ease-in-out;
 }
 
 #section1 #slide #scroll_btn  ul li:nth-of-type(1){
-    background-color:rgb(104,104,104);
+    background-color:rgb(144,144,144);
+}
+
+#section1 #slide #scroll_btn  ul li:hover{
+    background-color:rgb(144,144,144);
 }
 
 #section2{
@@ -204,8 +255,8 @@ a{
 }
 
 #section2 #headline{
-    font-size:30px;
-    font-weight:800px;
+    font-size:4em;
+    font-weight:800;
 }
 
 #section2 table{
@@ -272,6 +323,7 @@ a{
 
 #footer{
     height: 30%;
+    margin-top: 1%;
 }
 
 #footer #social_contact{
@@ -287,13 +339,19 @@ a{
 }
 
 #footer #social_contact ul li{
-    width: 19%;
+    width: 18%;
+}
+
+#footer #social_contact ul li a{
+    display: inline-block;
+    height: 40px;
+    font-size: 1.25em;
 }
 
 #footer #social_contact span{
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 1.6%;
+    height: 50%;
     border: 1px solid black;
     float: right;
     margin-left: 1%;
