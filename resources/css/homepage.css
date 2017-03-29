@@ -24,12 +24,11 @@ a{
 
 #container{
     width:70%;
-    height:2800px;
     margin:0 auto;
 }
 
 #header{
-    height:8%;
+    height:28%;
 }
 
 #header #logo,#banner_ul,#banner_search{
@@ -40,11 +39,11 @@ a{
 }
 
 #header #logo{
-    width:50%;
+    width:60%;
 }
 
 #header #logo span{
-    position:relative;
+    position:relati
     top:5%;
     font-size:6em;
     font-weight:800;
@@ -99,7 +98,8 @@ a{
 }
 
 #section1{
-    height:27%;
+    height:64%;
+    margin-top:-3%;
 }
 
 #section1 #nav{
@@ -116,16 +116,8 @@ a{
     width:12%;
     text-align:center;
     margin-right:1%;
-    line-height:160px;
+    line-height:120px;
     font-size:18px;
-}
-
-#section1 #nav ul li a{
-    border-right: 1px solid rgb(234,234,234);
-,}
-
-#section1 #nav ul li:last-child a{
-    border-right:none;
 }
 
 #section1 #nav ul li:nth-of-type(1){
@@ -163,6 +155,7 @@ a{
     width:30px;
     height:30px;
     border: 1px solid black;
+    cursor: pointer;
 }
 
 #section1 #slide #btn_left{
@@ -198,6 +191,7 @@ a{
     height: 4px;
     border-right:1px solid white;
     background-color:rgb(194,194,194);
+    cursor: pointer;
 }
 
 #section1 #slide #scroll_btn  ul li:nth-of-type(1){
@@ -205,8 +199,8 @@ a{
 }
 
 #section2{
-    height:30%;
-    margin-top: 3%;
+    height:80%;
+    margin-top: -6%;
 }
 
 #section2 #headline{
@@ -215,7 +209,7 @@ a{
 }
 
 #section2 table{
-    margin-top: 1%;
+    margin-top: 3%;
     border-collapse:collapse;
     width:100%;
     height:90%;
@@ -250,9 +244,8 @@ a{
 }
 
 #section3{
-    height: 22%;
-    margin-top: -1%;
-    padding-bottom: 1%;
+    height: 56%;
+    margin-top: -12%;
 }
 
 #section3 div{
@@ -277,13 +270,12 @@ a{
     width: 33%;
 }
 
-
 #footer{
-    height: 11%;
+    height: 30%;
 }
 
 #footer #social_contact{
-    height: 12%;
+    height: 16%;
     border-top:2px solid black;
     border-bottom:2px solid black;
 }
@@ -291,6 +283,7 @@ a{
 #footer #social_contact ul{
     display: inline-block;
     width: 60%;
+    line-height: 46px;
 }
 
 #footer #social_contact ul li{
@@ -304,7 +297,7 @@ a{
     border: 1px solid black;
     float: right;
     margin-left: 1%;
-    margin-top:2px;
+    margin-top:1%;
 }
 
 #footer #social_text{
