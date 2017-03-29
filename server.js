@@ -7,6 +7,6 @@ server.get("(/|/homepage.html)",function(req,res){
     res.sendFile(__dirname+"/homepage.html");
 })
 
-server.listen(8000,function(){
+server.listen(80,function(){
     console.log("blog zxcchen.me is now running!!");
 });
