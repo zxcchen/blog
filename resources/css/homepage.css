@@ -164,10 +164,6 @@ a:hover{
     font-size: 2em;
 }
 
-#section1 #nav ul li:nth-of-type(1){
-    margin-left:3%;
-}
-
 #section1 #slide{
     height:82%;
     font-size:0;
