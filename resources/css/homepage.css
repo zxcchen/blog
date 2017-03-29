@@ -84,14 +84,14 @@ a:hover{
 #header #logo #search{
     position:relative;
     top:10%; 
-    width: 45%;
-    height: 12%;
+    width: 42%;
+    height: 14%;
     border-bottom: 2px solid black;
 }
 
 #header #logo #search input{
     border: none;
-    width: 80%;
+    width: 70%;
 }
 
 #header #logo #search button{
@@ -114,9 +114,10 @@ a:hover{
 
 #header #banner_ul li a{
     display: inline-block;
-    height: 25px;
-    width: 100px;
+    height: 18%;
+    width: 80%;
     text-align: center;
+    font-size: 1.2em;
 }
 
 #header #banner_search{
@@ -126,11 +127,12 @@ a:hover{
 
 #header #banner_search a{
     display:inline-block;
-    height: 25px;
-    width: 100px;
+    height: 10%;
+    width: 60%;
     text-align: center;
     margin-top:3%;
     margin-left: 2%;
+    font-size: 1.2em;
 }
 
 #section1{
@@ -159,7 +161,7 @@ a:hover{
     display: inline-block;
     width: 150px;
     height: 30px;
-    font-size: 26px;
+    font-size: 2em;
 }
 
 #section1 #nav ul li:nth-of-type(1){
