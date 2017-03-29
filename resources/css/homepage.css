@@ -43,7 +43,7 @@ a{
 }
 
 #header #logo span{
-    position:relati
+    position:relative;
     top:5%;
     font-size:6em;
     font-weight:800;
@@ -52,15 +52,16 @@ a{
 
 #header #logo #search{
     position:relative;
-    top:10%; 
     width: 45%;
     height: 12%;
+    margin-top:5%;
     border-bottom: 2px solid black;
 }
 
 #header #logo #search input{
     border: none;
-    width: 80%;
+    width: 70%;
+    float:left;
 }
 
 #header #logo #search button{
@@ -68,7 +69,8 @@ a{
     background-color: white;
     font-size: 1em;
     letter-spacing: 10px;
-    float: right;
+    float:right;
+    width:29%;
 }
 
 #header #banner_ul{
