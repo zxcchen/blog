@@ -1,25 +1,56 @@
-*{
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{
     margin:0;
     padding:0;
-    font-family:'黑体';
+}
+
+body{
+    font:12px"宋体","Arial Narrow",
+    HELVETICA;background:#fff;
+    -webkit-text-size-adjust:100%;
+}
+
+a{
+    color:#2d374b;
+    text-decoration:none;
+}
+em{
+    font-style:normal;
+}
+
+li{
+    list-style:none;
+    display:inline-block;
+}
+
+img{
+    border:0;vertical-align:middle;
+}
+
+table{
+    border-collapse:collapse;
+    border-spacing:0;
+}
+p{
+    word-wrap:break-word;
 }
 
 div{
     box-sizing:border-box;
 }
 
-ul{
-    list-style:none;
-}
-
-li{
-    display:inline-block;
-}
-
 a{
     text-decoration:none;
-    font-size: 1.5em;
+    font-size: 16px;
     color:black;
+    border-bottom:1px solid white;
+    
+    -webkit-transition:border-bottom 0.6s ease-in-out;
+    -moz-transition:border-bottom 0.6s ease-in-out;
+    transition:border-bottom 0.6s ease-in-out;
+}
+
+a:hover{
+    border-bottom:1px solid rgb(164,164,164);
 }
 
 #container{
@@ -33,7 +64,7 @@ a{
 
 #header #logo,#banner_ul,#banner_search{
     display:inline-block;
-    height:180px;
+    height:60%;
     vertical-align:bottom;
     margin-top:6%;
 }
@@ -82,7 +113,10 @@ a{
 }
 
 #header #banner_ul li a{
-    font-size: 1em;
+    display: inline-block;
+    height: 25px;
+    width: 100px;
+    text-align: center;
 }
 
 #header #banner_search{
@@ -92,9 +126,11 @@ a{
 
 #header #banner_search a{
     display:inline-block;
+    height: 25px;
+    width: 100px;
+    text-align: center;
     margin-top:3%;
     margin-left: 2%;
-    font-size: 1em;
 }
 
 #section1{
@@ -116,8 +152,14 @@ a{
     width:12%;
     text-align:center;
     margin-right:1%;
-    line-height:120px;
-    font-size:18px;
+    margin-top:2%;
+}
+
+#section1 #nav ul li a{
+    display: inline-block;
+    width: 150px;
+    height: 30px;
+    font-size: 26px;
 }
 
 #section1 #nav ul li:nth-of-type(1){
@@ -272,6 +314,7 @@ a{
 
 #footer{
     height: 30%;
+    margin-top: 1%;
 }
 
 #footer #social_contact{
@@ -288,6 +331,10 @@ a{
 
 #footer #social_contact ul li{
     width: 19%;
+}
+
+#footer #social_contact ul li a{
+    font-size: 20px;
 }
 
 #footer #social_contact span{
