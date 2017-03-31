@@ -3,10 +3,18 @@ body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,s
     padding:0;
 }
 
-body{
-    font:0.875em,"黑体","Arial Narrow",
-    HELVETICA;background:#fff;
+html{
     -webkit-text-size-adjust:100%;
+    -ms-text-size-adjust:100%;
+}
+
+body {
+	margin:0;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size:14px;
+	line-height:1.42857;
+	color:#222;
+	background-color:#fff
 }
 
 a{
@@ -57,7 +65,14 @@ a:hover{
 #container{
     width:80%;
     height: 1800px;
-    margin:0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    *zoom: 1;
+}
+
+#container:before, #container:after{
+    display: table;
+    content: "";
 }
 
 #header{
