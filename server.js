@@ -1,12 +1,12 @@
 var express=require("express");
-var server = express()
+var app = express()
 var fs = require("fs")
 
-server.use("/resources",express.static("resources"));
-server.get("(/|/homepage.html)",function(req,res){
+app.use("/resources",express.static("resources"));
+app.get("(/|/homepage.html)",function(req,res){
     res.sendFile(__dirname+"/homepage.html");
 })
 
-server.listen(8000,function(){
+app.listen(8000,function(){
     console.log("blog zxcchen.me is now running!!");
 });
