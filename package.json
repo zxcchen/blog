@@ -4,8 +4,9 @@
   "description": "博客",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "npm run test:utils",
+    "start": "node server.js",
+    "test:utils": "node utils.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,17 @@
   },
   "homepage": "https://github.com/zxcchen/blog#readme",
   "devDependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "mongodb": "^2.2.28"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "mongodb": "^2.2.28"
   }
 }
