@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "npm run test:utils",
-    "start": "node server.js",
-    "test:utils": "node utils.js"
+    "start": "node server/server.js",
+    "test:utils": "node server/utils.js"
   },
   "repository": {
     "type": "git",
