@@ -29,6 +29,10 @@ server.use(cookieparser());
 server.set("view engine","ejs");
 server.set("views",config.templateDir);
 
+function renderErrorPage(res,message){
+    res.render("error",{errorMessage:message});
+}
+
 //设置登录路由
 server.all("/login",function(req,res,next){
     if(req.cookies){
@@ -55,7 +59,7 @@ server.all("/login",function(req,res,next){
                 password = util.md5(password);
                 db.getUserInfo(username,password).then(function(doc){
                     if(doc.length==0){
-                        res.sendFile(__dirname+"/error.html");
+                        renderErrorPage(res,"用户名不存在或密码错误");
                     }else{
                         let result = doc[0];
                         let cookie = sessionManager.login(result._id);
@@ -66,7 +70,7 @@ server.all("/login",function(req,res,next){
                     }
                 }).catch(function(err){
                     console.log("error after db.getUserInfo,error:",err);
-                    res.sendFile(__dirname+"/error.html");
+                    renderErrorPage(res,"登录失败");
                 });
             }else{
                 res.sendFile(__dirname+"/error.html");
@@ -92,20 +96,22 @@ server.all("/blogpost",function(req,res,next){
                         res.render("blogpost",{blogPost:JSON.stringify(renderObject)});
                     }).catch(function(err){
                         console.log(err);
-                        next();
+                        renderErrorPage(res,"无法获取文章列表,程序出错。。。");
                     });
                 break;
                 case "show":
+                case "edit":
                     {
                         let id = req.query.postId;
-                        db.getBlogPost({_id:id,type:type},{title:true,time:true,type:true,content:true},1).then(function(result){
+                        db.getBlogPost({_id:id},{title:true,time:true,type:true,content:true},1).then(function(result){
                             let renderObject = {renderType:1,docs:result};
                             res.render("blogpost",{blogPost:JSON.stringify(renderObject)});
                         }).catch(function(err){
                             console.log(err);
-                            next();
+                            renderErrorPage(res,"无法显示该文章!");
                         })
                     }
+                    break;
                 default:
                     next();
             }
@@ -119,26 +125,30 @@ server.all("/blogpost",function(req,res,next){
             db.updateBlogPost(id,{title:title,time:time,content:content}).then(function(result){
                 if(result.modifiedCount<=0){
                     console.warn("no update on blogpost id "+id);
-                    next();
+                    renderErrorPage(res,"更新文章失败!");
                 }else{
                     res.location("/blogpost?op=show&postId="+id);
                     res.send();
                 }
             }).catch(function(err){
-                next();
+                console.warn(err);
+                renderErrorPage(res,"服务器提了一个问题。。。");
             });
-        }else{//新增文章
+        }else if(title && content){//新增文章
             db.newBlogPost({title:title,time:time,content:content}).then(function(result){
                 if(result.insertedCount>0){
                     res.location("/blogpost?op=show&postId="+result.insertedId);
                     res.send();
                 }else{
                     console.warn("failed to insert blogpost");
-                    next();
+                    renderErrorPage(res,"新增文章失败");
                 }
             }).catch(function(err){
-                next();
+                console.warn(err);
+                renderErrorPage(res,"服务器提了一个问题。。。");
             });
+        }else{
+            next();
         }
     }else{
         next();

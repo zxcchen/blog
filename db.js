@@ -12,6 +12,8 @@ const userTable = config.dbUserTable;
 const blogTable = config.dbBlogTable;
 var conn = null;
 
+//任何关于mongodb客户端的问题，随时查阅http://mongodb.github.io/node-mongodb-native/2.2/tutorials/connect/
+
 db.globalInit = function(){
     const mongoOpts = {
         autoReconnect:true,
