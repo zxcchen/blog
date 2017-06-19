@@ -28,7 +28,7 @@ module.exports = {
 }
 
 
-if(require.main){
+if(require.main === module){
     const testCases = [
         ["woodlgz","12341342a"],
         ["+sdfw","abcdser*wyz"],
