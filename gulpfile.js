@@ -6,6 +6,7 @@ var webpack = require("webpack-stream");
 var del = require("del");
 var runsequence = require("run-sequence");
 var hash = require("gulp-hash");
+var gulpIf = require("gulp-if");
 
 
 var PROD = process.env.NODE_ENV == "production" ? true : false;
@@ -52,11 +53,11 @@ gulp.task("minifycss", function () {
 gulp.task("build", function () {
     return gulp.src("./client/main.js")
         .pipe(webpack(require('./webpack.config')))
-        .pipe(hash({
+        .pipe(gulpIf("*.js", hash({
             algorithm: "md5",
             hashLength: 16,
             template: "<%= name %>.<%= hash %><%= ext %>"
-        }))
+        })))
         .pipe(gulp.dest(path.join(deployFolder, "js")))
         .pipe(hash.manifest("script-manifest.json", {
             deleteOld: true,

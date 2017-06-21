@@ -29,7 +29,6 @@ if (PROD) { //线上环境为了节省流量使用压缩
     }));
 }
 
-//todo:加入source map支持，方便线上调试代码
 
 //尽管可以在js中通过require css资源的方式来minify css(指定ExtractTextPlugin),但处于个人偏好使用gulp来实现这个功能
 
@@ -40,8 +39,10 @@ module.exports = {
     },
     output: {
         path: PROD ? __dirname + "/deploy/prod/js" : __dirname + "/deploy/dev/js",
-        filename: "main.js" //PROD ? "main.[chunkhash].js" : "main.js"
+        filename: "main.js", //PROD ? "main.[chunkhash].js" : "main.js"
+        sourceMapFilename: "[file]-[chunkhash].map"
     },
+    devtool: "source-map",
     plugins: webpackPlugins,
     module: {
         loaders: [{

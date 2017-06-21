@@ -4,20 +4,25 @@ var blogpost = require("./blogpost");
 var $ = require("jquery");
 
 var startupRenderList = [];
+var documentReady = false;
 
 $(function () {
-    if(this){//window
-        this.app = main;
-        this.appUtil = utils;
-        this.appBlogPost = blogpost;
+    console.log("blog init script");
+    if(window){//window
+        window.app = main;
+        window.appUtil = utils;
+        window.appBlogPost = blogpost;
     }
     for (let fn of startupRenderList) {
         fn();
     }
+    documentReady = true;
 });
 
 var main = module = module.exports = {
     addRender: function (fn) {
-        startupRenderList.push(fn);
+        if(!documentReady){
+            startupRenderList.push(fn);
+        }
     }
 }

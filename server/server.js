@@ -16,10 +16,18 @@ console.log("serving " + SERVER_ROOT);
 
 const assetManifest = config.assetManifest;
 
+const DAY_SECOND = 24 * 3600;
+const WEEK_SECOND = 7 * DAY_SECOND;
 
 //设置静态资源路由
-server.use("/resources", express.static("resources"));
-server.use(assetManifest.cdnLocation, express.static(config.cdnRoot));
+server.use("/resources", express.static("resources", {
+    maxAge: WEEK_SECOND * 1000,
+    "Last-Modified": true
+}));
+server.use(assetManifest.cdnLocation, express.static(config.cdnRoot, {
+    maxAge: WEEK_SECOND * 1000,
+    "Last-Modified": true
+}));
 
 //设置主页路由
 server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
@@ -42,12 +50,12 @@ server.set("views", config.templateDir);
 function renderErrorPage(res, message) {
     res.render("error", Object.assign({
         errorMessage: message
-    },assetManifest));
+    }, assetManifest));
 }
 
 function renderPage(res, template, obj) {
-    if(!obj.cdnLocation){
-        obj = Object.assign(obj,assetManifest);
+    if (!obj.cdnLocation) {
+        obj = Object.assign(obj, assetManifest);
     }
     res.render(template, obj);
 }
