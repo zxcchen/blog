@@ -19,6 +19,5 @@ $(function () {
 var main = module = module.exports = {
     addRender: function (fn) {
         startupRenderList.push(fn);
-        console.log("new render callback");
     }
 }

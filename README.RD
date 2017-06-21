@@ -5,28 +5,32 @@
 工程目录结构:
 ├── 404.html
 ├── README.RD
-├── blog.html
-├── client    客户端代码目录
+├── client
 │   ├── blogpost.js
 │   ├── main.js
 │   └── utils.js
-├── error.html
-├── homepage.html
-├── login.html
+├── gulpfile.js
+├── jsconfig.json
 ├── npm-debug.log
 ├── package.json
-├── readme
 ├── resources
 │   └── css
-├── server    服务端代码目录
+├── server
 │   ├── db.js
 │   ├── server.js
 │   ├── session.js
 │   ├── site.config.js
 │   └── utils.js
-└── template
-    ├── blogpost.ejs
-    └── error.ejs
+├── template
+│   ├── blogpost.ejs
+│   ├── error.ejs
+│   ├── index.ejs
+│   └── login.ejs
+└── webpack.config.js
 
+其中server为服务端代码目录，client为浏览器端代码目录，template为ejs模板文件目录，resources为资源(scss/css/images等)目录。
+webpack.config.js为webpack的配置脚本，gulpfile.js为gulp的构建脚本。
 
-todo:使用webpack+gulp构建系统对客户端代码进行部署。
+开发环境构建，运行命令 npm build:dev
+线上构建，运行命令 npm build:prod
+构建完毕后，生成deploy目录,此为客户端需要部署的资源,由于没有专用的cdn,此目录即为cdn目录。

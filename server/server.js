@@ -1,6 +1,7 @@
 var express = require("express");
 var server = express();
 var fs = require("fs");
+var path = require("path");
 var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
 var util = require("./utils");
@@ -13,12 +14,16 @@ db.globalInit();
 const SERVER_ROOT = config.root;
 console.log("serving " + SERVER_ROOT);
 
+const assetManifest = config.assetManifest;
+
+
 //设置静态资源路由
 server.use("/resources", express.static("resources"));
+server.use(assetManifest.cdnLocation, express.static(config.cdnRoot));
 
 //设置主页路由
 server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
-    res.sendFile(SERVER_ROOT + "/homepage.html");
+    res.render("index", assetManifest);
 });
 
 //设置bodyparser
@@ -35,16 +40,22 @@ server.set("view engine", "ejs");
 server.set("views", config.templateDir);
 
 function renderErrorPage(res, message) {
-    res.render("error", {
+    res.render("error", Object.assign({
         errorMessage: message
-    });
+    },assetManifest));
+}
+
+function renderPage(res, template, obj) {
+    if(!obj.cdnLocation){
+        obj = Object.assign(obj,assetManifest);
+    }
+    res.render(template, obj);
 }
 
 //设置登录路由
 server.all("/login", function (req, res, next) {
     if (req.cookies) {
         let loginCookie = req.cookies;
-        console.log(loginCookie);
         if (loginCookie && loginCookie["u"] && sessionManager.isLogin(loginCookie["u"])) {
             console.log(loginCookie["u"], " already log in ");
             res.location("/index");
@@ -55,7 +66,7 @@ server.all("/login", function (req, res, next) {
     }
     let method = req.method.toLowerCase();
     if (method === "get") {
-        res.sendFile(SERVER_ROOT + "/login.html");
+        res.render("login", assetManifest);
     } else if (method === "post") {
         if (req.body && req.body.username && req.body.pwd) {
             //获取用户名和密码
@@ -82,7 +93,7 @@ server.all("/login", function (req, res, next) {
                     renderErrorPage(res, "登录失败");
                 });
             } else {
-                res.sendFile(SERVER_ROOT + "/error.html");
+                renderErrorPage(res, "用户名密码非法");
             }
         } else {
             next();
@@ -122,7 +133,7 @@ server.all("/blogpost", function (req, res, next) {
                                 renderType: renderTypeDict[op],
                                 docs: result
                             };
-                            res.render("blogpost", {
+                            renderPage(res, "blogpost", {
                                 blogPost: JSON.stringify(renderObject)
                             });
                         }).catch(function (err) {
@@ -148,7 +159,7 @@ server.all("/blogpost", function (req, res, next) {
                                     renderType: renderTypeDict[op],
                                     docs: result
                                 };
-                                res.render("blogpost", {
+                                renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify(renderObject)
                                 });
                             }).catch(function (err) {
@@ -156,7 +167,7 @@ server.all("/blogpost", function (req, res, next) {
                                 renderErrorPage(res, "无法显示该文章!");
                             })
                         } else { //编辑一个新增的文章
-                            res.render("blogpost", {
+                            renderPage(res, "blogpost", {
                                 blogPost: JSON.stringify({
                                     renderType: renderTypeDict[op],
                                     doc: []

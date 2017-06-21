@@ -11,12 +11,12 @@ const GLOBALS = {
 let webpackPlugins = [
     new webpack.optimize.CommonsChunkPlugin({
         name: "common",
-        filename: "common.[chunkhash].js"
+        filename: "common.js" //PROD ? "common.[chunkhash].js" : "common.js"
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: "entry",
         chunks: ["common"],
-        filename: "entry.[chunkhash].js"
+        filename: "entry.js" //PROD ? "entry.[chunkhash].js" : "entry.js"
     }),
     new webpack.DefinePlugin(GLOBALS)
 ];
@@ -31,14 +31,16 @@ if (PROD) { //线上环境为了节省流量使用压缩
 
 //todo:加入source map支持，方便线上调试代码
 
+//尽管可以在js中通过require css资源的方式来minify css(指定ExtractTextPlugin),但处于个人偏好使用gulp来实现这个功能
+
 module.exports = {
     entry: {
         main: "./client/main.js",
         common: ["jquery"]
     },
     output: {
-        path: PROD ? __dirname + "/deploy/prod/" : __dirname + "/deploy/dev/",
-        filename: PROD ? "main.[chunkhash].js" : "main.js"
+        path: PROD ? __dirname + "/deploy/prod/js" : __dirname + "/deploy/dev/js",
+        filename: "main.js" //PROD ? "main.[chunkhash].js" : "main.js"
     },
     plugins: webpackPlugins,
     module: {
