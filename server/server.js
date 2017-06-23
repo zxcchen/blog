@@ -162,7 +162,7 @@ server.all("/blogpost", function (req, res, next) {
                                 time: true,
                                 type: true,
                                 content: true
-                            }, 1).then(function (result) {
+                            }, 0, 1).then(function (result) {
                                 let renderObject = {
                                     renderType: renderTypeDict[op],
                                     docs: result
@@ -258,6 +258,8 @@ function exitReleaseResource() {
 
 process.on("SIGINT", exitReleaseResource);
 process.on("SIGTERM", exitReleaseResource);
+process.on("SIGQUIT", exitReleaseResource);
+process.on("SIGHUP",exitReleaseResource);
 process.on("exit", exitReleaseResource);
 process.on("uncaughtException", function (err) {
     console.log("server is about to leave due to error:", err);

@@ -4,6 +4,7 @@ var blogpost = exports = module.exports = {};
 
 
 blogpost.renderBlogList = function (selector, blogList) {
+    console.log(blogList);
     let elem = $(selector);
     for (let i = 0; i < blogList.length(); i++) {
 

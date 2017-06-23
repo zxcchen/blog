@@ -25,10 +25,12 @@
   "homepage": "https://github.com/zxcchen/blog#readme",
   "devDependencies": {
     "@types/jquery": "^3.2.2",
+    "Q": "0.0.1",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "del": "^3.0.0",
+    "expose-loader": "^0.7.3",
     "express": "^4.15.3",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.4.2",
@@ -45,6 +47,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "express": "^4.15.3",

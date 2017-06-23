@@ -71,7 +71,6 @@ db.getBlogPost = function (options, toShow, start, limit) {
     var collection = conn.collection(blogTable);
     return collection.find(options, toShow).skip(start).limit(limit).toArray().catch(function (e) {
         db.globalInit();
-        console.log("here");
         throw e;
     });
 }

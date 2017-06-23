@@ -15,3 +15,7 @@ blogUtils.DateString = function (timestampSec) {
     var d = new Date(timestampSec * 1000);
     return numPadding(d.getFullYear(), 4) + "-" + numPadding(d.getMonth()+1, 2) + "-" + numPadding(d.getDate(), 2) + " " + numPadding(d.getHours(), 2) + ":" + numPadding(d.getMinutes(), 2) + ":" + numPadding(d.getSeconds(), 2);
 }
+
+blogUtils.getQueryPath = function(){
+    return window.location.pathname;
+}

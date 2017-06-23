@@ -11,12 +11,12 @@ const GLOBALS = {
 let webpackPlugins = [
     new webpack.optimize.CommonsChunkPlugin({
         name: "common",
-        filename: "common.js" //PROD ? "common.[chunkhash].js" : "common.js"
+        filename: "common.[chunkhash].js" //PROD ? "common.[chunkhash].js" : "common.js"
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: "entry",
         chunks: ["common"],
-        filename: "entry.js" //PROD ? "entry.[chunkhash].js" : "entry.js"
+        filename: "entry.[chunkhash].js" //PROD ? "entry.[chunkhash].js" : "entry.js"
     }),
     new webpack.DefinePlugin(GLOBALS)
 ];
@@ -35,20 +35,26 @@ if (PROD) { //线上环境为了节省流量使用压缩
 module.exports = {
     entry: {
         main: "./client/main.js",
-        common: ["jquery"]
+        common: ["jquery", "bootstrap"]
     },
     output: {
         path: PROD ? __dirname + "/deploy/prod/js" : __dirname + "/deploy/dev/js",
-        filename: "main.js", //PROD ? "main.[chunkhash].js" : "main.js"
-        sourceMapFilename: "[file]-[chunkhash].map"
+        publicPath: PROD ? "/deploy/prod/js/" : "/deploy/dev/js/",
+        filename: "main.[chunkhash].js", //PROD ? "main.[chunkhash].js" : "main.js"
+        sourceMapFilename: "[file].map"
     },
     devtool: "source-map",
     plugins: webpackPlugins,
     module: {
         loaders: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader?presets[]=es2015'
-        }]
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader?presets[]=es2015'
+            },
+            {
+                test: require.resolve("jquery"),
+                loader: "expose-loader?$!expose-loader?jQuery"
+            }
+        ]
     }
 };
