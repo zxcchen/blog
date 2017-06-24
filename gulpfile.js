@@ -7,7 +7,6 @@ var del = require("del");
 var runsequence = require("run-sequence");
 var hash = require("gulp-hash");
 var gulpIf = require("gulp-if");
-var q = require("Q");
 var fs = require("fs");
 
 
@@ -59,32 +58,32 @@ gulp.task("build", function () {
 });
 
 gulp.task("script-manifest",function(){
-    let defer = q.defer();
-    fs.readdir(path.join(deployFolder,"js"),function(err,filenames){
-        if(err){
-            defer.reject();
-        }else{
-            var manifest = {};
-            const extractVersionRegexp = /(.*)\.(.*)\.js$/
-            for(let filename of filenames){
-                let result = extractVersionRegexp.exec(filename);
-                if(result&&result.length>2){
-                    manifest[result[1]+".js"] = filename;
-                }
-            }
-            defer.resolve(manifest);
-        }
-    });
-    return defer.promise.then(function(manifest){
-        let defer = q.defer();
-        fs.writeFile(path.join(deployFolder,"script-manifest.json"),JSON.stringify(manifest),function(err){
+    return new Promise(function (resolve,reject){
+        fs.readdir(path.join(deployFolder,"js"),function(err,filenames){
             if(err){
-                defer.reject();
+                reject(err);
             }else{
-                defer.resolve();
+                var manifest = {};
+                const extractVersionRegexp = /(.*)\.(.*)\.js$/
+                for(let filename of filenames){
+                    let result = extractVersionRegexp.exec(filename);
+                    if(result&&result.length>2){
+                        manifest[result[1]+".js"] = filename;
+                    }
+                }
+                resolve(manifest);
             }
         });
-        return defer.promise;
+    }).then(function(manifest){
+        return new Promise(function(resolve,reject){
+            fs.writeFile(path.join(deployFolder,"script-manifest.json"),JSON.stringify(manifest),function(err){
+                if(err){
+                    reject(err);
+                }else{
+                    resolve();
+                }
+            });
+        });
     });
 })
 
