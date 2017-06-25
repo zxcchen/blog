@@ -2,7 +2,7 @@
   "name": "qiqiblog",
   "version": "1.0.0",
   "description": "博客",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
     "build:dev": "gulp",
     "build:prod": "NODE_ENV=production gulp",

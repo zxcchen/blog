@@ -86,51 +86,57 @@ function articleListBeforeNext(articleList, time, currentId) {
  * 从本地目录中将html文章转录入数据库
  * @param {目录} dirname 
  */
-function loadBlogPostToDB(dirname) {
-    return new Promise(function (resolve,reject) {
-        fs.readdir(dirname, function (err, filenames) {
-            let promises = [];
-            if (err) {
-                console.log(err);
+function loadBlogPostToDB(fullFilename) {
+    return new Promise(function (resolve, reject) {
+        let promises = [];
+        let stat = fs.statSync(fullFilename);
+        if (!stat.isDirectory()) {
+            let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
+            contentRegExp.global = true;
+            contentRegExp.ignoreCase = true;
+            contentRegExp.multiline = true;
+            let content = fs.readFileSync(fullFilename).toString();
+            let result = contentRegExp.exec(content);
+            if (result && result.length > 2) {
+                //console.log("filename:",fullFilename,",title:",result[1],",content:",result[2]);
+                let title = result[1];
+                let content = result[2];
+                promises.push(db.newBlogPost({
+                    title: title,
+                    type: 0,
+                    time: currentTime(),
+                    content: content,
+                    createtime: currentTime()
+                }));
             } else {
-                for (let filename of filenames) {
-                    if (filename == '.' || filename == '..') {
-                        continue;
-                    }
-                    let fullFilename = path.join(dirname, filename);
-                    let stat = fs.statSync(fullFilename);
-                    if (stat.isDirectory()) {
-                        promises.push(loadBlogPostToDB(fullFilename));
-                    } else {
-                        let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
-                        contentRegExp.global = true;
-                        contentRegExp.ignoreCase = true;
-                        contentRegExp.multiline = true;
-                        let content = fs.readFileSync(fullFilename).toString();
-                        let result = contentRegExp.exec(content);
-                        if (result && result.length > 2) {
-                            console.log("filename:",fullFilename,",title:",result[1],",content:",result[2]);
-                            let title = result[1];
-                            let content = result[2];
-                            // promises.push(db.newBlogPost({
-                            //     title: title,
-                            //     type: 0,
-                            //     time: currentTime(),
-                            //     content: content,
-                            //     createtime: currentTime()
-                            // }));
-                        } else {
-                            console.log("filename:", fullFilename, " failed to parse!!");
-                        }
-                    }
-                }
+                console.log("filename:", fullFilename, " failed to parse!!");
             }
-            Promise.all(promises).then(function(){
+            Promise.all(promises).then(function () {
                 resolve();
-            },function(){
+            }, function () {
                 reject();
             });
-        });
+        } else {
+            let dirname = fullFilename;
+            fs.readdir(dirname, function (err, filenames) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    for (let filename of filenames) {
+                        if (filename == '.' || filename == '..') {
+                            continue;
+                        }
+                        let fullFilename = path.join(dirname, filename);
+                        promises.push(loadBlogPostToDB(fullFilename));
+                    }
+                }
+                Promise.all(promises).then(function () {
+                    resolve();
+                }, function () {
+                    reject();
+                });
+            });
+        }
     });
 }
 
@@ -198,7 +204,8 @@ if (require.main === module) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
-        loadBlogPostToDB("/Users/guoze.lin/Downloads/newblog/article/webFontEnd").then(function () {
+        let dirname = "C:\\Users\\azywrmor\\Desktop\\newblog\\article\\tool\\t.html"; //"/Users/guoze.lin/Downloads/newblog/article/webFontEnd"
+        loadBlogPostToDB(dirname).then(function () {
             db.globalRelease();
         }).catch(function () {
             db.globalRelease();

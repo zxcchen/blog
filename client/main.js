@@ -4,6 +4,7 @@ var blogpost = require("./blogpost");
 var $ = require("jquery");
 var bootstrap = require("bootstrap");
 var config = require("../common/config");
+var commonlib = require("../common/common");
 
 var startupRenderList = [];
 var documentReady = false;
@@ -32,9 +33,5 @@ var main = module = module.exports = {
 window.app = main;
 window.blogpost = blogpost;
 window.blogUtils = utils;
-
-app.addRender(function(){
-    if(window.memuList){
-        //渲染目录
-    }
-});
+window.config = config;
+window.commonlib = commonlib;
