@@ -3,31 +3,40 @@
 为了熟悉Node.js，熟悉现代前端开发使用的各种工作流工具，我开发了这个博客系统。
 
 工程目录结构:
-├── 404.html
 ├── README.RD
 ├── client
 │   ├── blogpost.js
 │   ├── main.js
 │   └── utils.js
+├── common
+│   ├── common.js
+│   └── config.js
+├── error.html
 ├── gulpfile.js
 ├── jsconfig.json
 ├── package.json
 ├── resources
-│   └── css
+│   ├── css
+│   ├── img
+│   └── js
 ├── server
+│   ├── cache.js
 │   ├── db.js
 │   ├── server.js
 │   ├── session.js
 │   ├── site.config.js
 │   └── utils.js
 ├── template
+│   ├── 404.ejs
 │   ├── blogpost.ejs
 │   ├── error.ejs
+│   ├── header.ejs
 │   ├── index.ejs
-│   └── login.ejs
+│   ├── login.ejs
+│   └── sidebar.ejs
 └── webpack.config.js
 
-其中server为服务端代码目录，client为浏览器端代码目录，template为ejs模板文件目录，resources为资源(scss/css/images等)目录。
+其中server为服务端代码目录，client为浏览器端代码目录，common为前后端公共代码,template为ejs模板文件目录，resources为资源(scss/css/images等)目录。
 webpack.config.js为webpack的配置脚本，gulpfile.js为gulp的构建脚本。
 
 开发环境构建，运行命令 npm run-script build:dev 或 gulp
