@@ -14,7 +14,7 @@ body{
     text-align: center;
     line-height: 48px;
     position: fixed;
-    right: 10%;
+    right : 10%;
     top:85vh;
     border:1px solid #74787c;
 }
@@ -48,7 +48,7 @@ body{
 }
 
 #content table{
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     border-left:1px solid #636363;
     border-right:1px solid #636363;
@@ -56,6 +56,8 @@ body{
 
 #content table td{
     width: 25%;
+    vertical-align: top;
+    padding-right: 5px;
 }
 
 #content table td:first-child{
@@ -92,6 +94,41 @@ body{
 #content span{
     background-color: #D1EEEE;
     margin-right: 10px;
+}
+
+#content .ife_tab tr{
+    height: 220px;
+}
+
+#content .ife_tab .ife{
+    height: 210px;
+    border:1px solid #B2DFEE;
+}
+
+#content .ife_tab .ife .ife_head{
+    height: 10%;
+    background-color: #33a3dc;
+    color: aliceblue;
+    text-align: center;
+}
+
+#content .ife .ife_body{
+    height: 80%;
+}
+
+#content .ife .ife_foot{
+    height: 10%;
+    background-color: #33a3dc;
+    text-align: center;
+}
+
+#content .ife .ife_foot a{
+    color: aliceblue;
+}
+
+#content .ife_show{
+    height: 500px;
+    border:1px solid #B2DFEE;
 }
 
 #game{

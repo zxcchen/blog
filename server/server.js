@@ -117,7 +117,7 @@ function showarticle(blogPostId, title, content, isAdmin) {
         <h2>${title}</h2>
         ${content}
     </div>
-    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>':""}
+    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button><a href="/blogpost?op=remove&postId='+blogPostId+'">删除</a></button>':""}
     `;
     return article;
 }
@@ -232,8 +232,8 @@ server.all("/blogpost", function (req, res, next) {
                         {
                             let start = req.query.begin || 0;
                             start = start < 0 ? 0 : start;
-                            let limit = req.query.limit || 10;
-                            limit = limit < 0 ? 10 : limit;
+                            let limit = req.query.limit || 100;
+                            limit = limit < 0 ? 100 : limit;
                             let filter = {};
                             if (req.query.type) {
                                 filter.type = parseInt(req.query.type);
@@ -307,6 +307,31 @@ server.all("/blogpost", function (req, res, next) {
                             }
                         }
                         break;
+                    case "remove":
+                        {
+                            let isAdmin = sessionManager.isLogin(req.cookies["u"]);
+                            let id = req.query.postId;
+                            if (id && isAdmin) {
+                                db.removeBlogPost(id).then(function (result) {
+                                    if (result.deletedCount <= 0) {
+                                        console.warn("no update on blogpost id " + id);
+                                        renderErrorPage(res, "更新文章失败!");
+                                    } else {
+                                        res.location("/blogpost?op=list");
+                                        res.status(302);
+                                        res.send();
+                                    }
+                                }).catch(function (err) {
+                                    console.warn(err);
+                                    renderErrorPage(res, "服务器提了一个问题。。。");
+                                });
+                            } else {
+                                res.location("/blogpost?op=list");
+                                res.status(302);
+                                res.send();
+                            }
+                        }
+                        break;
                     default:
                         next();
                 }
@@ -341,7 +366,7 @@ server.all("/blogpost", function (req, res, next) {
                     console.warn(err);
                     renderErrorPage(res, "服务器提了一个问题。。。");
                 });
-            } else if (title && content && type) { //新增文章
+            } else if (title && content && type>=0) { //新增文章
                 db.newBlogPost({
                     title: title,
                     time: time,
@@ -350,8 +375,8 @@ server.all("/blogpost", function (req, res, next) {
                     createtime: time
                 }).then(function (result) {
                     if (result.insertedCount > 0) {
-                        res.status(302);
                         res.location("/blogpost?op=show&postId=" + result.insertedId);
+                        res.status(302);
                         res.send();
                     } else {
                         console.warn("failed to insert blogpost");

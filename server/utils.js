@@ -1,6 +1,9 @@
 var debug = require("debug")("blog:utils");
 var crypto = require("crypto");
 var assert = require("assert");
+var db = require("./db");
+var fs = require("fs");
+var path = require("path");
 
 const validUserName = /[a-zA-Z0-9_]{3,12}/;
 const validPassword = /[a-zA-Z0-9_\*\.\+]{9,12}/;
@@ -57,14 +60,14 @@ function articleListBeforeNext(articleList, time, currentId) {
     });
     if (idx < 0) {
         return {
-            prev: articleList[articleList.length - 1]._id,
-            next: -1
+            prev: articleList[articleList.length - 1],
+            next: null
         };
     } else {
         if (articleList[idx].createtime != time) {
             return {
-                prev: idx == 0 ? -1 : articleList[idx - 1]._id,
-                next: articleList[idx]._id
+                prev: idx == 0 ? null : articleList[idx - 1],
+                next: articleList[idx]
             };
         }
         let prev = idx - 1;
@@ -73,10 +76,62 @@ function articleListBeforeNext(articleList, time, currentId) {
             prev = next++;
         }
         return {
-            prev: prev < 0 ? -1 : articleList[prev]._id,
-            next: articleList[next == articleList.length ? -1 : next + 1]._id
+            prev: prev < 0 ? null : articleList[prev],
+            next: articleList[next == articleList.length ? -1 : next + 1]
         }
     }
+}
+
+/**
+ * 从本地目录中将html文章转录入数据库
+ * @param {目录} dirname 
+ */
+function loadBlogPostToDB(dirname) {
+    return new Promise(function (resolve,reject) {
+        fs.readdir(dirname, function (err, filenames) {
+            let promises = [];
+            if (err) {
+                console.log(err);
+            } else {
+                for (let filename of filenames) {
+                    if (filename == '.' || filename == '..') {
+                        continue;
+                    }
+                    let fullFilename = path.join(dirname, filename);
+                    let stat = fs.statSync(fullFilename);
+                    if (stat.isDirectory()) {
+                        promises.push(loadBlogPostToDB(fullFilename));
+                    } else {
+                        let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
+                        contentRegExp.global = true;
+                        contentRegExp.ignoreCase = true;
+                        contentRegExp.multiline = true;
+                        let content = fs.readFileSync(fullFilename).toString();
+                        let result = contentRegExp.exec(content);
+                        if (result && result.length > 2) {
+                            console.log("filename:",fullFilename,",title:",result[1],",content:",result[2]);
+                            let title = result[1];
+                            let content = result[2];
+                            // promises.push(db.newBlogPost({
+                            //     title: title,
+                            //     type: 0,
+                            //     time: currentTime(),
+                            //     content: content,
+                            //     createtime: currentTime()
+                            // }));
+                        } else {
+                            console.log("filename:", fullFilename, " failed to parse!!");
+                        }
+                    }
+                }
+            }
+            Promise.all(promises).then(function(){
+                resolve();
+            },function(){
+                reject();
+            });
+        });
+    });
 }
 
 module.exports = {
@@ -142,4 +197,11 @@ if (require.main === module) {
         } of bSearchTestCases) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
+    db.globalInit().then(function () {
+        loadBlogPostToDB("/Users/guoze.lin/Downloads/newblog/article/webFontEnd").then(function () {
+            db.globalRelease();
+        }).catch(function () {
+            db.globalRelease();
+        });
+    });
 }

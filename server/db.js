@@ -141,6 +141,13 @@ db.updateBlogPost = function (id, post) {
     })
 }
 
+db.removeBlogPost = function (id) {
+    assert.notEqual(conn, null);
+    return conn.collection(blogTable).deleteOne({
+        _id : new ObjectId(id)
+    });
+}
+
 if (require.main === module) {
     db.globalInit().then(function () {
         db.getBlogPost({}, {
