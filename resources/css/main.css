@@ -14,7 +14,7 @@ body{
     text-align: center;
     line-height: 48px;
     position: fixed;
-    left: 160vh;
+    right: 10%;
     top:85vh;
     border:1px solid #74787c;
 }
@@ -24,7 +24,6 @@ body{
 }
 
 #sidebar{
-    padding-left:60px;
     border:1px solid black;
 }
 

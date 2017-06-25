@@ -1,4 +1,5 @@
 const path = require("path");
+const commonConfig = require("../common/config");
 const PROD = process.env.NODE_ENV === "production";
 
 let cdnRoot = PROD ? "deploy/prod" : "deploy/dev";
@@ -21,8 +22,11 @@ function buildManifest(target, type, source) {
 }
 
 const assetManifest = buildManifest(buildManifest({
-    cdnLocation: "/"+cdnRoot
+    cdnLocation: "/" + cdnRoot
 }, "css", cssManifest), "js", jsManifest);
+
+
+
 
 module.exports = {
     //是否是线上环境
@@ -40,5 +44,7 @@ module.exports = {
     //CDN根地址
     cdnRoot: cdnRoot,
     //Asset Manifest
-    assetManifest: assetManifest
+    assetManifest: assetManifest,
+    //文章栏目类型
+    blogPostTypes:commonConfig.BLOG_POST_TYPES
 };

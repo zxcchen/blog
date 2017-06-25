@@ -55,7 +55,51 @@ db.getUserInfo = function (username, password) {
     return result;
 }
 
-db.getBlogPost = function (options, toShow, start, limit) {
+db.getMultiBlogList = function (types, limit) {
+    assert.notEqual(conn, null);
+    if (!types) {
+        types = Object.keys(config.blogPostTypes).sort().map(function (item) {
+            return parseInt(item);
+        });
+    }
+    if (!limit) {
+        limit = 3;
+    }
+    let collection = conn.collection(blogTable);
+
+    let promises = [];
+    var articleList = [];
+    for (let type of types) {
+        promises.push(collection.find({
+            type: type
+        }, {
+            _id: true,
+            title: true,
+            type: true,
+            time: true
+        }).sort({
+            time: -1
+        }).limit(limit).toArray().then(function (result) {
+            for (let i = 0; i < result.length; i++) {
+                articleList.push(result[i]);
+            }
+        }).catch(function (e) {
+            db.globalInit();
+            throw e;
+        }));
+    }
+
+    return Promise.all(promises).then(function () {
+        return articleList;
+    }).catch(function (err) {
+        console.log(err);
+        return articleList;
+    });
+}
+
+db.getBlogPost = function (options, toShow, start, limit, sortRule = {
+    createtime: -1
+}) {
     assert.notEqual(conn, null);
     if (!options) {
         options = {};
@@ -69,7 +113,7 @@ db.getBlogPost = function (options, toShow, start, limit) {
     limit = limit || 10;
 
     var collection = conn.collection(blogTable);
-    return collection.find(options, toShow).skip(start).limit(limit).toArray().catch(function (e) {
+    return collection.find(options, toShow).sort(sortRule).skip(start).limit(limit).toArray().catch(function (e) {
         db.globalInit();
         throw e;
     });
@@ -102,19 +146,27 @@ if (require.main === module) {
         db.getBlogPost({}, {
             title: true,
             time: true
-        }, 10).then(function (result) {
+        }, 0, 0).then(function (result) {
             console.log(result);
         });
-        db.newBlogPost({
-            title: "html5新特性",
+        /*db.getMultiBlogList().then(function (result) {
+            for (let res of result) {
+                console.log(JSON.stringify(res));
+            }
+        }).catch(function (err) {
+            console.log(err);
+        });*/
+        /*db.newBlogPost({
+            title: "我与小林的二三事",
+            type: 3,
             time: parseInt(new Date().getTime() / 1000),
-            content: "<p>待续。。。</p>"
+            content: "<p>待续。。。</p>",
+            createtime : parseInt(new Date().getTime() / 1000)
         }).then(function (result) {
             console.log(result);
-        });
-        // db.updateBlogPost("594736798f924c6c0b110453",{title:"mongodb大小坑一览",content:"<p>待续。。。</p>"+Math.random()}).then(function(result){
-
-        // });
+        });*/
+        /*db.updateBlogPost("5947393e4caab06cf815ee85",{type:0}).then(function(result){
+        });*/
         db.globalRelease();
     });
 }
