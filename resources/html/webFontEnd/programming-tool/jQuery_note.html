@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="resources/js/jquery-3.2.1.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+
+        </div>
+        <div class="col-lg-7 col-xs-9" id='content'>
+            <h1 data-type=0>jQuery笔记</h1>
+            <script>
+                $(function () {
+                    $(".moreSpace tr").hide();
+                    $(".header").click(function () {
+                        $(this).next().next().find("tr").toggle();
+                    })
+                    $("tr:has(h5)").show().click(function () {
+                        $(this).next().toggle();
+                    })
+                    $("#jQuery_API").click(function () {
+                        $(this).next().toggle();
+                    })
+                })
+            </script>
+            <p>基础语法:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(selector).action()</p>
+            <p id="jQuery_API"><span class="pointer">jQuery API</span></p>
+            <div>
+                <span class="header">选择器</span>
+                <br/>
+                <table class="moreSpace" style="width:1000px;">
+                    <tr>
+                        <td colspan="4">
+                            <h5>基础选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">#id</span><br/> 匹配id
+                        </td>
+                        <td>
+                            <span class="red">.class</span><br/> 匹配类
+                        </td>
+                        <td>
+                            <span class="red">element</span><br/> 匹配某元素
+                        </td>
+                        <td>
+                            <span class="red">*</span><br/> 通配
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">selector1,selector2</span><br/> 匹配元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>层次选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">ancestor descendant</span><br/> 匹配祖先所有后代
+                        </td>
+                        <td>
+                            <span class="red">parent > child</span><br/> 匹配父元素所有子元素
+                        </td>
+                        <td>
+                            <span class="red">prev + next</span><br/> 匹配当前元素的相邻元素
+                        </td>
+                        <td>
+                            <span class="red">prev ~ siblings</span><br/> 匹配当前元素后所有的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>过滤器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:first||first()</span><br/> 获取第一个元素
+                        </td>
+                        <td>
+                            <span class="red">:last</span><br/> 获取最后一个元素
+                        </td>
+                        <td>
+                            <span class="red">:not(selector)</span><br/> 获取除给定选择器外的所有元素
+                        </td>
+                        <td>
+                            <span class="red">:even</span><br/> 从0开始,获取所有索引值为偶数的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:odd</span><br/> 从0开始,获取所有索引值为奇数的元素
+                        </td>
+                        <td>
+                            <span class="red">:eq(index)</span><br/> 获取指定索引的元素
+                        </td>
+                        <td>
+                            <span class="red">:gt(index)</span><br/> 获取大于索引的元素
+                        </td>
+                        <td>
+                            <span class="red">:lt(index)</span><br/> 获取小于索引的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:header</span><br/> 获取h1,h2,h3,h4,h5,h6
+                        </td>
+                        <td>
+                            <span class="red">:animated</span><br/> 获取正在执行动画的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>内容过滤选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:contains(text)</span><br/> 获取包含某文本的元素
+                        </td>
+                        <td>
+                            <span class="red">:empty</span><br/> 获取所有不包含子元素/文本的空元素
+                        </td>
+                        <td>
+                            <span class="red">:has(selector)</span><br/> 获取含有选择器所匹配的元素的元素
+                        </td>
+                        <td>
+                            <span class="red">:parent</span><br/> 获取所有包含子元素/文本的父元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>可见性过滤选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:hidden</span><br/> 获取隐藏的元素
+                        </td>
+                        <td>
+                            <span class="red">:visible</span><br/> 获取可见的元素
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>属性过滤选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">[attribute]</span><br/> 获取包含某属性的元素
+                        </td>
+                        <td>
+                            <span class="red">[attribute=value]</span><br/> 获取属性为某值的元素
+                        </td>
+                        <td>
+                            <span class="red">[attribute！=value]</span><br/> 获取属性不为某值的元素
+                        </td>
+                        <td>
+                            <span class="red">[attribute^=value]</span><br/> 获取属性为某值开始的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">[attribute$=value]</span><br/> 获取属性为某值结尾的元素
+                        </td>
+                        <td>
+                            <span class="red">[attribute*=value]</span><br/> 获取属性包含某值的元素
+                        </td>
+                        <td>
+                            <span class="red">[selector1][selector2][selectorN]</span><br/> 获取复合属性的元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>子元素过滤选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:nth-child(eq/even/odd/index)</span><br/> 获取特定索引的元素
+                        </td>
+                        <td>
+                            <span class="red">:first-child</span><br/> 获取第一个子元素
+                        </td>
+                        <td>
+                            <span class="red">:last-child</span><br/> 获取最后一个子元素
+                        </td>
+                        <td>
+                            <span class="red">:only-child</span><br/> 获取唯一的子元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>表单过滤选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:enabled</span><br/> 获取表单属性可用的元素
+                        </td>
+                        <td>
+                            <span class="red">:disabled</span><br/> 获取表单属性不可用的元素
+                        </td>
+                        <td>
+                            <span class="red">:checked</span><br/> 获取表单选中的元素
+                        </td>
+                        <td>
+                            <span class="red">:selected</span><br/> 获取表单被选中option元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>表单选择器</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:input</span><br/> 获取所有input、textarea、select
+                        </td>
+                        <td>
+                            <span class="red">:text</span><br/> 获取单行文本
+                        </td>
+                        <td>
+                            <span class="red">:password</span><br/> 获取密码框
+                        </td>
+                        <td>
+                            <span class="red">:radio</span><br/> 获取单选按钮
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:checkbox</span><br/> 获取复选按钮
+                        </td>
+                        <td>
+                            <span class="red">:text</span><br/> 获取单行文本
+                        </td>
+                        <td>
+                            <span class="red">:submit</span><br/> 获取提交按钮
+                        </td>
+                        <td>
+                            <span class="red">:image</span><br/> 获取图片域
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">:reset</span><br/> 获取重置按钮
+                        </td>
+                        <td>
+                            <span class="red">:button</span><br/> 获取按钮
+                        </td>
+                        <td>
+                            <span class="red">:file</span><br/> 获取文件域
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span class="header">元素操作</span>
+                <br/>
+                <table class="moreSpace" style="width:1000px;">
+                    <tr>
+                        <td colspan="4">
+                            <h5>元素属性的操作</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">attr(name)</span><br/> 获取参数name表示属性的名称
+                        </td>
+                        <td>
+                            <span class="red">attr({key0:value0,key1:value1})</span><br/> 设置参数name
+                        </td>
+                        <td>
+                            <span class="red">removeAttr(name)</span><br/> 删除参数
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>元素内容的操作</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">html()</span><br/> 获取元素的内容
+                        </td>
+                        <td>
+                            <span class="red">html(val)</span><br/> 设置元素的内容
+                        </td>
+                        <td>
+                            <span class="red">text()</span><br/> 获取元素的文本
+                        </td>
+                        <td>
+                            <span class="red">text(val)</span><br/> 设置元素的文本
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">addClass()</span><br/> 给元素添加类
+                        </td>
+                        <td>
+                            <span class="red">css()</span><br/> 设置样式
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>元素追加内容</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(html).append(content)</span><br/> 在元素中开头插入内容
+                        </td>
+                        <td>
+                            <span class="red">$(content).appendTo(html)</span><br/> 在元素中结尾插入内容
+                        </td>
+                        <td>
+                            <span class="red">$(html).before(content)</span><br/> 在元素前插入内容
+                        </td>
+                        <td>
+                            <span class="red">(html).after(content)</span><br/> 在元素后插入内容
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>复制元素</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(content).clone()</span><br/> 复制元素内容
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>元素替换</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).replaceWith(content)</span><br/> 替换元素内容
+                        </td>
+                        <td>
+                            <span class="red">$(content).replaceAll(selector)</span><br/> 替换元素内容
+                        </td>
+                        <td>
+                            <span class="red">(html).after(content)</span><br/> 在元素后插入内容
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>包裹元素</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).wrap(wrapper)</span><br/> 包裹元素本身
+                        </td>
+                        <td>
+                            <span class="red">$(selector).wrapInner(wrapper)</span><br/> 包裹元素内容
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>遍历元素</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).each(callback)</span><br/> 遍历元素
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>删除元素</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">remove()</span><br/> 删除被选元素及其子元素
+                        </td>
+                        <td>
+                            <span class="red">empty()</span><br/> 删除其子元素
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span class="header">事件操作</span>
+                <br/>
+                <table class="moreSpace" style="width:1000px;">
+                    <tr>
+                        <td colspan="4">
+                            <h5>页面加载</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="red">$(document).ready(function(){}</span><br/>用法
+                        </td>
+                        <td colspan="2">
+                            <span class="red">$(function(){})</span><br/> 推荐
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>切换事件</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="red">$(selector).hover(over，out);</span><br/> over为移到元素上触发的函数，out为移出元素时触发的函数。
+                        </td>
+                        <td colspan="2">
+                            <span class="red">$(selector).toggle(fun1(),fun2(),funN(),...)</span><br/>绑定两个或多个事件,轮流响应click
+                            事件。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>移除事件</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).unbind(event,function)</span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>一次性事件</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).one(event,[data],function)</span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>手动触发指定事件</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).trigger(event,[param1,param2,...])</span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>焦点事件</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">foucs()</span><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>监测事件发生变化</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$(selector).change(function)</span><br/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span class="header">动画与特效</span>
+                <br/>
+                <table class="moreSpace" style="width:1000px;">
+                    <tr>
+                        <td colspan="4">
+                            <h5>显示和隐藏</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="red">hide()</span><br/>隐藏
+                        </td>
+                        <td colspan="2">
+                            <span class="red">show()</span><br/> 显示
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>淡入淡出</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">fadeIn()</span><br/>淡入已隐藏的元素
+                        </td>
+                        <td>
+                            <span class="red">fadeOut()</span><br/> 淡出已隐藏的元素
+                        </td>
+                        <td>
+                            <span class="red">fadeToggle()</span><br/>切换fadeIn()和fadeOut()
+                        </td>
+                        <td>
+                            <span class="red">$(selector).fadeTo(speed,opacity,callback);</span><br/> 允许渐变给定的不透明度
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>滑动</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">slideDown()</span><br/>向下滑动元素
+                        </td>
+                        <td>
+                            <span class="red">slideUp()</span><br/>向上滑动元素
+                        </td>
+                        <td colspan="2">
+                            <span class="red">slideToggle()</span><br/>切换slideDown()与slideUp()
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>动画与停止</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="red">$(selector).animate({params},speed,callback);</span><br/>params CSS属性(必需);speed
+                            时间参数：slow/fast;callback 函数。
+                        </td>
+                        <td colspan="2">
+                            <span class="red">$(selector).stop(stopAll,goToEnd);</span><br/>stopAll停止动画；goToEnd动画完全结束
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span class="header">Ajax</span>
+                <br/>
+                <table class="moreSpace" style="width:1000px;">
+                    <tr>
+                        <td colspan="4">
+                            <h5>load()方法加载数据</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="red">$(selector).load(URL,data,callback)</span><br/>url:路径；data:查询键值对;callback:回调函数
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>加载JSON格式数据</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="red">$.getJSON(url,[data],[callback])</span><br/>url:请求地址，data为请求时发送的数据，可选项callback:请求成功后的回调函数。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>加载js文件并执行</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="red">$.getScript(url,[callback])</span><br/>url:请求地址，可选项callback:请求成功后的回调函数。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>GET,POST</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="red">$.get(URL,callback)</span><br/>
+                        </td>
+                        <td>
+                            <span class="red">$.post(URL,data,callback)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>序列化表单值</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <span class="red">$(selector).serialize()</span><br/>获取账户和密码，可直接用于ajax请求
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <h5>加载服务器数据</h5>
+                        </td>
+                    </tr>
+                    <tr colspan="4">
+                        <td>
+                            <span class="red">$.ajax([settings])</span><br/>既可以向服务器发生请求，又可以获取服务器返回的数据
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <span>自定义插件</span>
+                <br/>
+                <p>JavaScript prototype属性可以通过jQuery属性fn在后台调用，这是原生JavaScript prototype属性的一个jQuery别名。</p>
+                <pre>
+                    (function($){
+                        $.fn.accordion = function(){
+                            return this.each(function(){
+
+                            });
+                        }
+                    })
+                </pre>
+            </div>
+            <p><span>jQuery源码解析</span></p>
+            <p><a href="http://www.cnblogs.com/aaronjs/p/3279314.html">参考网址</a></p>
+            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+
+        <div class='col-lg-3 col-xs-3' id='game'>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+
+
+    <script type="text/javascript" src='/resources/js/main.js'></script>
+</body>
+
+</html>
