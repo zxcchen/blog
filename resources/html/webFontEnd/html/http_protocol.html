@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="resources/js/jquery-3.2.1.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+            <div class="bg">
+            <div class='logo_head'>
+                <h1 class='h1' id="logo">ZXCCHEN</h1>
+                <h4 class='h4'>作者</h4>
+                <h6 class='h6'>授权：署名-非商用许可证</h6>
+                <span>F</span>
+                <span>F</span>
+                <span>F</span>
+            </div>
+            <div class='article'>
+                <h5 class='h5'>编程</h5>
+                <ul class=".ul">
+                    <li><a href="/article/webFontEnd/js/prototype_understanding_javascript.html">原型链的理解</a></li>
+                    <li><a href="/article/webFontEnd/html/http_protocol.html">HTTP协议</a></li>
+                    <li><a href="/article/webFontEnd/html/web_security.html">web安全</a></li>
+                    <li><a href="/article/webFontEnd/js/recursive_and_nunrecursive.html">递归与非递归</a></li>
+                    <li><a href="article/webFontEnd/ECMAScript6_note.html">ECMAScript6笔记</a></li>
+                    <li><a href="/article/webFontEnd/IFE_baidu.html">百度前端作业</a></li>
+                    <li><a href="article/webFontEnd/css/css.html">css笔记</a></li>
+                    <li><a href="article/webFontEnd/js/data_type.html">JS数据类型</a></li>
+                </ul>
+                <h5 class='h5'>工具</h5>
+                <ul class=".ul">
+                    <li><a href="/article/tool/sass.html">sass笔记</a></li>
+                    <li><a href="article/tool/jQuery_note.html">jQuery笔记</a></li>
+                    <li><a href="article/tool/jQuery_note.html">BootStrap笔记</a></li>
+                    <li><a href="/article/tool/typescript.html">TypeScript简译</a></li>
+                    <li><a href="/article/tool/ui-router.html">AngularJS ui-router简译</a></li>
+                    <li><a href="/article/tool/data_structures.html">数据结构</a></li>
+                    <li><a href="article/tool/sort.html">排序算法</a></li>
+                    
+                </ul>
+                <h5 class='h5'>生活</h5>
+                <ul class=".ul">
+                    <li><a href="/article/life/friend_meeting.html">面基桌游吧</a></li>
+                    <li><a href="/article/life/about_life.html">随手闲谈</a></li>
+                    <li><a href="">文章</a></li>
+                    <li><a href="">文章</a></li>
+                </ul>
+                <h5 class='h5'>简历</h5>
+            </div>
+            <div class='foot'>
+                <h4 class='h4'>源码</h4>
+                <h4 class='h4'>修订历史</h4>
+                <h4 class='h4'>反馈意见</h4>
+            </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-xs-9" id='content'>
+            <h1>HTTP详解</h1>
+            <span>HTTP协议</span>
+            <p>HTTP/1.1版本</p>            
+            <p>客户端 代理服务器 服务器</p>            
+            <p>URL:&nbsp;&nbsp;&nbsp;https://www.baidu.com/sj/test;id=8079?name=xx&amp;dd=true#stuff</p>
+            <table>
+                <tr>
+                    <td>含义</td>
+                    <td>位置</td>
+                    <td>意义</td>
+                </tr>
+                <tr>
+                    <td>schema</td>
+                    <td>https</td>
+                    <td>指协议http/https</td>
+                </tr>
+                <tr>
+                    <td>host</td>
+                    <td>www.baidu.com</td>
+                    <td>域名</td>
+                </tr>
+                <tr>
+                    <td>path</td>
+                    <td>sj/test;</td>
+                    <td>访问资源的路径</td>
+                </tr>
+                <tr>
+                    <td>URL params</td>
+                    <td>id=8079</td>
+                    <td>url参数</td>
+                </tr>
+                <tr>
+                    <td>Query string</td>
+                    <td>name=xx&dd=true</td>
+                    <td>发送给服务器的数据</td>
+                </tr>
+                <tr>
+                    <td>anchor</td>
+                    <td>#stuff</td>
+                    <td>锚</td>
+                </tr>
+            </table>
+            <br/>
+            <p>HTTP协议是无状态的！同一个客户端的这次请求和上次请求是没有对应关系的。为了解决这个问题，web程序引入了cookie机制来维护状态。</p>
+            <br/>
+            <span>HTTPS较HTTP安全</span>
+            <p>网络请求需要中间有很多的服务器路由器的转发。中间的节点可能篡改信息，而如果使用https，密钥只有你和终点才有。https利用ssl/tsl协议传输。它包含证书，缺载，流量转发，负载均衡，页面适配，浏览器适配，refer传递等，保证了传输过程的安全性</p>
+            <span>http协议与服务器交互的方法及区别</span>
+            <p><span>GET</span>查&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>POST</span>找&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>PUT</span>增&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>DELETE</span>删</p>
+            <p>区别</p>
+            <p>get提交数据会放在url上，以<span>?</span>分割url和传输数据，参数之间以<span>&</span>相连；post提交数据会放在HTTP包的body中</p>
+            <p>get数据大小有限制(url长度限制)，post无</p>
+            <p>get使用Request.QueryString获取变量值，post使用Request.Form获取变量值</p>
+            <p>post较get安全</p>
+            <br/>
+            <span>http消息结构</span>
+            <p><span>1.Request消息结构</span></p>
+            <table>
+                <tr>
+                    <td colspan="2">请求行</td>
+                    <td colspan="2">METHOD/path-to-resource HTTP/wersion-number</td>
+                </tr>
+                <tr>
+                    <td colspan="2">http head</td>
+                    <td colspan="2">Header-Name-1:value<br/>Header-Name-2:value</td>
+                </tr>
+                <tr>
+                    <td colspan="2">空格</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">body head</td>
+                    <td colspan="2">Optional Request body</td>
+                </tr>
+            </table>
+            <p><span>method</span>请求方法：POST/GET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>path-to-resource</span>请求资源&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>HTTP/Version-number</span>http协议版本号</p>
+            <pre>
+                GET HTTP://www.baidu.com/HTTP/1.1
+                HOST:www.baidu.com
+            </pre>
+            <p><span>2.Response消息结构</span></p>
+            <table>
+                <tr>
+                    <td colspan="2">request line</td>
+                    <td colspan="2">HTTP/Version-number status code message</td>
+                </tr>
+                <tr>
+                    <td colspan="2">request header</td>
+                    <td colspan="2">Header-Name-1:value<br/>Header-Name-2:value</td>
+                </tr>
+                <tr>
+                    <td colspan="2">空格</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">body head</td>
+                    <td colspan="2">Optional Response body</td>
+                </tr>
+            </table>
+            <p><span>HTTP/Version-number</span>HTTP协议版本号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>status code</span>状态码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>message</span>状态消息</p>
+            <pre>
+                GET HTTP://www.baidu.com/HTTP/1.1
+                HOST:www.baidu.com
+            </pre>
+            <span>HTTP状态码</span>
+            <table>
+                <tr>
+                    <td>1xx</td>
+                    <td>提示成功</td>
+                    <td>表示请求已被接收，继续处理</td>
+                </tr>
+                <tr>
+                    <td>2xx</td>
+                    <td>成功</td>
+                    <td>表示请求已被接收，理解，接受</td>
+                </tr>
+                <tr>
+                    <td>3xx</td>
+                    <td>重定向</td>
+                    <td>要完成请求必须进一步处理</td>
+                </tr>
+                <tr>
+                    <td>4xx</td>
+                    <td>客户端错误</td>
+                    <td>请求语法错误或请求无法实现</td>
+                </tr>
+                <tr>
+                    <td>5xx</td>
+                    <td>服务端错误</td>
+                    <td>服务端未能实现合法的请求</td>
+                </tr>
+            </table>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+        
+        <div class='col-lg-3 col-xs-3' id='game'>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+    
+    
+    <script type="text/javascript" src='/resources/js/main.js'></script>
+</body>
+</html>

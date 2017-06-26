@@ -12,13 +12,13 @@ var documentReady = false;
 
 $(function () {
     console.log("blog init script,",new Date().getTime());
+    for (let fn of startupRenderList) {
+        fn();
+    }
     $("#sidebar .article ul").hide();
     $("#sidebar .article .h5").click(function(){
         $(this).next().toggle();
     });
-    for (let fn of startupRenderList) {
-        fn();
-    }
     documentReady = true;
 });
 
@@ -35,3 +35,5 @@ window.blogpost = blogpost;
 window.blogUtils = utils;
 window.config = config;
 window.commonlib = commonlib;
+
+console.log(utils.getQueryPath());

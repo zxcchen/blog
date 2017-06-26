@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="resources/js/jquery-3.2.1.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+            <div class="bg"></div>
+            <div class='logo_head'>
+                <h1 class='h1' id="logo">ZXCCHEN</h1>
+                <h4 class='h4'>作者</h4>
+                <h6 class='h6'>授权：署名-非商用许可证</h6>
+                <span>F</span>
+                <span>F</span>
+                <span>F</span>
+            </div>
+            <div class='article'>
+                <h5 class='h5'>编程</h5>
+                <ul class=".ul">
+                    <li><a href="/article/webFontEnd/js/prototype_understanding_javascript.html">原型链的理解</a></li>
+                    <li><a href="/article/webFontEnd/html/http_protocol.html">HTTP协议</a></li>
+                    <li><a href="/article/webFontEnd/html/web_security.html">web安全</a></li>
+                    <li><a href="/article/webFontEnd/js/recursive_and_nunrecursive.html">递归与非递归</a></li>
+                    <li><a href="article/webFontEnd/ECMAScript6_note.html">ECMAScript6笔记</a></li>
+                    <li><a href="/article/webFontEnd/IFE_baidu.html">百度前端作业</a></li>
+                    <li><a href="article/webFontEnd/css/css.html">css笔记</a></li>
+                    <li><a href="article/webFontEnd/js/data_type.html">JS数据类型</a></li>
+                </ul>
+                <h5 class='h5'>工具</h5>
+                <ul class=".ul">
+                    <li><a href="/article/tool/sass.html">sass笔记</a></li>
+                    <li><a href="article/tool/jQuery_note.html">jQuery笔记</a></li>
+                    <li><a href="article/tool/jQuery_note.html">BootStrap笔记</a></li>
+                    <li><a href="/article/tool/typescript.html">TypeScript简译</a></li>
+                    <li><a href="/article/tool/ui-router.html">AngularJS ui-router简译</a></li>
+                    <li><a href="/article/tool/data_structures.html">数据结构</a></li>
+                    <li><a href="article/tool/sort.html">排序算法</a></li>
+                    
+                </ul>
+                <h5 class='h5'>生活</h5>
+                <ul class=".ul">
+                    <li><a href="/article/life/friend_meeting.html">面基桌游吧</a></li>
+                    <li><a href="/article/life/about_life.html">随手闲谈</a></li>
+                    <li><a href="">文章</a></li>
+                    <li><a href="">文章</a></li>
+                </ul>
+                <h5 class='h5'>简历</h5>
+            </div>
+            <div class='foot'>
+                <h4 class='h4'>源码</h4>
+                <h4 class='h4'>修订历史</h4>
+                <h4 class='h4'>反馈意见</h4>
+            </div>
+        </div>
+        <div class="col-lg-7 col-xs-9 " id='content'>
+            <h1>jQuery笔记</h1>
+            <p>基础语法:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(selector).action()</p>
+            <span>选择器</span>
+            <br/>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>基础选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">#id</span><br/>
+                        匹配id
+                    </td>
+                    <td>
+                        <span class="red">.class</span><br/>
+                        匹配类
+                    </td>
+                    <td>
+                        <span class="red">element</span><br/>
+                        匹配某元素
+                    </td>
+                    <td>
+                        <span class="red">*</span><br/>
+                        通配
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">selector1,selector2</span><br/>
+                        匹配元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>层次选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">ancestor descendant</span><br/>
+                        匹配祖先所有后代
+                    </td>
+                    <td>
+                        <span class="red">parent > child</span><br/>
+                        匹配父元素所有子元素
+                    </td>
+                    <td>
+                        <span class="red">prev + next</span><br/>
+                        匹配当前元素的相邻元素
+                    </td>
+                    <td>
+                        <span class="red">prev ~ siblings</span><br/>
+                        匹配当前元素后所有的元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>过滤器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:first||first()</span><br/>
+                        获取第一个元素
+                    </td>
+                    <td>
+                        <span class="red">:last</span><br/>
+                        获取最后一个元素
+                    </td>
+                    <td>
+                        <span class="red">:not(selector)</span><br/>
+                        获取除给定选择器外的所有元素
+                    </td>
+                    <td>
+                        <span class="red">:even</span><br/>
+                        从0开始,获取所有索引值为偶数的元素
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:odd</span><br/>
+                        从0开始,获取所有索引值为奇数的元素
+                    </td>
+                    <td>
+                        <span class="red">:eq(index)</span><br/>
+                        获取指定索引的元素
+                    </td>
+                    <td>
+                        <span class="red">:gt(index)</span><br/>
+                        获取大于索引的元素
+                    </td>
+                    <td>
+                        <span class="red">:lt(index)</span><br/>
+                        获取小于索引的元素
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:header</span><br/>
+                        获取h1,h2,h3,h4,h5,h6
+                    </td>
+                    <td>
+                        <span class="red">:animated</span><br/>
+                        获取正在执行动画的元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>内容过滤选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:contains(text)</span><br/>
+                        获取包含某文本的元素
+                    </td>
+                    <td>
+                        <span class="red">:empty</span><br/>
+                        获取所有不包含子元素/文本的空元素
+                    </td>
+                    <td>
+                        <span class="red">:has(selector)</span><br/>
+                        获取含有选择器所匹配的元素的元素
+                    </td>
+                    <td>
+                        <span class="red">:parent</span><br/>
+                        获取所有包含子元素/文本的父元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>可见性过滤选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:hidden</span><br/>
+                        获取隐藏的元素
+                    </td>
+                    <td>
+                        <span class="red">:visible</span><br/>
+                        获取可见的元素
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>属性过滤选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">[attribute]</span><br/>
+                        获取包含某属性的元素
+                    </td>
+                    <td>
+                        <span class="red">[attribute=value]</span><br/>
+                        获取属性为某值的元素
+                    </td>
+                    <td>
+                        <span class="red">[attribute！=value]</span><br/>
+                        获取属性不为某值的元素
+                    </td>
+                    <td>
+                        <span class="red">[attribute^=value]</span><br/>
+                        获取属性为某值开始的元素
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">[attribute$=value]</span><br/>
+                        获取属性为某值结尾的元素
+                    </td>
+                    <td>
+                        <span class="red">[attribute*=value]</span><br/>
+                        获取属性包含某值的元素
+                    </td>
+                    <td>
+                        <span class="red">[selector1][selector2][selectorN]</span><br/>
+                        获取复合属性的元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>子元素过滤选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:nth-child(eq/even/odd/index)</span><br/>
+                        获取特定索引的元素
+                    </td>
+                    <td>
+                        <span class="red">:first-child</span><br/>
+                        获取第一个子元素
+                    </td>
+                    <td>
+                        <span class="red">:last-child</span><br/>
+                        获取最后一个子元素
+                    </td>
+                    <td>
+                        <span class="red">:only-child</span><br/>
+                        获取唯一的子元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>表单过滤选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:enabled</span><br/>
+                        获取表单属性可用的元素
+                    </td>
+                    <td>
+                        <span class="red">:disabled</span><br/>
+                        获取表单属性不可用的元素
+                    </td>
+                    <td>
+                        <span class="red">:checked</span><br/>
+                        获取表单选中的元素
+                    </td>
+                    <td>
+                        <span class="red">:selected</span><br/>
+                        获取表单被选中option元素
+                    </td>
+                </tr>
+            </table>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>表单选择器</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:input</span><br/>
+                        获取所有input、textarea、select
+                    </td>
+                    <td>
+                        <span class="red">:text</span><br/>
+                        获取单行文本
+                    </td>
+                    <td>
+                        <span class="red">:password</span><br/>
+                        获取密码框
+                    </td>
+                    <td>
+                        <span class="red">:radio</span><br/>
+                        获取单选按钮
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:checkbox</span><br/>
+                        获取复选按钮
+                    </td>
+                    <td>
+                        <span class="red">:text</span><br/>
+                        获取单行文本
+                    </td>
+                    <td>
+                        <span class="red">:submit</span><br/>
+                        获取提交按钮
+                    </td>
+                    <td>
+                        <span class="red">:image</span><br/>
+                        获取图片域
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:reset</span><br/>
+                        获取重置按钮
+                    </td>
+                    <td>
+                        <span class="red">:button</span><br/>
+                        获取按钮
+                    </td>
+                    <td>
+                        <span class="red">:file</span><br/>
+                        获取文件域
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <span>元素操作</span>
+            <br/>
+            <table class="moreSpace">
+                <tr>
+                    <td colspan="4"><h5>元素属性操作</h5></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:input</span><br/>
+                        获取所有input、textarea、select
+                    </td>
+                    <td>
+                        <span class="red">:text</span><br/>
+                        获取单行文本
+                    </td>
+                    <td>
+                        <span class="red">:password</span><br/>
+                        获取密码框
+                    </td>
+                    <td>
+                        <span class="red">:radio</span><br/>
+                        获取单选按钮
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:checkbox</span><br/>
+                        获取复选按钮
+                    </td>
+                    <td>
+                        <span class="red">:text</span><br/>
+                        获取单行文本
+                    </td>
+                    <td>
+                        <span class="red">:submit</span><br/>
+                        获取提交按钮
+                    </td>
+                    <td>
+                        <span class="red">:image</span><br/>
+                        获取图片域
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="red">:reset</span><br/>
+                        获取重置按钮
+                    </td>
+                    <td>
+                        <span class="red">:button</span><br/>
+                        获取按钮
+                    </td>
+                    <td>
+                        <span class="red">:file</span><br/>
+                        获取文件域
+                    </td>
+                </tr>
+            </table>
+            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+        
+        <div class='col-lg-3 col-xs-3' id='game'>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+    
+    
+    <script type="text/javascript" src='/resources/js/main.js'></script>
+</body>
+</html>
