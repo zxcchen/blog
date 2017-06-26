@@ -12,6 +12,7 @@ var config = require("./site.config");
 var cacheManager = require("./cache");
 
 //常量
+const MINUTE_SECOND = 60;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;
@@ -22,7 +23,7 @@ const CACHEKEY_ARTICLE_TITLELIST = "articlelist";
 db.globalInit().then(function () {
     //目录
     db.getMultiBlogList().then(function (result) {
-        cacheManager.set(CACHEKEY_MENU_LIST, result, HOUR_SECOND, function (cb) {
+        cacheManager.set(CACHEKEY_MENU_LIST, result, MINUTE_SECOND * 5, function (cb) {
             db.getMultiBlogList().then(function (result) {
                 cb(result);
             }).catch(function (err) {});
@@ -35,7 +36,7 @@ db.globalInit().then(function () {
         createtime: true
     }, 0, 0).then(function (result) {
         result.reverse();
-        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, HOUR_SECOND, function (cb) {
+        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, MINUTE_SECOND * 5, function (cb) {
             db.getBlogPost({}, {
                 _id: true,
                 title: true,
@@ -54,9 +55,9 @@ console.log("serving " + SERVER_ROOT);
 let assetManifest = config.assetManifest;
 
 //添加资源版本侦听器
-let assetWatcher = fs.watch(config.cdnRoot,function(evt,filename){
-    if(filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME){
-        config.rebuildAssetManifest().then(function(manifest){
+let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
+    if (filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME) {
+        config.rebuildAssetManifest().then(function (manifest) {
             assetManifest = manifest;
             //console.log(assetManifest);
         })
@@ -380,7 +381,7 @@ server.all("/blogpost", function (req, res, next) {
                     console.warn(err);
                     renderErrorPage(res, "服务器提了一个问题。。。");
                 });
-            } else if (title && content && type>=0) { //新增文章
+            } else if (title && content && type >= 0) { //新增文章
                 db.newBlogPost({
                     title: title,
                     time: time,
