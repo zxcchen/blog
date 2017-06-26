@@ -146,6 +146,39 @@ h6 {
     border: 1px solid #B2DFEE;
 }
 
+#content #snake_box {
+    width: 600px;
+    height: 600px;
+    border: 1px solid black;
+    margin: 0 auto 10px;
+    box-sizing: border-box;
+}
+
+#content #snake_box div {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+#content #snake_btn {
+    width: 600px;
+    height: 30px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#content .pointer:hover {
+    cursor: pointer;
+}
+
+#content #snake_btn button {
+    width: 30%;
+    height: 30px;
+    display: inline-block;
+    background-color: dimgrayr;
+}
+
 #game {
     height: 500px;
     border: 1px solid black;

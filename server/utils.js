@@ -210,7 +210,10 @@ if (require.main === module) {
             key: 1
         }
     ];
-    for (let {arr, key} of bSearchTestCases) {
+    for (let {
+            arr,
+            key
+        } of bSearchTestCases) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
