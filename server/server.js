@@ -51,7 +51,17 @@ db.globalInit().then(function () {
 const SERVER_ROOT = config.root;
 console.log("serving " + SERVER_ROOT);
 
-const assetManifest = config.assetManifest;
+let assetManifest = config.assetManifest;
+
+//添加资源版本侦听器
+let assetWatcher = fs.watch(config.cdnRoot,function(evt,filename){
+    if(filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME){
+        config.rebuildAssetManifest().then(function(manifest){
+            assetManifest = manifest;
+            //console.log(assetManifest);
+        })
+    }
+});
 
 
 //设置静态资源路由
@@ -418,6 +428,7 @@ function exitReleaseResource() {
         released = true;
         console.log("server exit,release resources...");
         _server.close();
+        assetWatcher.close();
         db.globalRelease();
     }
 }
