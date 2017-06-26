@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,63 +11,19 @@
     <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
     <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
 </head>
+
 <body>
     <div class="container">
         <div id='back'>Top</div>
         <div class="col-lg-2 col-xs-3" id='sidebar'>
-            <div class="bg">
-            <div class='logo_head'>
-                <h1 class='h1' id="logo">ZXCCHEN</h1>
-                <h4 class='h4'>作者</h4>
-                <h6 class='h6'>授权：署名-非商用许可证</h6>
-                <span>F</span>
-                <span>F</span>
-                <span>F</span>
-            </div>
-            <div class='article'>
-                <h5 class='h5'>编程</h5>
-                <ul class=".ul">
-                    <li><a href="/article/webFontEnd/js/prototype_understanding_javascript.html">原型链的理解</a></li>
-                    <li><a href="/article/webFontEnd/html/http_protocol.html">HTTP协议</a></li>
-                    <li><a href="/article/webFontEnd/html/web_security.html">web安全</a></li>
-                    <li><a href="/article/webFontEnd/js/recursive_and_nunrecursive.html">递归与非递归</a></li>
-                    <li><a href="article/webFontEnd/ECMAScript6_note.html">ECMAScript6笔记</a></li>
-                    <li><a href="/article/webFontEnd/IFE_baidu.html">百度前端作业</a></li>
-                    <li><a href="article/webFontEnd/css/css.html">css笔记</a></li>
-                    <li><a href="article/webFontEnd/js/data_type.html">JS数据类型</a></li>
-                </ul>
-                <h5 class='h5'>工具</h5>
-                <ul class=".ul">
-                    <li><a href="/article/tool/sass.html">sass笔记</a></li>
-                    <li><a href="article/tool/jQuery_note.html">jQuery笔记</a></li>
-                    <li><a href="article/tool/jQuery_note.html">BootStrap笔记</a></li>
-                    <li><a href="/article/tool/typescript.html">TypeScript简译</a></li>
-                    <li><a href="/article/tool/ui-router.html">AngularJS ui-router简译</a></li>
-                    <li><a href="/article/tool/data_structures.html">数据结构</a></li>
-                    <li><a href="article/tool/sort.html">排序算法</a></li>
-                    
-                </ul>
-                <h5 class='h5'>生活</h5>
-                <ul class=".ul">
-                    <li><a href="/article/life/friend_meeting.html">面基桌游吧</a></li>
-                    <li><a href="/article/life/about_life.html">随手闲谈</a></li>
-                    <li><a href="">文章</a></li>
-                    <li><a href="">文章</a></li>
-                </ul>
-                <h5 class='h5'>简历</h5>
-            </div>
-            <div class='foot'>
-                <h4 class='h4'>源码</h4>
-                <h4 class='h4'>修订历史</h4>
-                <h4 class='h4'>反馈意见</h4>
-            </div>
-            </div>
+
         </div>
         <div class="col-lg-7 col-xs-9" id='content'>
-            <h1>TypeScript</h1>
+            <h1 data-type=0>TypeScript</h1>
             <span>介绍</span>
             <p>诸如web email,地图,文档编辑,团队协作工具等Javascript 应用在日常工作中变得越来越重要。为了迎合使用Javascript作为编程语言的开发团队更好地构建和维护大型Javascript项目的需要,我们设计了TypeScript。TypeScript能够帮助开发团队定义不同软件组件间的接口以及洞悉现成Javascript类库的接口行为。TypeScript让团队将代码组织成动态加载的模块的形式来避免命名冲突。TypeScript的可选类型系统也使得Javascript程序员能工高效地使用开发工具，并且进行静态检查，符号查找，表达式自动提示以及代码修改。</p>
-            <p>TypeScript 是Javascript的语法糖果，它的语法规则是ECMAScript 2015(es6)的超集。每个Javascript程序实际上都是TypeScript程序.TypeScript 编译器只进行TypeScript项目的文件的单独编译,并不会对声明的变量重新排序。这使得编译输出的Javascript结果和输入TypeScript代码高度匹配。TypeScript不会转换变量的名字，这一点使得在结果Javascript代码上进行调试更容易。TypeScript可选地提供了souce map和源代码调试的功能。TypeScript工具通常在在文件保存就会触发Javascript代码的生成,同时保留在Javascript开发中常用的测试,编辑，刷新等流程。</p>
+            <p>TypeScript 是Javascript的语法糖果，它的语法规则是ECMAScript 2015(es6)的超集。每个Javascript程序实际上都是TypeScript程序.TypeScript 编译器只进行TypeScript项目的文件的单独编译,并不会对声明的变量重新排序。这使得编译输出的Javascript结果和输入TypeScript代码高度匹配。TypeScript不会转换变量的名字，这一点使得在结果Javascript代码上进行调试更容易。TypeScript可选地提供了souce
+                map和源代码调试的功能。TypeScript工具通常在在文件保存就会触发Javascript代码的生成,同时保留在Javascript开发中常用的测试,编辑，刷新等流程。</p>
             <p>TypeScript 语法包括了所有在ECMAScript 2015（es6）发表的特性,如类(class),模块等。同时提供了将这些高级特性翻译到兼容更老版本的ECMAScript（如ES3,ES5）的能力</p>
             <p>类（class）使得程序员使用标准的方式来使用面向对象的设计模式，使得继承等特性更加可读,互操作性更高。模块使得程序员能够将他们的代码组织成组件同时避免了名称冲突。TypeScript编译器提供了模块代码生成的选项来支持静态模块加载和动态模块加载</p>
             <p>TypeScript 也提供了Javascript 程序员一个可选地类型注解系统,这些类型注解看起来就像是JSDoc的注释,但在TypeScript它们被整合到了语法当中。这种整合使得代码可读性更高,同时降低了同步类型注解和对应变量的维护成本。</p>
@@ -104,14 +61,16 @@
                 declare var document；
                 document.title = "Hello,qiqi.";
             </pre>
-            <p>对于document对象,TypeScript编译器自动地提供了一个声明,因为TypeScript在默认情况下会引用一个叫做‘lib.d.ts’的文件 ，这个文件提供了內建JavaScript类库接口的声明，浏览器对象模型（Document Object Model）就是其中一个內建的接口。</p>
+            <p>对于document对象,TypeScript编译器自动地提供了一个声明,因为TypeScript在默认情况下会引用一个叫做‘lib.d.ts’的文件 ，这个文件提供了內建JavaScript类库接口的声明，浏览器对象模型（Document
+                Object Model）就是其中一个內建的接口。</p>
             <p>TypeScript 编译器并不默认地为jQuery提供接口声明,所以需要使用jQuery的时候，程序员需要提供一个如下声明:</p>
             <pre>
                 declare var $;
             </pre>
             <p>Section 1.3提供了更详尽的例子来说明程序员如果为jQuery以及其它库添加类型信息。</p>
             <span>1.2 函数类型</span>
-            <p>函数表达式是Javascript的一个强大的特性。这个特性使得函数定义可以创建闭包--闭包就是一个能够捕获外围作用域变量的函数。闭包是目前Javascript唯一的进行数据封装的途径。通过捕获使用外围环境的变量，闭包可以保留不能被闭包外部访问的信息。Javascript程序员经常使用闭包来表示事件处理器和其它异步回调。 TypeScript函数类型使得程序员能够表达函数的期望签名。函数的签名就是一组参数类型加上一个返回类型。下面的雷子使用了函数类型来表达一个异步点赞机制下要求回调函数的签名：</p>
+            <p>函数表达式是Javascript的一个强大的特性。这个特性使得函数定义可以创建闭包--闭包就是一个能够捕获外围作用域变量的函数。闭包是目前Javascript唯一的进行数据封装的途径。通过捕获使用外围环境的变量，闭包可以保留不能被闭包外部访问的信息。Javascript程序员经常使用闭包来表示事件处理器和其它异步回调。
+                TypeScript函数类型使得程序员能够表达函数的期望签名。函数的签名就是一组参数类型加上一个返回类型。下面的雷子使用了函数类型来表达一个异步点赞机制下要求回调函数的签名：</p>
             <pre>
                 function vote(topic: string, callback(result:string)=> any){
                     // ...
@@ -168,7 +127,8 @@
                     $("div").text(data);
                 });
             </pre>
-            <p>JQueryStatic 接口引用了另一个接口jQuery，这个接口代表了包含一个或多个DOM元素的集合。jQuery库可以在这样的集合上进行很多操作，但这个例子中使用jQuery的用户只需要知道这个接口可以通过传递字符串给text方法来设置集合中的jQuery元素的text内容。JQueryStatic接口也包含了一个get方法来在给定的URL来执行Ajax get 请求并在接收到response 后调用提供的回调。</p>
+            <p>JQueryStatic 接口引用了另一个接口jQuery，这个接口代表了包含一个或多个DOM元素的集合。jQuery库可以在这样的集合上进行很多操作，但这个例子中使用jQuery的用户只需要知道这个接口可以通过传递字符串给text方法来设置集合中的jQuery元素的text内容。JQueryStatic接口也包含了一个get方法来在给定的URL来执行Ajax
+                get 请求并在接收到response 后调用提供的回调。</p>
             <p>最后，JQueryStatic接口还包含了一个裸函数签名(注意这个函数类型的前边并没有名字)：</p>
             <pre>
                 (query: string): JQuery;
@@ -183,7 +143,8 @@
             <pre>
                 (ready: ()=>any): any
             </pre>
-            <p>这一签名表示$函数可以接收一个函数.事实上，在jQuery库中，当$接收到一个函数的时候,jQuery将在DocumentContentReady时间发生时，调用这个函数。因为TypeScript支持重载,工具可以使用TypeScript来显示所有的函数签名以及文档提示，在相关签名被调用时给出正确的文档。 (TypeScript通过这种给变量“划重点”的方式使得在使用IDE等开发工具时对开发者十分友好，只需要提供表述类型信息的第三方库的d.ts文件，IDE就能实现智能提示) </p>
+            <p>这一签名表示$函数可以接收一个函数.事实上，在jQuery库中，当$接收到一个函数的时候,jQuery将在DocumentContentReady时间发生时，调用这个函数。因为TypeScript支持重载,工具可以使用TypeScript来显示所有的函数签名以及文档提示，在相关签名被调用时给出正确的文档。
+                (TypeScript通过这种给变量“划重点”的方式使得在使用IDE等开发工具时对开发者十分友好，只需要提供表述类型信息的第三方库的d.ts文件，IDE就能实现智能提示) </p>
             <img src='/resources/img/tool/typescript/image2.png'>
             <span>1.4 结构化子类型 （Structural Subtyping）</span>
             <p>对象类型都是通过结构化的方式来比较的。比如，在下边的代码片段中，CPoint包含了Point所要求的所有属性，所以CPoint被认为是满足Point接口的。一个类可以选择性地声明它实现了一个接口，编译器会检查声明的结构兼容性。这个例子也表明一个对象类型也可能与一个对象字面量所被推导的类型匹配，只要对象字面量提供了所有这个对象类型要求的成员。</p>
@@ -220,7 +181,8 @@
                     return a * b;  
                 }
             </pre>
-            <p>对于没有类型注解的变量和参数，TypeScript推导为any类型。这种自底而上的方法给程序员提供了一个关于类型信息的直观感觉。 然而在一些信息有限的上下文中，类型推导将自顶而下地进行。当这种自顶而下的推导过程发生的时候，这时我们就称这样的推导为上下文推导。当程序员正在使用一种类型却不知道所有的类型细节时，上下文类型推导帮助工具提供信息。比如在上边的jQuery例子中，程序员给jQuery get方法提供了一个函数表达式作为第二个参数,在类型推导过程中工具可以假定这个函数表达式的类型正如get方法的函数签名中一样从而提供一个包含相应参数和类型的提示模板。</p>
+            <p>对于没有类型注解的变量和参数，TypeScript推导为any类型。这种自底而上的方法给程序员提供了一个关于类型信息的直观感觉。 然而在一些信息有限的上下文中，类型推导将自顶而下地进行。当这种自顶而下的推导过程发生的时候，这时我们就称这样的推导为上下文推导。当程序员正在使用一种类型却不知道所有的类型细节时，上下文类型推导帮助工具提供信息。比如在上边的jQuery例子中，程序员给jQuery
+                get方法提供了一个函数表达式作为第二个参数,在类型推导过程中工具可以假定这个函数表达式的类型正如get方法的函数签名中一样从而提供一个包含相应参数和类型的提示模板。</p>
             <pre>
                 $.get("http://mysite.org/divContent",  
                       function (data) {  
@@ -230,8 +192,10 @@
             </pre>
             <p>上下文类型推导同样对写字面量对象很有帮助。当程序员写对象字面量的时候，上下文类型推导将提供对象成员自动提示的相关信息。 Section 4.23提供了更多关于基于上下文类型的信息。</p>
             <span>1.6 类（Classes）</span>
-            <p>Javascript实践中有两种非常普遍的设计模式，模块模式和类模式。粗略来讲，模块模式使用闭包来隐藏名字，封装私有变量，而类模式使用原型链来实现不同的面向对象继承机制，正如prototype.js等类库的实现。TypeScript的名称空间(Namespace)是模块模式的形式化。(模块模式这个术语从某种意义上来说是不幸的，因为ECMAScript 2015正式支持了模块，而这种支持方式和模块模式大相径庭。因此ECMAScript 2015使用名称空间这一术语。)</p>
-            <p>这一节以及名称空间的章节将会展示在生成与ES3或ES5等标准兼容的代码时，TypeScript是如何将类和名称空间等新特性转换为一致的Javascript方言。TypeScript的转码目标在于精确地模拟程序员原来在无需工具辅助情况下实现类和名称空间的过程。这一部分还将讲解TypeScript如何为每一个类声明推导类型。下边我们从一个简单的BankAccount 类开始。</p>
+            <p>Javascript实践中有两种非常普遍的设计模式，模块模式和类模式。粗略来讲，模块模式使用闭包来隐藏名字，封装私有变量，而类模式使用原型链来实现不同的面向对象继承机制，正如prototype.js等类库的实现。TypeScript的名称空间(Namespace)是模块模式的形式化。(模块模式这个术语从某种意义上来说是不幸的，因为ECMAScript
+                2015正式支持了模块，而这种支持方式和模块模式大相径庭。因此ECMAScript 2015使用名称空间这一术语。)</p>
+            <p>这一节以及名称空间的章节将会展示在生成与ES3或ES5等标准兼容的代码时，TypeScript是如何将类和名称空间等新特性转换为一致的Javascript方言。TypeScript的转码目标在于精确地模拟程序员原来在无需工具辅助情况下实现类和名称空间的过程。这一部分还将讲解TypeScript如何为每一个类声明推导类型。下边我们从一个简单的BankAccount
+                类开始。</p>
             <pre>
                 class BankAccount {  
                     balance = 0;  
@@ -320,7 +284,8 @@
                     // ...  
                 }
             </pre>
-            <p>在这个例子中，compute函数打印operator op，这使用了enum类型的一个特性,反向从枚举的值映射到对应的字符串表示.比如，Operator的声明自动地为枚举值分配了数字，从0开始。第9部分将讲解程序员如何显式地给枚举成员分配数字，以及使用任意字符串来命名该枚举值。 当枚举是用const标识符来声明的时候,TypeScript编译器将对应enum成员作为Javascript中的常量来处理(如直接在使用对应枚举的地方换成对应的常量)。这在很多Javascript引擎都将提升性能。</p>
+            <p>在这个例子中，compute函数打印operator op，这使用了enum类型的一个特性,反向从枚举的值映射到对应的字符串表示.比如，Operator的声明自动地为枚举值分配了数字，从0开始。第9部分将讲解程序员如何显式地给枚举成员分配数字，以及使用任意字符串来命名该枚举值。
+                当枚举是用const标识符来声明的时候,TypeScript编译器将对应enum成员作为Javascript中的常量来处理(如直接在使用对应枚举的地方换成对应的常量)。这在很多Javascript引擎都将提升性能。</p>
             <p>比如，compute函数也许包含了一个如下的switch表达式</p>
             <pre>
                 switch (op) {  
@@ -420,7 +385,8 @@
                 })(MessageModule);
             </pre>
             <p>这个例子展现了两个模块模式的基本要素:模块闭包和模块对象。模块闭包就是一个封装了模块实现的函数,所谓的实现指的是这个例子中key变量和sendMessage方法。模块对象包含了输出变量和输出方法。简单的模块可以创建一个模块对象。上边的模块将模块对象作为参数exports,将sendMessage方法加入到模块对象中。这种参数方式简化了动态加载模块的过程，并且支持将模块代码拆分到多个文件。</p>
-            <p>这个例子假设了外部的作用域定义了函数generateSecretKey和sendSecureMessage。它也假设外部作用域将模块对象舍弟你搞为MessageModule。 TypeScript 命名空间提供了一种机制简洁地表达了这样的模块模式。在TypeScript,程序员可以将模块模式和类模式组合起来，即将名称空间和类嵌套。 下边的例子展示了名称空间的简单实用。</p>
+            <p>这个例子假设了外部的作用域定义了函数generateSecretKey和sendSecureMessage。它也假设外部作用域将模块对象舍弟你搞为MessageModule。 TypeScript 命名空间提供了一种机制简洁地表达了这样的模块模式。在TypeScript,程序员可以将模块模式和类模式组合起来，即将名称空间和类嵌套。
+                下边的例子展示了名称空间的简单实用。</p>
             <pre>
                 namespace M {  
                     var s = "hello";  
@@ -459,13 +425,14 @@
             <p>未完待续...</p>
             <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
         </div>
-        
+
         <div class='col-lg-3 col-xs-3' id='game'>
         </div>
     </div>
     <div class="container" id="box_foot"></div>
-    
-    
+
+
     <script type="text/javascript" src='/resources/js/main.js'></script>
 </body>
+
 </html>
