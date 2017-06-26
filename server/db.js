@@ -131,9 +131,15 @@ db.newBlogPost = function (post) {
 db.updateBlogPost = function (id, post) {
     assert.notEqual(conn, null);
     assert.notEqual(post, null);
-    return conn.collection(blogTable).updateOne({
-        _id: new ObjectId(id)
-    }, {
+    let opts = {};
+    if(typeof id === "string"){
+        opts._id = new ObjectId(id);
+    }else if(id instanceof Object){
+        opts = id;
+    }else{
+        throw "no id specifed,no update";
+    }
+    return conn.collection(blogTable).updateOne(opts, {
         $set: post
     }).catch(function (e) {
         db.globalInit();
@@ -172,8 +178,8 @@ if (require.main === module) {
         }).then(function (result) {
             console.log(result);
         });*/
-        /*db.updateBlogPost("5947393e4caab06cf815ee85",{type:0}).then(function(result){
-        });*/
+        db.updateBlogPost("5947393e4caab06cf815ee85",{type:0}).then(function(result){
+        });
         db.globalRelease();
     });
 }

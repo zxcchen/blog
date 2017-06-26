@@ -86,28 +86,41 @@ function articleListBeforeNext(articleList, time, currentId) {
  * 从本地目录中将html文章转录入数据库
  * @param {目录} dirname 
  */
-function loadBlogPostToDB(fullFilename) {
+function loadBlogPostToDB(fullFilename, isNew = true) {
     return new Promise(function (resolve, reject) {
         let promises = [];
         let stat = fs.statSync(fullFilename);
         if (!stat.isDirectory()) {
-            let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
+            let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1 data-type=([0-9]+)>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
             contentRegExp.global = true;
             contentRegExp.ignoreCase = true;
             contentRegExp.multiline = true;
             let content = fs.readFileSync(fullFilename).toString();
             let result = contentRegExp.exec(content);
-            if (result && result.length > 2) {
-                //console.log("filename:",fullFilename,",title:",result[1],",content:",result[2]);
-                let title = result[1];
-                let content = result[2];
-                promises.push(db.newBlogPost({
-                    title: title,
-                    type: 0,
-                    time: currentTime(),
-                    content: content,
-                    createtime: currentTime()
-                }));
+            if (result && result.length > 3) {
+                //console.log("filename:",fullFilename,"type:",result[1],",title:",result[2],",content:",result[3]);
+                let type = parseInt(result[1]);
+                let title = result[2];
+                let content = result[3];
+                if (isNew) { //新文章
+                    promises.push(db.newBlogPost({
+                        title: title,
+                        type: type,
+                        time: currentTime(),
+                        content: content,
+                        createtime: currentTime()
+                    }));
+                } else { //更新文章
+                    promises.push(db.updateBlogPost({
+                        title: title,
+                        type: type
+                    }, {
+                        title: title,
+                        type: type,
+                        time: currentTime(),
+                        content: content
+                    }));
+                }
             } else {
                 console.log("filename:", fullFilename, " failed to parse!!");
             }
@@ -127,7 +140,7 @@ function loadBlogPostToDB(fullFilename) {
                             continue;
                         }
                         let fullFilename = path.join(dirname, filename);
-                        promises.push(loadBlogPostToDB(fullFilename));
+                        promises.push(loadBlogPostToDB(fullFilename, isNew));
                     }
                 }
                 Promise.all(promises).then(function () {
@@ -204,8 +217,9 @@ if (require.main === module) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
-        let dirname = "C:\\Users\\azywrmor\\Desktop\\newblog\\article\\tool\\t.html"; //"/Users/guoze.lin/Downloads/newblog/article/webFontEnd"
-        loadBlogPostToDB(dirname).then(function () {
+        let dirname = "C:\\Users\\azywrmor\\Desktop\\newblog\\article\\tool\\t.html"; 
+        //let dirname = path.join(__dirname, "../resources/html/webFontEnd/IFE_baidu.html");
+        loadBlogPostToDB(dirname,false).then(function () {
             db.globalRelease();
         }).catch(function () {
             db.globalRelease();
