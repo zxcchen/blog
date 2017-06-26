@@ -4,6 +4,7 @@
         <h1 class='h1' id="logo">ZXCCHEN</h1>
         <h4 class='h4'>一个编程萌新</h4>
         <h6 class='h6'>不忘初心，方得始终</h6>
+        <h6 class='h6' id='login_btn'>登陆</h6>
     </div>
     <div class='article'>
         <script type="text/javascript">
@@ -15,13 +16,12 @@
                 for (var key in config.BLOG_POST_TYPES) {
                     listContent[key] = [];
                 }
-                // console.log();
                 if (menuList instanceof Array) {
                     for (var i = 0; i < menuList.length; i++) {
                         listContent[menuList[i].type].push(menuList[i]);
                     }
                 }
-                console.log(listContent);
+                console.log(listContent,config.BLOG_POST_TYPES);
                 for (var j in listContent) {
                     var articleUl = [];
                     articleUl.push("<h5 class='h5'>" + config.BLOG_POST_TYPES[j] + "</h5>");
