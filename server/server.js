@@ -103,6 +103,10 @@ function showeditor(blogPostId, title, content, articleType) {
                 'searchreplace visualblocks code fullscreen',
                 'insertdatetime media table contextmenu paste code'
             ],
+            cleanup_on_startup: false,
+            trim_span_elements: false,
+            verify_html: false,
+            cleanup: false,
             toolbar : 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
             content_css:['//www.tinymce.com/css/codepen.min.css']
         });
