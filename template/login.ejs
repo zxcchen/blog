@@ -1,30 +1,38 @@
 <%- include("header",assetManifest); %>
-<body>
-    <div class="container">
-        <div id='back'>Top</div>
-        <%- include("sidebar",{}) %>
-        <div class="col-lg-7 col-xs-9" id='content'>
-            <style type="text/css">
-                form.login {
-                    margin:0 auto;
-                    width:20%;
-                }
-                form.login table tr td{
-                    text-align: center;
-                }
-            </style>
-            <form class="login" action="/login" method="post" >
-                <table>
-                <tr><td><span>用户名:</span></td><td><input type="text" name="username"/></td></tr>
-                <tr><td><span>密 码:</span></td><td><input type="password" name="pwd"/></td></tr>
-                <tr><td colspan="2"><input type="submit" value="登录"/></td></tr>
-                </table>
-            </form>
-            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+    <body>
+        <div class="container">
+            <div id='back'>Top</div>
+            <%- include("sidebar",{}) %>
+                <div class="col-lg-7 col-xs-9" id='content'>
+                    <style type="text/css">
+                        form.login {
+                            margin: 0 auto;
+                            width: 80%;
+                        }
+
+                        form.login table tr td {
+                            text-align: center;
+                        }
+                    </style>
+                    <form class="login" action="/login" method="post">
+                        <table>
+                            <tr>
+                                <td>用户名:</td>
+                                <td><input type="text" name="username" /></td>
+                            </tr>
+                            <tr>
+                                <td>密 码:</td>
+                                <td><input type="password" name="pwd" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><input type="submit" value="登录" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+                </div>
+                <div class='col-lg-3 col-xs-3' id='game'></div>
         </div>
-        <div class='col-lg-3 col-xs-3' id='game'></div>
-    </div>
-    <div class="container" id="box_foot"></div>
-    
-</body>
-</html>
+        <div class="container" id="box_foot"></div>
+    </body>
+    </html>

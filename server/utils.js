@@ -210,14 +210,11 @@ if (require.main === module) {
             key: 1
         }
     ];
-    for (let {
-            arr,
-            key
-        } of bSearchTestCases) {
+    for (let {arr, key} of bSearchTestCases) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
-        let dirname = "C:\\Users\\azywrmor\\Desktop\\newblog\\article\\tool\\t.html"; 
+        let dirname = "D:\\Application\\cygwin\\home\\azywrmor\\Workspace\\qiqiblog\\\resources\\"; 
         //let dirname = path.join(__dirname, "../resources/html/webFontEnd/IFE_baidu.html");
         loadBlogPostToDB(dirname,false).then(function () {
             db.globalRelease();

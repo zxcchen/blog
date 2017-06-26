@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="resources/js/jquery-3.2.1.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+
+        </div>
+        <div class="col-lg-7 col-xs-9" id='content'>
+            <h1 data-type=0>sass笔记</h1>
+            <p>基于ruby环境下的预处理css样式</p>
+            <!--1            -->
+            <span class="bluespan">样式风格</span>
+            <p>嵌套输出方式 nested&nbsp;&nbsp;&nbsp;&nbsp;内部用"<span class="span">&</span>"符号承接</p>
+            <pre>
+                a{
+                    float:left;
+                    &amp;:hover{
+                        color:blue;
+                    }
+                }
+            </pre>
+            <p>以下方式需在命令行中编译</p>
+            <p>展开输出方式 expanded</p>
+            <p>紧凑输出方式 compact</p>
+            <p>压缩输出方式 compressed</p>
+            <!--2            -->
+            <span class="bluespan">声明变量</span>
+            <p>以"<span class="span">$</span>"美元符号声明变量</p>
+            <p>例：$width:100px;</p>
+            <p>注：scss有全局变量和局部变量之分。变量声明后设置"!global"为全局变量；设置"!defalut"为默认值</p>
+            <!--3            -->
+            <span class="bluespan">混合声明变量</span>
+            <p>宏的概念，使用"<span class="span">mixin</span>"定义宏，使用"<span class="span">include</span>"来调用</p>
+            <pre>
+                //定义
+                @mixin border-radius{
+                    -webkit-border-radius:5px;
+                    border-radius:5px;
+                }
+                //调用
+                button{
+                    @include border-radius;
+                }
+            </pre>
+            <!--4            -->
+            <span class="bluespan">宏传递参数</span>
+            <p>参数不限定数量，参数为数组时，在定义参数后添加"<span class="span">...</span>"</p>
+            <pre>
+                //单一参数            
+                @mixin opacity($opacity:50){
+                    opacity:$opacity/100;
+                    filter:alpha(opacity=$opacity);
+                }            
+                //调用
+                button{
+                    @include opacity(80);
+                }
+
+                //多组参数
+
+            </pre>
+            <!--5            -->
+            <span class="bluespan">继承</span>
+            <p>"<span class="span">extend</span>"+类名/id名/选择器&nbsp;&nbsp;&nbsp;可继承多项</p>
+            <p>注：混合器不会引起css样式层叠，而继承存在css样式层叠</p>
+            <!--6            -->
+            <span class="bluespan">占位符</span>
+            <p>"<span class="span">%</span>"+类名/id名/选择器</p>
+            <p>如果占位符未使用，则销毁</p>
+
+
+
+
+
+
+            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+
+        <div class='col-lg-3 col-xs-3' id='game'>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+
+
+    <script type="text/javascript" src='/resources/js/main.js'></script>
+</body>
+
+</html>
