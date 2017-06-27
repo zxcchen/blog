@@ -12,7 +12,7 @@ var config = require("./site.config");
 var cacheManager = require("./cache");
 
 //常量
-const MINUTE_SECOND = 60;
+const MINUTE_SECOND = 10;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;

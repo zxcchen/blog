@@ -91,7 +91,7 @@ function loadBlogPostToDB(fullFilename, isNew = true) {
         let promises = [];
         let stat = fs.statSync(fullFilename);
         if (!stat.isDirectory()) {
-            let contentRegExp = /<div class="col-lg-7 col-xs-9" id='content'>\W+<h1 data-type=([0-9]+)>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
+            let contentRegExp = /<div [\w\W]*id='content'>\W+<h1 data-type=([0-9]+)>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
             contentRegExp.global = true;
             contentRegExp.ignoreCase = true;
             contentRegExp.multiline = true;
@@ -217,7 +217,7 @@ if (require.main === module) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
-        let dirname = "D:\\Application\\cygwin\\home\\azywrmor\\Workspace\\qiqiblog\\resources\\html\\"; 
+        let dirname = "D:\\Application\\cygwin\\home\\azywrmor\\Workspace\\qiqiblog\\resources\\html\\webFontEnd\\programming-tool\\jQuery_note.html"; 
         //let dirname = path.join(__dirname, "../resources/html/webFontEnd/IFE_baidu.html");
         loadBlogPostToDB(dirname,true).then(function () {
             db.globalRelease();

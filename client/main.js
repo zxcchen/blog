@@ -11,7 +11,7 @@ var documentReady = false;
 
 
 $(function () {
-    console.log("blog init script,",new Date().getTime());
+    // console.log("blog init script,",new Date().getTime());
     for (let fn of startupRenderList) {
         fn();
     }
@@ -36,4 +36,7 @@ window.blogUtils = utils;
 window.config = config;
 window.commonlib = commonlib;
 
-console.log(utils.getQueryPath());
+let queryPath = utils.getQueryPath();
+if(queryPath.match(/\/blogpost\?op=show/)){
+    app.addRender(blogpost.renderArticle);
+}else{}

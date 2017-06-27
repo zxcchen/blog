@@ -14,8 +14,8 @@ body {
     text-align: center;
     line-height: 48px;
     position: fixed;
-    right: 10%;
-    top: 80%;
+    top:80%;
+    left: 80%;
     border: 1px solid #74787c;
 }
 
@@ -25,9 +25,10 @@ body {
 
 #sidebar {
     border: 1px solid black;
+    padding-left: 60px;
 }
 
-#sidebar #logo {
+#sidebar #logoTest {
     color: rgb(23, 29, 41);
     margin-bottom: 40px;
 }
@@ -35,13 +36,32 @@ body {
 #sidebar .article {
     margin-top: 40px;
     margin-bottom: 40px;
-    padding-left: 30px;
-    min-height: 800px;
+    padding-left: 10px;
 }
 
 #sidebar .article h5,
 h4:hover {
     cursor: pointer;
+}
+
+
+#sidebar #login_btn a,#sidebar #login_btn a:hover{
+     color: #74787c;
+}
+
+#sidebar #login_btn a{
+     text-decoration: none;
+}
+
+#sidebar #logo_box div{
+    display: inline-block;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+#sidebar #logo_box #logo img{
+    width: 100%;
+    height: 100%;
 }
 
 #content h1,
@@ -168,7 +188,7 @@ h6 {
     text-align: center;
 }
 
-#content .pointer:hover {
+.pointer:hover {
     cursor: pointer;
 }
 
@@ -179,21 +199,10 @@ h6 {
     background-color: dimgrayr;
 }
 
-#game {
-    height: 500px;
-    border: 1px solid black;
-}
-
-#box_foot {
-    margin-bottom: 50px;
-}
-
-
 /*僵尸动画*/
 
 .zombie {
     width: 100%;
-    height: 1150px;
     background-color: rgb(44, 62, 80);
     display: flex;
     justify-content: center;
@@ -202,7 +211,6 @@ h6 {
 .face {
     display: flex;
     justify-content: center;
-    margin-top: 500px;
 }
 
 .head {
