@@ -4,7 +4,7 @@
         <div class="container" id="backToTop">
             <div id='back'>TOP</div>
             <%- include("sidebar",{}) %>
-                <div class="col-lg-10 col-xs-9" id='content'>
+                <div class="col-lg-8 col-xs-9" id='content'>
                     <script type="text/javascript">
                         var blogpost = <%- blogPost %>;
                     </script>
@@ -23,24 +23,24 @@
             if (blogpost.pageInfo) {
                 if (blogpost.pageInfo.prev) {
                     var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
-                    $("#page_up").attr("title",blogpost.pageInfo.prev.title);
+                    $("#page_up").attr("title", blogpost.pageInfo.prev.title);
                     $("#page_up").click(function () {
                         $("#page_up").attr("href", tmpPrev);
                     })
                 } else {
-                    $("#page_up").attr("title","没有了");
+                    $("#page_up").attr("title", "没有了");
                 }
                 if (blogpost.pageInfo.next) {
                     var tmpNext = "/blogpost?op=show&postId=" + blogpost.pageInfo.next._id;
-                    $("#page_down").attr("title",blogpost.pageInfo.next.title);
+                    $("#page_down").attr("title", blogpost.pageInfo.next.title);
                     $("#page_down").click(function () {
                         $("#page_down").attr("href", tmpNext);
                     })
-                }else {
-                    $("#page_down").attr("title","没有了");
+                } else {
+                    $("#page_down").attr("title", "没有了");
                 }
             }
-            $("#back").click(function(){
+            $("#back").click(function () {
                 var time = setInterval(function () {
                     document.body.scrollTop = document.body.scrollTop - 50;
                     if (document.body.scrollTop === 0) {
@@ -48,6 +48,8 @@
                     }
                 }, 1);
             })
+            // var backToTop = document.getElementById("backToTop");
+            // document.defaultView.getComputedStyle(backToTop,":after").height = "100%";//获取伪类
         </script>
     </body>
 

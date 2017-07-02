@@ -1,43 +1,43 @@
 <%- include("header",assetManifest); %>
 
     <body>
-        <div class="container">
-            <div id='back'>Top</div>
-            <%- include("sidebar",{}) %>
-            <div class="col-lg-10 col-xs-9" id='content'>
-                <div class="zombie">
-                    <div class="face">
-                        <div class="head">
-                            <div class="brain"></div>
-                            <div class="cheek"></div>
-                            <div class="cheek1"></div>
-                            <div class="leftEye">
-                                <div class="brow"></div>
-                            </div>
-                            <div class="rightEye">
-                                <div class="brow"></div>
-                            </div>
-                            <div class="chin"></div>
-
-                            <div class="nose"></div>
-                            <div class="mouth">
-                                <div class="tooth">
-                                    <div class="toothTop"></div>
-                                    <div class="toothBottom"></div>
-                                </div>
-                            </div>
+        <div id='content' style="width=100%;">
+            <div id="page">
+                <div class="computer">
+                    <div class="computer_top"></div>
+                    <div class="computer_bottom">
+                        <div class="black1"></div>
+                        <div class="black2">
+                            <div class="miniblack1"></div>
+                            <div class="miniblack2"></div>
+                            <div class="miniblack3"></div>
+                            <div class="miniblack4"></div>
+                            <div class="miniblack5"></div>
+                            <div class="miniblack6"></div>
                         </div>
+                        <div class="black3"></div>
                     </div>
                 </div>
+                <div class="book">
+                    <div class="book1"></div>
+                    <div class="book2"></div>
+                    <div class="book3"></div>
+                </div>
+                <btn><a href="/blogpost?op=list">进入主页</a></btn>
             </div>
         </div>
-        </div>
-        <div class="container" id="box_foot"></div>
         <script type="text/javascript">
-            $(".zombie").height($(window).height() - 5);
-            $(".zombie .face").css({
-                "margin-top": ($(window).height() / 2 - 100)
-            });
+            $("body").css({
+                "background-color": "#B2DFEE"
+            })
+            $("#page").css({
+                height: $(window).height(),
+                width: $(window).width()
+            })
+            $(".computer").css({
+                top: '40%',
+                left: '5%'
+            })
         </script>
     </body>
 

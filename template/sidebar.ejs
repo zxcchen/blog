@@ -35,7 +35,7 @@
                             listContent[j][k].title + "</a></li>";
                         articleUl.push(liContent);
                     }
-                    articleUl.push("<li><a href='/blogpost?op=list'>更多</a></li>")
+                    articleUl.push("<li><a href='/blogpost?op=list&type="+j+"'>更多...</a></li>")
                     articleUl.push("</ul>");
                     blogMenuContent += articleUl.join("");
                 }
