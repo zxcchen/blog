@@ -1,14 +1,20 @@
 <div class="col-lg-2 col-xs-3" id='sidebar'>
     <div class="bg"></div>
+    <div id="cloudbox" style="background-color:#68adf2;">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
     <div class='logo_head'>
-        <h1 class='h1' id="logoTest">ZXCCHEN</h1>
+        <h1 id="logoTest">ZXCCHEN</h1>
         <div id="logo_box">
             <div>
                 <h4 class='h4'>一个编程萌新</h4>
                 <h6 class='h6'>不忘初心，方得始终</h6>
                 <h6 class='h6' id='login_btn'><a href="/login">F F F</a></h6>
             </div>
-            <div id="logo"><img src="/resources/img/logo/logo0.jpeg"></div>
         </div>
     </div>
     <div class='article'>
@@ -35,13 +41,15 @@
                             listContent[j][k].title + "</a></li>";
                         articleUl.push(liContent);
                     }
-                    articleUl.push("<li><a href='/blogpost?op=list&type="+j+"'>更多...</a></li>")
+                    articleUl.push("<li><a href='/blogpost?op=list&type=" + j + "'>更多...</a></li>")
                     articleUl.push("</ul>");
                     blogMenuContent += articleUl.join("");
                 }
                 blogMenu.innerHTML = blogMenuContent;
             });
-            $("#sidebar").height($(window).height()-5);
+            $("#sidebar").css({
+                height: ($(window).height() - 5),
+            });
         </script>
         <div id="blog_menu"></div>
         <div class="pointer">简历</div>
