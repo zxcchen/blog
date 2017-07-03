@@ -12,18 +12,20 @@ var config = require("./site.config");
 var cacheManager = require("./cache");
 
 //常量
-const MINUTE_SECOND = 10;
+const MINUTE_SECOND = 60;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;
+const CACHE_UNIT_SECOND = 1;
 const CACHEKEY_MENU_LIST = "menulist";
 const CACHEKEY_ARTICLE_TITLELIST = "articlelist";
+const SERVER_PORT = 9000;
 
 //初始化缓存
 db.globalInit().then(function () {
     //目录
     db.getMultiBlogList().then(function (result) {
-        cacheManager.set(CACHEKEY_MENU_LIST, result, MINUTE_SECOND * 5, function (cb) {
+        cacheManager.set(CACHEKEY_MENU_LIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
             db.getMultiBlogList().then(function (result) {
                 cb(result);
             }).catch(function (err) {});
@@ -36,7 +38,7 @@ db.globalInit().then(function () {
         createtime: true
     }, 0, 0).then(function (result) {
         result.reverse();
-        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, MINUTE_SECOND * 5, function (cb) {
+        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
             db.getBlogPost({}, {
                 _id: true,
                 title: true,
@@ -418,7 +420,7 @@ server.all("/*", function (req, res) {
     renderPage(res, "404", {});
 });
 
-var _server = server.listen(9000, function () {
+var _server = server.listen(SERVER_PORT, function () {
     console.log("blog zxcchen.me is now running!!");
 });
 
