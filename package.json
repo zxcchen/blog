@@ -50,9 +50,11 @@
     "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
+    "ejs": "^2.5.6",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.28",
+    "webpack": "^3.0.0",
     "webpack-stream": "^3.2.0"
   }
 }
