@@ -4,6 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
+var htmlencode = require("htmlencode");
 var util = require("./utils");
 var db = require("./db");
 var commonlib = require("../common/common");
@@ -12,18 +13,20 @@ var config = require("./site.config");
 var cacheManager = require("./cache");
 
 //常量
-const MINUTE_SECOND = 10;
+const MINUTE_SECOND = 60;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;
+const CACHE_UNIT_SECOND = 1;
 const CACHEKEY_MENU_LIST = "menulist";
 const CACHEKEY_ARTICLE_TITLELIST = "articlelist";
+const SERVER_PORT = 9000;
 
 //初始化缓存
 db.globalInit().then(function () {
     //目录
     db.getMultiBlogList().then(function (result) {
-        cacheManager.set(CACHEKEY_MENU_LIST, result, MINUTE_SECOND * 5, function (cb) {
+        cacheManager.set(CACHEKEY_MENU_LIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
             db.getMultiBlogList().then(function (result) {
                 cb(result);
             }).catch(function (err) {});
@@ -36,7 +39,7 @@ db.globalInit().then(function () {
         createtime: true
     }, 0, 0).then(function (result) {
         result.reverse();
-        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, MINUTE_SECOND * 5, function (cb) {
+        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
             db.getBlogPost({}, {
                 _id: true,
                 title: true,
@@ -56,11 +59,14 @@ let assetManifest = config.assetManifest;
 
 //添加资源版本侦听器
 let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
+    //console.log(filename," event:",evt);
     if (filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME) {
-        config.rebuildAssetManifest().then(function (manifest) {
-            assetManifest = manifest;
-            //console.log(assetManifest);
-        })
+        setTimeout(function(){
+	    config.rebuildAssetManifest().then(function (manifest) {
+                assetManifest = manifest;
+                console.log(assetManifest);
+            })
+	},20000);
     }
 });
 
@@ -288,9 +294,17 @@ server.all("/blogpost", function (req, res, next) {
                                     content: true,
                                     createtime: true
                                 }, 0, 1).then(function (result) {
+				    let renderDoc = {};
+				    if(result.length>=0){
+					for(let r of result){
+						renderDoc.title = r.title;
+						renderDoc.content = htmlencode.htmlEncode(r.content);
+						break;
+					}
+				    }
                                     let renderObject = {
                                         renderType: renderTypeDict[op],
-                                        docs: result,
+                                        docs: renderDoc,
                                     };
                                     let param = {};
                                     if (result.length >= 1) {
@@ -418,7 +432,7 @@ server.all("/*", function (req, res) {
     renderPage(res, "404", {});
 });
 
-var _server = server.listen(9000, function () {
+var _server = server.listen(SERVER_PORT, function () {
     console.log("blog zxcchen.me is now running!!");
 });
 

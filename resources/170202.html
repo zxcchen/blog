@@ -3,30 +3,44 @@
 <head>
     <meta charset="utf-8">
     <style>
-        div{
-            border:1px solid black;
-            box-sizing: border-box;
-        }
-        .left{
-            float: left;
-            width: 200px;
-        }
-        .right{
-            float: right;
-            width: 160px;
-        }
-        .center{
-            margin-left: 220px;
-            margin-right: 180px;
-        }
+        
     </style>
 </head>
 <body>
-    <div class="box">
-        <div class="left">left</div>
-        <div class="right">right</div>
-        <div class="center">center</div>
-    </div>
-    
+    <ul id="source">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>广州空气质量：<b>50</b></li>
+    <li>深圳空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
 </body>
+<script>
+    var source = document.getElementById("source");
+    var resort = document.getElementById("resort");
+    var btn = document.getElementById("sort-btn");
+    var data = [];
+    
+    
+//    function getData(data){
+        var re = /([\w\W]+)空气质量：<b>(\d+)<\/b>/;
+        var f = source.children[0].innerHTML;
+        var d = re.exec(f);
+//    }
+    
+    console.log(f,d)
+</script>
 </html>

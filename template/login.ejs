@@ -5,16 +5,6 @@
             <div id='back'>Top</div>
             <%- include("sidebar",{}) %>
                 <div class="col-lg-10 col-xs-9" id='content'>
-                    <style type="text/css">
-                        form.login {
-                            margin: 400px auto 0;
-                            width: 40%;
-                        }
-
-                        form.login table tr td {
-                            text-align: center;
-                        }
-                    </style>
                     <form class="login" action="/login" method="post">
                         <table>
                             <tr>
@@ -33,6 +23,11 @@
                 </div>
         </div>
         <div class="container" id="box_foot"></div>
+        <script>
+            $("#content").css({
+                height:($(window).height()-5)
+            })
+        </script>
     </body>
 
     </html>
