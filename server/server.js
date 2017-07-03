@@ -4,6 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
+var htmlencode = require("htmlencode");
 var util = require("./utils");
 var db = require("./db");
 var commonlib = require("../common/common");
@@ -58,11 +59,14 @@ let assetManifest = config.assetManifest;
 
 //添加资源版本侦听器
 let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
+    //console.log(filename," event:",evt);
     if (filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME) {
-        config.rebuildAssetManifest().then(function (manifest) {
-            assetManifest = manifest;
-            //console.log(assetManifest);
-        })
+        setTimeout(function(){
+	    config.rebuildAssetManifest().then(function (manifest) {
+                assetManifest = manifest;
+                //console.log(assetManifest);
+            })
+	},20000);
     }
 });
 
@@ -290,9 +294,17 @@ server.all("/blogpost", function (req, res, next) {
                                     content: true,
                                     createtime: true
                                 }, 0, 1).then(function (result) {
+				    let renderDoc = {};
+				    if(result.length>=0){
+					for(let r of result){
+						renderDoc.title = r.title;
+						renderDoc.content = htmlencode.htmlEncode(r.content);
+						break;
+					}
+				    }
                                     let renderObject = {
                                         renderType: renderTypeDict[op],
-                                        docs: result,
+                                        docs: renderDoc,
                                     };
                                     let param = {};
                                     if (result.length >= 1) {

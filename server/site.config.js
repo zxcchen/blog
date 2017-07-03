@@ -43,7 +43,9 @@ function rebuildAssetManifest() {
                 manifest = buildManifest(manifest, "css", jsonInfo);
                 siteConfig.assetManifest["css"] = manifest["css"];
                 assetManifest = manifest;
-            }
+            }else{
+		console.log(err);
+	    }
             resolve();
         });
     }));
@@ -54,10 +56,12 @@ function rebuildAssetManifest() {
                 manifest = buildManifest(manifest, "js", jsonInfo);
                 siteConfig.assetManifest["js"] = manifest["js"];
                 assetManifest = manifest;
-            }
+            }else{
+		console.log(err);
+	    }
             resolve();
         });
-    }))
+    }));
     return Promise.all(promises).then(function(){
         return siteConfig.assetManifest;
     });
