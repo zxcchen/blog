@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>ZXCCHEN.blog</title>
-    <script src="resources/js/jquery-3.2.1.js"></script>
-    <script src="/resources/js/bootstrap.js"></script>
-    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+<!--    <script src="/resources/js/jquery-3.2.1.js"></script>-->
+<!--    <script src="/resources/js/bootstrap.js"></script>-->
+<!--    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">-->
     <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
 </head>
 
@@ -18,62 +18,167 @@
         <div class="col-lg-2 col-xs-3" id='sidebar'>
 
         </div>
-        <div class="col-lg-7 col-xs-9" id='content'>
+        <div class="col-lg-8 col-xs-9" id='content'>
             <h1 data-type=0>数据结构</h1>
-            <span>数组</span>
-            <p>特性：有序线性列表，可随机访问，可在任意位置增项，删除项非常不便。删除项需将该项至最后一项的内存地址全部向前移动一位。由于JavaScript内部以实现数组各功能，这里不在赘述。</p>
-            <!--1            -->
             <span>栈</span>
-            <p>特性：后去先出</p>
+            <p>特性：后进先出</p>
             <p>题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有一盒糖果，糖果有红色、白色、黄色，在不改变糖果叠放顺序的情况下，用栈将黄色糖果全部移出。</p>
             <pre>
             
             </pre>
-            <!--2            -->
+            <script>
+                var suger = ['红:1','白:2','黄:3','白:4','黄:5','红:6','白:7','红:8','黄:9','红:10','黄:11','红:12','红:13','黄:14','红:15','白:16','红:17','红:18','红:19'];
+                function stack(){
+                    this.data = [];
+                    this.add = add;
+                    this.top = 0;
+                    this.length = length;
+                    this.clear = clear;
+                    this.show = show;
+                    this.del = del;
+                }
+                
+                function add(element){
+                    this.data[this.top++] = element;
+                }
+                function length(){
+                    return this.data.length;
+                }
+                function clear(){
+                    this.data.length = this.top = 0;
+                }
+                function show(){
+                    return this.data;
+                }
+                function del(element){
+                    return this.data.pop();
+                }
+                
+                var tmpstack = [];
+                while(suger.length>0){
+                    var s = suger.pop();
+                    if(s.indexOf("黄")!=-1){
+                        
+                    }else{
+                        tmpstack.push(s);
+                    }
+                }
+                while(tmpstack.length>0){
+                    var s = tmpstack.pop();
+                    suger.push(s);
+                }
+//                var trueData = [];
+//                function check(data){
+//                    for(var i=0;i<data.length;i++){
+//                        if(data[i].indexOf("黄")>=0){
+//                            trueData.push(data[i]);
+//                            data.splice(i,1);
+//                        }
+//                    }
+//                    console.log('已删除黄色糖果：',data);
+//                    console.log('黄色糖果：',trueData);
+//                }
+//                
+//                check(suger);
+            </script>
             <span>队列</span>
             <p>特性：先进先出</p>
             <p>题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用队列，实现优先级。例：病人问诊，候诊室会评估患者病情严重性，然后进行优先级顺序治疗</p>
             <pre>
-            
+                
             </pre>
-            <!--3            -->
+            <script>
+                function list(){
+                    this.data = [];
+                    this.top = 0;
+                    this.add = add;
+                    this.del = del;
+                    this.show = show;
+                    this.clear = clear;
+                }
+                
+                function add(element){
+                    this.data[this.top++] = element;
+                }
+                function del(){
+                    this.data.shift();
+                    return this.data;
+                }
+                function  show(){
+                    return this.data;
+                }
+                function clear(){
+                    this.data = this.top = 0;
+                    return this.data;
+                }
+            </script>
             <span>链表</span>
             <p>特性：由指针构成连接，无法随机访问。</p>
             <p>题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有40个人围成圈，现决定从一个人开始数数，数到3的人被杀，用链表求出幸存的2个位置。</p>
             <pre>
             
             </pre>
-            <!--4            -->
+            <script>
+                function node(element){
+                    this.element = element;
+                    this.next = null;
+                    this.prev = null;
+                }
+                function Llist(){
+                    this.head = new node(head);
+                    this.add = add;
+                    this.del = del;
+                    this.find = find;
+                }
+                function find(element){
+                    var currNode = this.head;
+                    while(currNode!=element){
+                        currNode = currNode.next;
+                    }
+                    return currNode;
+                }
+                function add(newElement,index){
+                    var newNode = new node(newElement);
+                    var currNode = this.find(index);
+                    newNode.next = currNode.next;
+                    newNode.prev = currNode;
+                    currNode.next = newNode;
+                }
+                function del(element){
+                    var currNode = this.find(element);
+                    currNode.prev.next = currNode.next;
+                    currNode.next.prev = currNode.prev;
+                    currNode.next = null;
+                    currNode.prev = null;
+                }
+            </script>
             <span>二叉树</span>
             <p>特性：树形非线性数据结构，以分层的方式存储数据。查找增删快。</p>
             <p>题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实现二叉树</p>
             <pre>
             
             </pre>
-            <!--5            -->
+            <script>
+                function tree(element){
+                    this.data = element;
+                    this.left = null;
+                    this.right = null;
+                }
+                function BFC(){
+                    this.head = new tree(null);
+                    this.add = add;
+                    this.del = del;
+                }
+                
+            </script>
             <p><img src="/resources/img/life/p1/%E5%98%B2%E8%AE%BD%E8%84%B8.png">挖坑...</p>
-            <span>字典</span>
-            <p>键值对</p>
-            <span>散列</span>
-            <p>hash碰撞</p>
-            <span>列表</span>
-            <p></p>
-            <span>集合</span>
-            <p></p>
-            <span>图</span>
-            <p></p>
-            <span>堆</span>
-            <p></p>
             <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
-        </div>
-
-        <div class='col-lg-3 col-xs-3' id='game'>
         </div>
     </div>
     <div class="container" id="box_foot"></div>
 
 
-    <script type="text/javascript" src='/resources/js/main.js'></script>
+<!--    <script type="text/javascript" src='/resources/js/main.js'></script>-->
 </body>
 
 </html>

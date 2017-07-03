@@ -12,7 +12,7 @@ var config = require("./site.config");
 var cacheManager = require("./cache");
 
 //常量
-const MINUTE_SECOND = 60;
+const MINUTE_SECOND = 10;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;
@@ -180,7 +180,7 @@ server.all("/login", function (req, res, next) {
         let loginCookie = req.cookies;
         if (loginCookie && loginCookie["u"] && sessionManager.isLogin(loginCookie["u"])) {
             console.log(loginCookie["u"], " already log in ");
-            res.location("/index");
+            res.location("/blogpost?op=list");
             res.status(302);
             res.send();
             return;
@@ -208,7 +208,7 @@ server.all("/login", function (req, res, next) {
                         res.cookie("u", cookie, {
                             maxAge: 24 * 3600000
                         });
-                        res.location("/index");
+                        res.location("/blogpost?op=list");
                         res.status(302);
                         res.send();
                     }

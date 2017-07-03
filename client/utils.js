@@ -5,5 +5,5 @@ var blogUtils = exports = module.exports = {};
 blogUtils.DateString = commonlib.dateString;
 
 blogUtils.getQueryPath = function(){
-    return window.location.pathname;
+    return window.location.pathname+window.location.search;
 }

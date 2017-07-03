@@ -8,14 +8,34 @@ body {
     width: 100%;
 }
 
+
+/*#backToTop{
+    background-image: url(/resources/img/logo/%E5%9B%BE%E7%89%872.jpg);
+    background-size: 100%,100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}*/
+
+
+/*
+#backToTop:after{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    background-attachment: fixed;
+    position: absolute;
+    top:0;
+    left: 0;
+}*/
+
 #back {
     width: 50px;
     height: 50px;
     text-align: center;
     line-height: 48px;
     position: fixed;
-    right: 10%;
     top: 80%;
+    left: 80%;
     border: 1px solid #74787c;
 }
 
@@ -25,9 +45,11 @@ body {
 
 #sidebar {
     border: 1px solid black;
+    padding-left: 60px;
+    z-index: 1;
 }
 
-#sidebar #logo {
+#sidebar #logoTest {
     color: rgb(23, 29, 41);
     margin-bottom: 40px;
 }
@@ -35,13 +57,36 @@ body {
 #sidebar .article {
     margin-top: 40px;
     margin-bottom: 40px;
-    padding-left: 30px;
-    min-height: 800px;
+    padding-left: 10px;
 }
 
 #sidebar .article h5,
 h4:hover {
     cursor: pointer;
+}
+
+#sidebar #login_btn a,
+#sidebar #login_btn a:hover {
+    color: #74787c;
+}
+
+#sidebar #login_btn a {
+    text-decoration: none;
+}
+
+#sidebar #logo_box div {
+    display: inline-block;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+#sidebar #logo_box #logo img {
+    width: 100%;
+    height: 100%;
+}
+
+#content {
+    z-index: 1;
 }
 
 #content h1,
@@ -54,10 +99,8 @@ h6 {
 }
 
 #content table {
-    width: 90%;
+    width: 92%;
     margin: 0 auto;
-    border-left: 1px solid #636363;
-    border-right: 1px solid #636363;
 }
 
 #content table td {
@@ -146,21 +189,371 @@ h6 {
     border: 1px solid #B2DFEE;
 }
 
-#game {
-    height: 500px;
+#content #snake_box {
+    width: 600px;
+    height: 600px;
     border: 1px solid black;
+    margin: 0 auto 10px;
+    box-sizing: border-box;
 }
 
-#box_foot {
-    margin-bottom: 50px;
+#content #snake_box div {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    box-sizing: border-box;
 }
 
+#content #snake_btn {
+    width: 600px;
+    height: 30px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
+#content #snake_btn button {
+    width: 30%;
+    height: 30px;
+    display: inline-block;
+    background-color: dimgrayr;
+}
+
+
+/*login动画*/
+#page {
+    width: 100%;
+    height: 1270px;
+    overflow:hidden;
+    animation: m1 20s;
+    background-color:#CAE5E8;
+}
+
+@-webkit-keyframes m1{
+    30%{
+        background-color:rgb(190,212,191);
+    }
+    60%{
+        background-color:rgb(142,189,182);
+    }
+    90%{
+        background-color:rgb(212,79,89);
+    }
+}
+
+@keyframes m1{
+    30%{
+        background-color:rgb(190,212,191);
+    }
+    60%{
+        background-color:rgb(142,189,182);
+    }
+    90%{
+        background-color:rgb(212,79,89);
+    }
+}
+
+#cloudbox {
+    width: 100%;
+    height: 600px;
+}
+
+.cloud {
+    width: 150px;
+    height: 56.25px;
+    background-color: #f2f9fe;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: relative;
+    left: -150px;
+    margin-top: 40px;
+    z-index: 50;
+}
+
+.cloud:nth-of-type(1):after {
+    content: '';
+    width: 45px;
+    height: 45px;
+    background-color: #f2f9fe;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    -webkit-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    -moz-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    box-shadow: 45px -5px 0px 15px #f2f9fe;
+}
+
+.cloud:nth-of-type(2):after {
+    content: '';
+    width: 45px;
+    height: 45px;
+    background-color: #f2f9fe;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    -webkit-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    -moz-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    box-shadow: 45px -5px 0px 15px #f2f9fe;
+}
+
+.cloud:nth-of-type(3):after {
+    content: '';
+    width: 45px;
+    height: 45px;
+    background-color: #f2f9fe;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    -webkit-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    -moz-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    box-shadow: 45px -5px 0px 15px #f2f9fe;
+}
+
+.cloud:nth-of-type(4):after {
+    content: '';
+    width: 45px;
+    height: 45px;
+    background-color: #f2f9fe;
+    border-radius: 50px;
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    -webkit-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    box-shadow: 45px -5px 0px 15px #f2f9fe;
+}
+
+.cloud:nth-of-type(5):after {
+    content: '';
+    width: 45px;
+    height: 45px;
+    background-color: #f2f9fe;
+    border-radius: 50px;
+    position: absolute;
+    top: -20px;
+    left: 25px;
+    -webkit-box-shadow: 45px -5px 0px 15px #f2f9fe;
+    box-shadow: 45px -5px 0px 15px #f2f9fe;
+}
+
+.cloud:nth-of-type(1) {
+    transform: scale(0.1);
+    -webkit-transform: scale(0.1);
+    -webkit-animation: move 5s infinite;
+    animation: move 5s linear infinite;
+}
+
+.cloud:nth-of-type(2) {
+    transform: scale(0.35);
+    -webkit-transform: scale(0.35);
+    -webkit-animation: move 9s infinite;
+    animation: move 9s linear infinite;
+}
+
+.cloud:nth-of-type(3) {
+    transform: scale(0.4);
+    -webkit-transform: scale(0.4);
+    -webkit-animation: move 15s infinite;
+    animation: move 15s linear infinite;
+}
+
+.cloud:nth-of-type(4) {
+    transform: scale(0.78);
+    -webkit-transform: scale(0.78);
+    -webkit-animation: move 8s infinite;
+    animation: move 8s linear infinite;
+}
+
+.cloud:nth-of-type(5) {
+    transform: scale(0.6);
+    -webkit-transform: scale(0.6);
+    -webkit-animation: move 20s infinite;
+    animation: move 20s linear infinite;
+}
+
+@-webkit-keyframes move {
+    to {
+        transform: translateX(2000px);
+    }
+}
+
+@keyframes move {
+    to {
+        transform: translateX(2000px);
+    }
+}
+
+.computer{
+    position: relative;
+    width: 500px;
+    height: 500px;
+    top:50%;
+    left: -30%;
+    box-sizing: border-box;
+    transform: rotate(-25deg);
+    animation: m 5s infinite;
+}
+
+@-webkit-keyframes m{
+    50%,100%{
+        transform: translateX(10PX);
+        transform: rotate(-15deg);
+    }
+    10%,60%{
+        transform: rotate(25deg);
+        transform: translateX(10PX)
+    }
+}
+@keyframes m{
+    50%,100%{
+        transform: translateX(10PX);
+        transform: rotate(-15deg);
+    }
+    10%,60%{
+        transform: rotate(25deg);
+        transform: translateX(10PX)
+    }
+}
+
+.computer .computer_top{
+    position: absolute;
+    width: 460px;
+    border-top: 310px solid rgb(21,21,22);
+    border-right: 40px solid transparent;
+    border-left: 40px solid transparent;
+    border-radius: 30px;
+    transform: rotateX(60deg) rotateZ(-0deg);
+}
+
+.computer .computer_bottom {
+    position: absolute;
+    top: 325px;
+    left: 30px;
+    width: 400px;
+    height: 250px;
+    margin-top: -90px;
+    background-color: #ECECEC;
+    border: 2px solid #d3d7d4;
+    border-radius: 15px;
+}
+
+.computer .computer_bottom .black1 {
+    width: 340px;
+    height: 10px;
+    background-color: rgb(21, 21, 22);
+    margin: -1px auto;
+    border-radius: 4px;
+}
+
+.computer .computer_bottom .black2 {
+    width: 340px;
+    height: 120px;
+    background-color: rgb(216, 216, 216);
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 5px 15px;
+}
+
+.computer .computer_bottom .black2 .miniblack1 {
+    width: 20px;
+    height: 10px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 22px 0px 0px rgb(51, 51, 52), 44px 0px 0px rgb(51, 51, 52), 66px 0px 0px rgb(51, 51, 52), 88px 0px 0px rgb(51, 51, 52), 110px 0px 0px rgb(51, 51, 52), 132px 0px 0px rgb(51, 51, 52), 154px 0px 0px rgb(51, 51, 52), 176px 0px 0px rgb(51, 51, 52), 198px 0px 0px rgb(51, 51, 52), 220px 0px 0px rgb(51, 51, 52), 242px 0px 0px rgb(51, 51, 52), 264px 0px 0px rgb(51, 51, 52), 286px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black2 .miniblack2 {
+    margin-top: 2px;
+    width: 18px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 20px 0px 0px rgb(51, 51, 52), 40px 0px 0px rgb(51, 51, 52), 60px 0px 0px rgb(51, 51, 52), 80px 0px 0px rgb(51, 51, 52), 100px 0px 0px rgb(51, 51, 52), 120px 0px 0px rgb(51, 51, 52), 140px 0px 0px rgb(51, 51, 52), 160px 0px 0px rgb(51, 51, 52), 180px 0px 0px rgb(51, 51, 52), 200px 0px 0px rgb(51, 51, 52), 220px 0px 0px rgb(51, 51, 52), 240px 0px 0px rgb(51, 51, 52), 260px 0px 0px rgb(51, 51, 52), 280px 0px 0px rgb(51, 51, 52), 290px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black2 .miniblack3 {
+    margin-top: 2px;
+    width: 18px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 16px 0px 0px rgb(51, 51, 52), 36px 0px 0px rgb(51, 51, 52), 56px 0px 0px rgb(51, 51, 52), 76px 0px 0px rgb(51, 51, 52), 96px 0px 0px rgb(51, 51, 52), 116px 0px 0px rgb(51, 51, 52), 136px 0px 0px rgb(51, 51, 52), 156px 0px 0px rgb(51, 51, 52), 176px 0px 0px rgb(51, 51, 52), 196px 0px 0px rgb(51, 51, 52), 216px 0px 0px rgb(51, 51, 52), 236px 0px 0px rgb(51, 51, 52), 256px 0px 0px rgb(51, 51, 52), 276px 0px 0px rgb(51, 51, 52), 290px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black2 .miniblack4 {
+    margin-top: 2px;
+    width: 18px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 16px 0px 0px rgb(51, 51, 52), 26px 0px 0px rgb(51, 51, 52), 46px 0px 0px rgb(51, 51, 52), 66px 0px 0px rgb(51, 51, 52), 86px 0px 0px rgb(51, 51, 52), 106px 0px 0px rgb(51, 51, 52), 126px 0px 0px rgb(51, 51, 52), 146px 0px 0px rgb(51, 51, 52), 166px 0px 0px rgb(51, 51, 52), 186px 0px 0px rgb(51, 51, 52), 206px 0px 0px rgb(51, 51, 52), 226px 0px 0px rgb(51, 51, 52), 246px 0px 0px rgb(51, 51, 52), 266px 0px 0px rgb(51, 51, 52), 280px 0px 0px rgb(51, 51, 52), 290px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black2 .miniblack5 {
+    margin-top: 2px;
+    width: 18px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 16px 0px 0px rgb(51, 51, 52), 30px 0px 0px rgb(51, 51, 52), 46px 0px 0px rgb(51, 51, 52), 66px 0px 0px rgb(51, 51, 52), 86px 0px 0px rgb(51, 51, 52), 106px 0px 0px rgb(51, 51, 52), 126px 0px 0px rgb(51, 51, 52), 146px 0px 0px rgb(51, 51, 52), 166px 0px 0px rgb(51, 51, 52), 186px 0px 0px rgb(51, 51, 52), 206px 0px 0px rgb(51, 51, 52), 226px 0px 0px rgb(51, 51, 52), 246px 0px 0px rgb(51, 51, 52), 266px 0px 0px rgb(51, 51, 52), 260px 0px 0px rgb(51, 51, 52), 280px 0px 0px rgb(51, 51, 52), 290px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black2 .miniblack6 {
+    margin-top: 2px;
+    width: 20px;
+    height: 18px;
+    border-radius: 2px;
+    background-color: rgb(51, 51, 52);
+    box-shadow: 22px 0px 0px rgb(51, 51, 52), 44px 0px 0px rgb(51, 51, 52), 66px 0px 0px rgb(51, 51, 52), 88px 0px 0px rgb(51, 51, 52), 100px 0px 0px rgb(51, 51, 52), 106px 0px 0px rgb(51, 51, 52), 116px 0px 0px rgb(51, 51, 52), 126px 0px 0px rgb(51, 51, 52), 136px 0px 0px rgb(51, 51, 52), 146px 0px 0px rgb(51, 51, 52), 156px 0px 0px rgb(51, 51, 52), 166px 0px 0px rgb(51, 51, 52), 176px 0px 0px rgb(51, 51, 52), 186px 0px 0px rgb(51, 51, 52), 208px 0px 0px rgb(51, 51, 52), 220px 0px 0px rgb(51, 51, 52), 242px 0px 0px rgb(51, 51, 52), 264px 0px 0px rgb(51, 51, 52), 286px 0px 0px rgb(51, 51, 52);
+}
+
+.computer .computer_bottom .black3 {
+    width: 110px;
+    height: 80px;
+    background-color: #D7D7D7;
+    border: 2px solid #A0A0A0;
+    border-radius: 5px;
+    margin: 15px auto;
+}
+
+#content .book{
+    position: absolute;
+    top:50%;
+    left: 35%;
+}
+
+.book .book1,.book2,.book3{
+    display: inline-block;
+    width:400px;
+    height: 400px;
+}
+
+.book1{
+    background-color: rgb(190,212,191);
+}
+.book2{
+    background-color: rgb(142,189,182);
+}
+.book3{
+    background-color: rgb(212,79,89);
+}
 
 /*僵尸动画*/
 
 .zombie {
     width: 100%;
-    height: 1150px;
     background-color: rgb(44, 62, 80);
     display: flex;
     justify-content: center;
@@ -169,7 +562,6 @@ h6 {
 .face {
     display: flex;
     justify-content: center;
-    margin-top: 500px;
 }
 
 .head {

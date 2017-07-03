@@ -63,7 +63,7 @@ db.getMultiBlogList = function (types, limit) {
         });
     }
     if (!limit) {
-        limit = 3;
+        limit = 10;
     }
     let collection = conn.collection(blogTable);
 

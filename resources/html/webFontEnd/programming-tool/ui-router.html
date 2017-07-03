@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="resources/js/jquery-3.2.1.js"></script>
+    <script src="/resources/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+
+        </div>
+        <div class="col-lg-8 col-xs-9" id='content'>
+            <h1 data-type=0>AngularJS ui-router简译</h1>
+            <span>State Manager</span>
+            <table>
+                <tr>
+                    <td>The new $stateProvider works similar to Angular's v1 router, but it focuses purely on state.</td>
+                    <td>[$stateProvider类似于angular 1.0里的router，但是这个着重于状态。]</td>
+                </tr>
+                <tr>
+                    <td>A state corresponds to a "place" in the application in terms of the overall UI and navigation</td>
+                    <td>[在应用程序的整个用户界面和导航中，一个状态对应于一个页面位置。]</td>
+                </tr>
+                <tr>
+                    <td>A state (via the controller / template / view properties) describes what the UI looks like and does at
+                        that place.]</td>
+                    <td>[状态通过定义controller、template和view等属性，来描述定义指定位置的用户界面和界面行为。</td>
+                </tr>
+                <tr>
+                    <td>States often have things in common, and the primary way of factoring out these commonalities in this
+                        model is via the state hierarchy, i.e. parent/child states aka nested states.</td>
+                    <td>[$state共性属性通过嵌套父子继承的关系来体现状态之间共有的公共点。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>The simplest form of state</span>
+            <table>
+                <tr>
+                    <td>A state in its simplest form can be added like this (typically within module.config):</td>
+                    <td>[State可以向以下方式添加]</td>
+                </tr>
+            </table>
+            <pre>
+                &lt;body ng-controller="MainCtrl"&gt;
+                  &lt;section ui-view&gt;&lt;/section&lt;
+                &lt;/body&gt;
+                // in app-states.js (or whatever you want to name it)$stateProvider.state('contacts', {
+                  template: '&lt;/h1&gt;My Contacts&lt;//h1&gt;'
+                })
+            </pre>
+            <span>Where does the template get inserted?</span>
+            <table>
+                <tr>
+                    <td>When a state is activated, its templates are automatically inserted into the ui-view of its parent state's
+                        template. If it's a top-level state—which 'contacts' is because it has no parent state–then its parent
+                        template is index.html.</td>
+                    <td>[当一个状态被激活，它的模板将自动插入到父状态模板的ui-view里。如果这是顶级状态，它的父级为index.html]</td>
+                </tr>
+                <tr>
+                    <td>Right now, the 'contacts' state won't ever be activated. So let's see how we can activate a state.</td>
+                    <td></td>
+                </tr>
+            </table>
+            <br/>
+            <span>Activating a state</span>
+            <table>
+                <tr>
+                    <td>There are three main ways to activate a state:</td>
+                </tr>
+                <tr>
+                    <td>1.Call $state.go(). High-level convenience method. Learn More</td>
+                    <td>[调用$state.go()方法]</td>
+                </tr>
+                <tr>
+                    <td>2.Click a link containing the ui-sref directive. Learn More</td>
+                    <td>[点击包含ui-sref指令的link]</td>
+                </tr>
+                <tr>
+                    <td>3.Navigate to the url associated with the state. Learn More.</td>
+                    <td>[导航到与状态相关的url]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Templates</span>
+            <table>
+                <tr>
+                    <td>There are several methods for configuring a state's template.</td>
+                </tr>
+                <tr>
+                    <td>As seen above, the simplest way to set your template is via the template config property.</td>
+                    <td>[如图所示，设置模板最简单的方法就是通过模板配置属性。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  template: '&lt;h1&gt;My Contacts&lt;/h1&lt;'
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>Instead of writing the template inline you can load a partial. (This is probably how you'll set templates
+                        most of the time.)</td>
+                    <td>[配置templateUrl加载指定模板。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  templateUrl: 'contacts.html'
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>templateUrl can also be a function that returns a url. It takes one preset parameter, stateParams, which
+                        is not injected.</td>
+                    <td>[templateUrl也可以是一个返回url的函数，它有一个预设参数stateParams。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  templateUrl: function ($stateParams){
+                    return '/partials/contacts.' + $stateParams.filterBy + '.html';
+                  }
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>Or you can use a template provider function which can be injected, has access to locals, and must return
+                        template HTML, like this:</td>
+                    <td>[可以或注入template Provider函数（内部注入，直接使用），可以访问后台数据并返回。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  templateProvider: function ($timeout, $stateParams) {
+                    return $timeout(function () {
+                      return '&lt;h1&gt;' + $stateParams.contactId + '&lt;/h1&gt;'
+                    }, 100);
+                  }
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>If you'd like your &lt;ui-view&gt; to have some default content before it's populated by a state activation,
+                        you can do that as well. The contents will be replaced as soon as a state is activated and populates
+                        the ui-view with a template.</td>
+                    <td>[ui-view被激活前可以有默认内容]</td>
+                </tr>
+            </table>
+            <pre>
+                &lt;body&gt;
+                    &lt;ui-view&gt;
+                        &lt;i&gt;Some content will load here!&lt;/i&gt;
+                    &lt;/ui-view&gt;
+                &lt;/body&gt;
+            </pre>
+            <br/>
+            <span>Controllers</span>
+            <table>
+                <tr>
+                    <td>You can assign a controller to your template. Warning: The controller will not be instantiated if template
+                        is not defined.</td>
+                    <td>[你也可以为你的模板分配一个控制器。注：如果模板未定义，控制器将不会实例化]</td>
+                </tr>
+                <tr>
+                    <td>You set your controller like this:</td>
+                    <td>[可以在$stateProvider里定义]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  template: '&lt;h1&gt;{{title}}&lt;/h1&gt;',
+                  controller: function($scope){
+                    $scope.title = 'My Contacts';
+                  }
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>Alternatively using the "controller as" syntax the above becomes:</td>
+                    <td>[controllerAs语法优点：属性定义在自己内部，而非$scope上。可以使用javascript原型类，可以使用更高级ES6或TypeScript编写controller。避开了child scope原型继承带来的问题。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  template: '&lt;h1&gt;{{contact.title}}&lt;h1&gt;',
+                  controller: function(){
+                    this.title = 'My Contacts';
+                  },
+                  controllerAs: 'contact'
+                })
+            </pre>
+            <p>and</p>
+            <pre>
+                $stateProvider.state('contacts', {
+                  template: ...,
+                  controller: 'ContactsCtrl as contact'
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>Or for more advanced needs you can use the controllerProvider to dynamically return a controller function
+                        or string for you:</td>
+                    <td>[对于更高级的需求，可以使用controllerProvider动态返回控制器函数或字符串]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts', {
+                  template: ...,
+                  controllerProvider: function($stateParams) {
+                      var ctrlName = $stateParams.type + "Controller";
+                      return ctrlName;
+                  }
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>Controllers can use the $scope.$on() method to listen for events fired by state transitions.</td>
+                    <td>[控制器可以使用$scope.on方法来监听事件状态转换。]</td>
+                </tr>
+                <tr>
+                    <td>Controllers are instantiated on an as-needed basis, when their corresponding scopes are created, i.e.
+                        when the user manually navigates to a state via a URL, $stateProvider will load the correct template
+                        into the view, then bind the controller to the template's scope.</td>
+                    <td>[控制器可以根据需求实例化，当相应的scope被创建时，当用户通过url手动导航到一个状态时，$stateProvider将加载对应的模板到视图中，然后将控制器绑定到模板作用域。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Resolve</span>
+            <table>
+                <tr>
+                    <td>You can use resolve to provide your controller with content or data that is custom to the state.resolve is
+                        an optional map of dependencies which should be injected into the controller.</td>
+                    <td>[Resolve：预加载，将resolve的值注入到控制器，可以重用resolve控制器。可以使用resolve为控制器提供可选的依赖注入项。]</td>
+                </tr>
+                <tr>
+                    <td>If any of these dependencies are promises, they will be resolved and converted to a value before the
+                        controller is instantiated and the $stateChangeSuccess event is fired.</td>
+                    <td>[如果这些依赖是promises对象，在控制器实例化之前，这些promises对象需要等待并转化为值（最终结果），然后$stateChangeSuccess事件将被触发。]</td>
+                </tr>
+                <tr>
+                    <td>The resolve property is a map object. The map object contains key/value pairs of:</td>
+                    <td>[Resolve是一个由键值对构成的对象。]</td>
+                </tr>
+                <tr>
+                    <td>key – {string}: a name of a dependency/附属 to be injected into the controller.</td>
+                    <td>[注入控制器的依赖项名称。]</td>
+                </tr>
+                <tr>
+                    <td>factory - {string|function}:</td>
+                </tr>
+                <tr>
+                    <td>If string, then it is an alias for a service.</td>
+                    <td>[如果是字符串，它将是服务的别名]</td>
+                </tr>
+                <tr>
+                    <td>oOtherwise if function, then it is injected and the return value is treated as the dependency. If the
+                        result is a promise, it is resolved before the controller is instantiated and its value is injected
+                        into the controller.</td>
+                    <td>[如果是函数，将其注入并将返回值作为依赖项。如果结果为promises对象，则控制器将在实例化前将其解析，并将其值注入控制器。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Examples:</span>
+            <table>
+                <tr>
+                    <td>Each of the objects in resolve below must be resolved (via deferred.resolve() if they are a promise)
+                        before the controller is instantiated. Notice how each resolve object is injected as a parameter
+                        into the controller.</td>
+                    <td>[注意每个resolve对象是如何作为参数注入到控制器。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('myState', {
+                  resolve:{
+                     // Example using function with simple return value.
+                     // Since it's not a promise, it resolves immediately.
+                     simpleObj:  function(){
+                        return {value: 'simple!'};
+                     },
+                     // Example using function with returned promise.
+                     // This is the typical use case of resolve.
+                     // You need to inject any services that you are
+                     // using, e.g. $http in this example
+                     promiseObj:  function($http){
+                        // $http returns a promise for the url data
+                        return $http({method: 'GET', url: '/someUrl'});
+                     },
+                     // Another promise example. If you need to do some 
+                     // processing of the result, use .then, and your 
+                     // promise is chained in for free. This is another
+                     // typical use case of resolve.
+                     promiseObj2:  function($http){
+                        return $http({method: 'GET', url: '/someUrl'})
+                           .then (function (data) {
+                               return doSomeStuffFirst(data);
+                           });
+                     },        
+                     // Example using a service by name as string.
+                     // This would look for a 'translations' service
+                     // within the module and return it.
+                     // Note: The service could return a promise and
+                     // it would work just like the example above
+                     translations: "translations",
+                     // Example showing injection of service into
+                     // resolve function. Service then returns a
+                     // promise. Tip: Inject $stateParams to get
+                     // access to url parameters.
+                     translations2: function(translations, $stateParams){
+                         // Assume that getLang is a service method
+                         // that uses $http to fetch some translations.
+                         // Also assume our url was "/:lang/home".
+                         return translations.getLang($stateParams.lang);
+                     },
+                     // Example showing returning of custom made promise
+                     greeting: function($q, $timeout){
+                         var deferred = $q.defer();
+                         $timeout(function() {
+                             deferred.resolve('Hello!');
+                         }, 1000);
+                         return deferred.promise;
+                     }
+                  },
+                  // The controller waits for every one of the above items to be
+                  // completely resolved before instantiation. For example, the
+                  // controller will not instantiate until promiseObj's promise has 
+                  // been resolved. Then those objects are injected into the controller
+                  // and available for use.  
+                  controller: function($scope, simpleObj, promiseObj, promiseObj2, translations, translations2, greeting){
+                      $scope.simple = simpleObj.value;
+                      // You can be sure that promiseObj is ready to use!
+                      $scope.items = promiseObj.data.items;
+                      $scope.items = promiseObj2.items;
+                      $scope.title = translations.getLang("english").title;
+                      $scope.title = translations2.title;
+                      $scope.greeting = greeting;
+                  }
+               })
+            </pre>
+            <br/>
+            <span>Attach Custom Data to State Objects [将自定义数据附加到状态对象]</span>
+            <table>
+                <tr>
+                    <td>You can attach custom data to the state object (we recommend using a data property to avoid conflicts).</td>
+                    <td>[可以给state对象添加自定义数据（建议使用data属性，避免冲突）]</td>
+                </tr>
+            </table>
+            <pre>
+                // Example shows an object-based state and a string-based statevar contacts = { 
+                    name: 'contacts',
+                    templateUrl: 'contacts.html',
+                    data: {
+                        customData1: 5,
+                        customData2: "blue"
+                    }  
+                }
+                $stateProvider
+                  .state(contacts)
+                  .state('contacts.list', {
+                    templateUrl: 'contacts.list.html',
+                    data: {
+                        customData1: 44,
+                        customData2: "red"
+                    } 
+                  })
+            </pre>
+            <p>With the above example states you could access the data like this:</p>
+            <pre>
+                function Ctrl($state){
+                    console.log($state.current.data.customData1) // outputs 5;
+                    console.log($state.current.data.customData2) // outputs "blue";
+                }
+            </pre>
+            <br/>
+            <span>onEnter and onExit callbacks</span>
+            <table>
+                <tr>
+                    <td>There are also optional 'onEnter' and 'onExit' callbacks that get called when a state becomes active
+                        and inactive respectively. The callbacks also have access to all the resolved dependencies.</td>
+                    <td>[可以选择使用”onEnter”和”onExit”回调函数来区分状态是否活跃。回掉函数还可以访问resolve依赖关系。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state("contacts", {
+                  template: '&lt;h1&gt;{{title}}&lt;/h1&gt;',
+                  resolve: { title: 'My Contacts' },
+                  controller: function($scope, title){
+                    $scope.title = title;
+                  },
+                  onEnter: function(title){
+                    if(title){ ... do something ... }
+                  },
+                  onExit: function(title){
+                    if(title){ ... do something ... }
+                  }
+                })
+            </pre>
+            <br/>
+            <span>State Change Events</span>
+            <table>
+                <tr>
+                    <td>NOTE: State change events are deprecated, DISABLED and replaced by Transition Hooks as of version 1.0
+                        (details)</td>
+                    <td>[State change events是过时的]</td>
+                </tr>
+                <tr>
+                    <td>All these events are fired at the $rootScope level.</td>
+                    <td>[所有事件都在$rootScope触发]</td>
+                </tr>
+                <tr>
+                    <td>$stateChangeStart - fired when the transition begins.</td>
+                    <td>[$stateChangeEvents，事件转变前触发]</td>
+                </tr>
+            </table>
+            <pre>
+                $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){ 
+                    event.preventDefault(); 
+                    // transitionTo() promise will be rejected with 9
+                    // a 'transition prevented' error
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>$stateNotFound - v0.3.0 - fired when a requested state cannot be found using the provided state name
+                        during transition. The event is broadcast allowing any handlers a single chance to deal with the
+                        error (usually by lazy-loading the unfound state). A specialunfoundState object is passed to the
+                        listener handler, you can see its three properties in the example. Use event.preventDefault() to
+                        abort the transition (transitionTo() promise will be rejected with a 'transition aborted' error).
+                        For a more in-depth example on lazy loading states, see How To: Lazy load states</td>
+                    <td>[当状态不存在时调用函数]</td>
+                </tr>
+            </table>
+            <pre>
+                // somewhere, assume lazy.state has not been defined$state.go("lazy.state", {a:1, b:2}, {inherit:false});
+                // somewhere else$rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){ 
+                    console.log(unfoundState.to); // "lazy.state"
+                    console.log(unfoundState.toParams); // {a:1, b:2}
+                    console.log(unfoundState.options); // {inherit:false} + default options
+                })
+            </pre>
+            <table>
+                <tr>
+                    <td>$stateChangeSuccess - fired once the state transition is complete.</td>
+                    <td>[在模板解析完成后触发]</td>
+                </tr>
+            </table>
+            <pre>
+                $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){ ... })
+            </pre>
+            <table>
+                <tr>
+                    <td>$stateChangeError - fired when an error occurs during transition. It's important to note that if you
+                        have any errors in your resolve functions (javascript errors, non-existent services, etc) they will
+                        not throw traditionally. You must listen for this $stateChangeError event to catch ALL errors. Use event.preventDefault() to
+                        prevent the $UrlRouter from reverting the URL to the previous valid location (in case of a URL navigation).</td>
+                </tr>
+            </table>
+            <pre>
+                $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){ ... })
+            </pre>
+            <br/>
+            <span>View Load Events</span>
+            <p>$viewContentLoading - fired once the view begins loading, before the DOM is rendered. The '$rootScope' broadcasts
+                the event.</p>
+            <pre>
+                $rootScope.$on('$viewContentLoading', function(event, viewConfig){ 
+                    // Access to all the view config properties.
+                    // and one special property 'targetView'
+                    // viewConfig.targetView 
+                });
+            </pre>
+            <p>$viewContentLoaded - fired once the view is loaded, after the DOM is rendered. The '$scope' of the view emits
+                the event.</p>
+            <pre>
+                $scope.$on('$viewContentLoaded', function(event){ ... });
+            </pre>
+            <br/>
+            <span>Nested States and Nested Views</span>
+            <span>Methods for Nesting States[嵌套状态的方法]</span>
+            <table>
+                <tr>
+                    <td>States can be nested within each other. There are several ways of nesting states:</td>
+                    <td>[状态可以互相嵌套。]</td>
+                </tr>
+                <tr>
+                    <td>1.Using 'dot notation'. For example .state('contacts.list', {}).</td>
+                    <td>[使用点符号]</td>
+                </tr>
+                <tr>
+                    <td>2.Use the ui-router.stateHelper to build states from a nested state tree. Courtesy of @marklagendijk.</td>
+                    <td>[使用ui-router.stateHelper从嵌套状态树建立状态]</td>
+                </tr>
+                <tr>
+                    <td>3.Using the parent property with the parent name as string. For example: parent: 'contacts'</td>
+                    <td>[使用父属性与父名称作为字符串。]</td>
+                </tr>
+                <tr>
+                    <td>4.Using the parent property with the parent object. For example parent: contacts (where 'contacts' is
+                        a stateObject)</td>
+                    <td>[使用父对象的父属性。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Dot Notation</span>
+            <table>
+                <tr>
+                    <td>You can use dot syntax to infer your hierarchy to the $stateProvider. Below, contacts.listbecomes a child
+                        of contacts.</td>
+                    <td>[可以通过点语法推断层次。例如：contacts父元素 contact.list子元素]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                  .state('contacts', {})
+                  .state('contacts.list', {});
+            </pre>
+            <br/>
+            <span>stateHelper module</span>
+            <p>This is a 3rd party module created by @marklagendijk. So you have to include it in addition to ui-router. Visit
+                the stateHelper repo to learn more</p>
+            <pre>
+                angular.module('myApp', ['ui.router', 'ui.router.stateHelper'])
+                  .config(function(stateHelperProvider){
+                    stateHelperProvider.state({
+                      name: 'root',
+                      templateUrl: 'root.html',
+                      children: [
+                        {
+                          name: 'contacts',
+                          templateUrl: 'contacts.html',
+                          children: [
+                            {
+                              name: 'list',
+                              templateUrl: 'contacts.list.html'
+                            }
+                          ]
+                        },
+                        {
+                          name: 'products',
+                          templateUrl: 'products.html',
+                          children: [
+                            {
+                              name: 'list',
+                              templateUrl: 'products.list.html'
+                            }
+                          ]
+                        }
+                      ]
+                    });
+                  });
+            </pre>
+            <br/>
+            <span>Parent Property using State Name String[使用状态名称字符串的父属性]</span>
+            <table>
+                <tr>
+                    <td>Alternately, you can specify the parent of a state via the parent property.</td>
+                    <td>[或者，可以通过父属性指定状态的父级。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                  .state('contacts', {})
+                  .state('list', {
+                    parent: 'contacts'
+                  });
+            </pre>
+            <br/>
+            <span>Object-based States</span>
+            <table>
+                <tr>
+                    <td>If you aren't fond of using string-based states, you can also use object-based states. The name property
+                        goes in the object and the parent property must be set on all child states, like this:</td>
+                    <td>[如果你不喜欢使用基于字符串的状态，也可以使用基于对象的状态。]</td>
+                </tr>
+            </table>
+            <pre>
+                var contacts = { 
+                    name: 'contacts',
+                    templateUrl: 'contacts.html'
+                }var contactsList = { 
+                    name: 'list',
+                    parent: contacts,
+                    templateUrl: 'contacts.list.html'
+                }
+
+                $stateProvider
+                  .state(contacts)
+                  .state(contactsList)
+            </pre>
+            <table>
+                <tr>
+                    <td>You can usually reference the object directly when using other methods and property comparisons:</td>
+                    <td>[通常可以在使用其他方法和属性比较时直接引用对象。]</td>
+                </tr>
+            </table>
+            <pre>
+                $state.transitionTo(states.contacts);
+                $state.current === states.contacts;
+                $state.includes(states.contacts)
+            </pre>
+            <br/>
+            <span>Registering States Order</span>
+            <table>
+                <tr>
+                    <td>You can register states in any order and across modules. You can register children before the parent
+                        state exists. It will queue them up and once the parent state is registered then the child will be
+                        registered.</td>
+                    <td>[可以按任意顺序和跨模块注册状态。可以在父状态存在之前注册子状态。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Parent MUST Exist</span>
+            <table>
+                <tr>
+                    <td>If you register only a single state, like contacts.list, you MUST define/定义 a state called contacts at
+                        some point, or else no states will be registered. The state contacts.list will get queued until contacts is
+                        defined. You will not see any errors if you do this, so be careful that you define the parent in
+                        order for the child to get properly registered.</td>
+                    <td>[如果只注册一个状态，例如contact.list，那么必须注册contact，否则注册无效。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Naming Your States[命名]</span>
+            <table>
+                <tr>
+                    <td>No two states can have the same name. When using dot notation the parent is inferred, but this doesn't
+                        change the name of the state. When explicitly providing a parent using the parent property, state
+                        names still must be unique. For example, you can't have two different states named "edit" even if
+                        they have different parents.</td>
+                    <td>[不可重复命名。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Nested States & Views[嵌套]</span>
+            <table>
+                <tr>
+                    <td>When the application is in a particular state—when a state is "active"—all of its ancestor states are
+                        implicitly active as well. Below, when the "contacts.list" state is active, the "contacts" state
+                        is implicitly active as well, because it's the parent state to "contacts.list".</td>
+                    <td>[子状态活跃，父状态隐式活跃。]</td>
+                </tr>
+                <tr>
+                    <td>Child states will load their templates into their parent's ui-view.</td>
+                    <td>[子状态将在父级ui-view中加载模板。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                  .state('contacts', {
+                    templateUrl: 'contacts.html',
+                    controller: function($scope){
+                      $scope.contacts = [{ name: 'Alice' }, { name: 'Bob' }];
+                    }
+                  })
+                  .state('contacts.list', {
+                    templateUrl: 'contacts.list.html'
+                  });
+                function MainCtrl($state){
+                  $state.transitionTo('contacts.list');
+                }
+            </pre>
+            <pre>
+                &lt;!-- index.html --&gt;
+                &lt;body ng-controller="MainCtrl"&gt;
+                  &lt;div ui-view&gt;&lt;/div&gt;
+                &lt;/body&gt;
+            </pre>
+            <pre>
+                &lt;!-- contacts.html --&gt;
+                &lt;h1&gt; My Contacts"&lt;/h1&gt;
+                &lt;div ui-view&gt;&lt;/div&gt;
+            </pre>
+            <pre>
+                &lt;!-- contacts.list.html --&gt;
+                &lt;ul&gt;
+                  &lt;li ng-repeat="contact in contacts"&gt;
+                    &lt;a&gt;{{contact.name}}&lt;/a&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+            </pre>
+            <br/>
+            <span>What Do Child States Inherit From Parent States?[子状态从父状态继承什么？]</span>
+            <table>
+                <tr>
+                    <td>Child states DO inherit the following from parent states:</td>
+                </tr>
+                <tr>
+                    <td>Resolved dependencies via resolve</td>
+                    <td>[继承resolve依赖关系]</td>
+                </tr>
+                <tr>
+                    <td>Custom data properties</td>
+                    <td>[自定义数据属性]</td>
+                </tr>
+                <tr>
+                    <td>Nothing else is inherited (no controllers, templates, url, etc). However, children of abstract states
+                        do inherit the url property of their parent as a prefix of their own url.</td>
+                    <td>[不继承控制器，模板，url等。继承父级状态url属性作为子状态url前缀]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Inherited Resolved Dependencies</span>
+            <table>
+                <tr>
+                    <td>New in version 0.2.0</td>
+                </tr>
+                <tr>
+                    <td>Child states will inherit resolved dependencies from parent state(s), which they can overwrite. You can
+                        then inject resolved dependencies into the controllers and resolve functions of child states.</td>
+                    <td>[子状态可继承/覆盖父状态resolve状态将继承来自父状态的resolve依赖关系，它们可以重写。然后可以将resolve的依赖项注入控制器和子状态的resolve里。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('parent', {
+                  resolve:{
+                     resA:  function(){
+                        return {'value': 'A'};
+                     }
+                  },
+                  controller: function($scope, resA){
+                      $scope.resA = resA.value;
+                  }
+               })
+               .state('parent.child', {
+                  resolve:{
+                     resB: function(resA){
+                        return {'value': resA.value + 'B'};
+                     }
+                  },
+                  controller: function($scope, resA, resB){
+                      $scope.resA2 = resA.value;
+                      $scope.resB = resB.value;
+                  }
+            </pre>
+            <br/>
+            <p>NOTE</p>
+            <table>
+                <tr>
+                    <td>The resolve keyword MUST be relative to state not views (in case you use multiple views).</td>
+                    <td>[Resolve关键字必须是相对于状态而不是视图。]</td>
+                </tr>
+                <tr>
+                    <td>If you want a child resolve to wait for a parent resolve, you should inject the parent resolve keys
+                        into the child. (This behavior is different in ui-router 1.0).</td>
+                    <td>[如果想子状态的resolve在父状态的resolve之后加载，需要将父状态的resolve键注入到子状态的resolve中。]</td>
+                </tr>
+            </table>
+            <span>Inherited Custom Data[继承自定义数据,子状态将继承父状态的数据属性，它们可以重写。]</span>
+            <p>Child states will inherit data properties from parent state(s), which they can overwrite.</p>
+            <pre>
+                $stateProvider.state('parent', {
+                      data:{
+                         customData1:  "Hello",
+                         customData2:  "World!"
+                      }
+                   })
+                   .state('parent.child', {
+                      data:{
+                         // customData1 inherited from 'parent'
+                         // but we'll overwrite customData2
+                         customData2:  "UI-Router!"
+                      }
+                   });
+                $rootScope.$on('$stateChangeStart', function(event, toState){ 
+                    var greeting = toState.data.customData1 + " " + toState.data.customData2;
+                    console.log(greeting);
+
+                    // Would print "Hello World!" when 'parent' is activated
+                    // Would print "Hello UI-Router!" when 'parent.child' is activated
+                })
+            </pre>
+            <br/>
+            <span>Scope Inheritance by View Hierarchy Only</span>
+            <table>
+                <tr>
+                    <td>Keep in mind that scope properties only inherit down the state chain if the views of your states are
+                        nested. Inheritance of scope properties has nothing to do with the nesting of your states and everything
+                        to do with the nesting of your views (templates).</td>
+                    <td>[如果状态的视图是嵌套的，则scope属性只会继承状态链。 Scope属性的继承与状态的嵌套无关，与视图嵌套/模板相关。]</td>
+                </tr>
+                <tr>
+                    <td>It is entirely possible that you have nested states whose templates populate ui-views at various non-nested
+                        locations within your site. In this scenario you cannot expect to access the scope variables of parent
+                        state views within the views of children states.</td>
+                    <td>[子状态视图不能访问父状态视图的变量。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>View Inherited Resolved Dependencies</span>
+            <table>
+                <tr>
+                    <td>Views may inherit resolved dependencies from the state that they belong to, but may not inherit those
+                        of their sibling views.</td>
+                    <td>[视图能继承其所属状态的依赖关系，不能继承兄弟视图的依赖关系。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('myState', {
+                  resolve:{
+                     resMyState:  function(){
+                        return { value: 'mystate' };
+                     }
+                  },
+                  views: {
+                    'foo@myState': {
+                      templateUrl: 'mystate-foo.html',
+                      controller: function($scope, resMyState, resFoo){ 
+                        /* has access to resMyState and resFoo,           but *not* resBar */ 
+                      },
+                      resolve: {
+                        resFoo: function() {
+                          return { value: 'foo' };
+                        }
+                      },
+                    },
+                    'bar@myState': {
+                      templateUrl: 'mystate-bar.html',
+                      controller: function($scope, resMyState, resBar){ 
+                        /* has access to resMyState and resBar,           but *not* resFoo */ 
+                      },
+                      resolve: {
+                        resBar: function() {
+                          return { value: 'bar' };
+                        },
+                      },
+                    },
+                  },
+                });
+            </pre>
+            <br/>
+            <span>Abstract States[抽象状态]</span>
+            <table>
+                <tr>
+                    <td>An abstract state can have child states but can not get activated itself. An 'abstract' state is simply
+                        a state that can't be transitioned to. It is activated implicitly/隐式 when one of its descendants/后代
+                        are activated.]</td>
+                    <td>[抽象状态可以有子状态，但不能被激活。 “抽象”状态只是一个不能转换的状态。 当其后代激活时，它将被隐式激活。</td>
+                </tr>
+                <tr>
+                    <td>Some examples of how you might use an abstract state are:</td>
+                </tr>
+                <tr>
+                    <td>To prepend a url to all child state urls.</td>
+                    <td>[为所有子状态网址添加一个url。]</td>
+                </tr>
+                <tr>
+                    <td>To insert a template with its own ui-view(s) that its child states will populate.</td>
+                    <td>[在自己的视图中插入模板，其子状态也将填充。]</td>
+                </tr>
+                <tr>
+                    <td>Optionally assign a controller to the template. The controller must pair to a template.</td>
+                    <td>[可选地将控制器分配给模板。控制器必须与模板配对。]</td>
+                </tr>
+                <tr>
+                    <td>Additionally, inherit $scope objects down to children, just understand that this happens via the view
+                        hierarchy, not the state hierarchy.</td>
+                    <td>[将$ scope对象继承到子对象，是通过视图层次结构发生的，而不是状态层次结构。]</td>
+                </tr>
+                <tr>
+                    <td>To provide resolved dependencies via resolve for use by child states.</td>
+                </tr>
+                <tr>
+                    <td>To provide inherited custom data via data for use by child states or an event listener.</td>
+                    <td>[通过数据提供继承的自定义数据，可供子状态或事件监听使用。]</td>
+                </tr>
+                <tr>
+                    <td>To run an onEnter or onExit function that may modify/修改 the application in someway.</td>
+                    <td>[运行onEnter或onExit函数可能会在某种程度上修改应用。]</td>
+                </tr>
+                <tr>
+                    <td>Any combination/结合 of the above.</td>
+                </tr>
+                <tr>
+                    <td>Remember: Abstract states still need their own
+                        <ui-view/> for their children to plug into. So if you are using an abstract state just to prepend a url, set
+                        resolves/data, or run an onEnter/Exit function, then you'll additionally need to set template: "&lt;ui-view/&gt;".</td>
+                    <td>[抽象状态仍需要自己的视图以供其子状态使用。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Abstract State Usage Examples:</span>
+            <span>To prepend url to child state urls</span>
+            <pre>
+                stateProvider
+                    .state('contacts', {
+                        abstract: true,
+                        url: '/contacts',
+                        // Note: abstract still needs a ui-view for its children to populate.
+                        // You can simply add it inline here.
+                        template: '<ui-view/>'
+                    })
+                    .state('contacts.list', {
+                        // url will become '/contacts/list'
+                        url: '/list'
+                        //...more
+                    })
+                    .state('contacts.detail', {
+                        // url will become '/contacts/detail'
+                        url: '/detail',
+                        //...more
+                    })
+            </pre>
+            <p>To insert a template with its own ui-view for child states to populate</p>
+            <pre>
+                $stateProvider
+                    .state('contacts', {
+                        abstract: true,
+                        templateUrl: 'contacts.html'
+                    })
+                    .state('contacts.list', {
+                        // loaded into ui-view of parent's template
+                        templateUrl: 'contacts.list.html'
+                    })
+                    .state('contacts.detail', {
+                        // loaded into ui-view of parent's template
+                        templateUrl: 'contacts.detail.html'
+                    })
+            </pre>
+            <pre>
+                &lt;!-- contacts.html --&gt;
+                &lt;h1&gt;Contacts Page&lt;/h1&gt;
+                &lt;div ui-view&gt;&lt;/div&gt;
+            </pre>
+            <br/>
+            <span>Combination[组合]</span>
+            <table>
+                <tr>
+                    <td>Shows prepended/前缀 url, inserted template, paired controller, and inherited $scope object.</td>
+                    <td>[显示前缀，插入模板，配对控制器，继承$scope对象]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                    .state('contacts', {
+                        abstract: true,
+                        url: '/contacts',
+                        templateUrl: 'contacts.html',
+                        controller: function($scope){
+                            $scope.contacts = [{ id:0, name: "Alice" }, { id:1, name: "Bob" }];
+                        }    		
+                    })
+                    .state('contacts.list', {
+                        url: '/list',
+                        templateUrl: 'contacts.list.html'
+                    })
+                    .state('contacts.detail', {
+                        url: '/:id',
+                        templateUrl: 'contacts.detail.html',
+                        controller: function($scope, $stateParams){
+                          $scope.person = $scope.contacts[$stateParams.id];
+                        }
+                    })
+            </pre>
+            <pre>    
+                &lt;!-- contacts.html --&gt;
+                &lt;h1&gt;Contacts Page&lt;/h1&gt;
+                &lt;div ui-view&gt;&lt;/div&gt;
+            </pre>
+            <pre>
+                &lt;!-- contacts.list.html --&gt;
+                &lt;ul&gt;
+                    &lt;li ng-repeat="person in contacts"&gt;
+                        &lt;a ng-href="#/contacts/{{person.id}}"&gt;{{person.name}}&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            </pre>
+            <pre>
+                &lt;!-- contacts.detail.html --&gt;
+                &lt;h2&gt;{{ person.name }}&lt;/h2&gt;
+            </pre>
+            <br/>
+            <span>Multiple Named Views</span>
+            <table>
+                <tr>
+                    <td>You can name your views so that you can have more than one ui-view per/每 template. Let's say you had
+                        an application state that needed to dynamically/动态 populate/填充 a graph/图表, some table data and filters
+                        for the table like this:/td>
+                        <td>[您可以命名您的视图，以便每个模板可以有多个ui-view。 假设您有一个应用程序状态，需要动态填充图表，表格数据和表格过滤器，如下所示：]</td>
+                </tr>
+                <tr>
+                    <td>When setting multiple views, you need to use the views property on the state object. views is an object.</td>
+                    <td>[设置多个视图时，需要使用状态对象的views属性。 视图是一个对象。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Views override state's template properties[视图覆盖状态的模板属性]</span>
+            <table>
+                <tr>
+                    <td>If you define a views object, your state's templateUrl, template and templateProvider will be ignored.
+                        So in the case that you need a parent layout of these views, you can define an abstract state that
+                        contains a template, and a child state under the layout state that contains the 'views' object.</td>
+                    <td>[定义一个视图对象，其状态的templateUrl，template和templateProvider将被忽略。 因此，在需要这些视图的父级布局的情况下，可以定义包含模板的抽象状态以及包含“views”对象的布局状态下的子状态。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Example - Name Matching</span>
+            <table>
+                <tr>
+                    <td>The property keys on views should match your view names, like so:</td>
+                    <td>[Views：‘@’：绝对状态，绝对命名;‘不带@’：相对状态，指在父级中存在的view]</td>
+                </tr>
+            </table>
+            <pre>
+                &lt;!-- index.html --&gt;		
+                &lt;body&gt;		
+                  &lt;div ui-view="filters"&gt;&lt;/div&gt;		
+                  &lt;div ui-view="tabledata"&gt;&lt;/div&gt;		
+                  &lt;div ui-view="graph"&gt;&lt;/div&gt;		
+                &lt;/body&gt;	
+                
+                $stateProvider		
+                  .state('report', {		
+                    views: {		
+                      'filters': { ... templates and/or controllers ... },		
+                      'tabledata': {},		
+                      'graph': {},		
+                    }		
+                  })
+            </pre>
+            <table>
+                <tr>
+                    <td>Then each view in views can set up its own templates (template, templateUrl, templateProvider), controllers
+                        (controller, ontrollerProvider) and resolve.</td>
+                    <td>[视图中的每个视图都可以设置自己的template（template，templateUrl，templateProvider），controller（controller，ontrollerProvider）和resolve。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider		
+                  .state('report',{		
+                    views: {		
+                      'filters': {		
+                        templateUrl: 'report-filters.html',		
+                        controller: function($scope){ ... controller stuff just for filters view ... }		
+                      },		
+                      'tabledata': {		
+                        templateUrl: 'report-table.html',		
+                        controller: function($scope){ ... controller stuff just for tabledata view ... }		
+                      },		
+                      'graph': {		
+                        templateUrl: 'report-graph.html',		
+                        controller: function($scope){ ... controller stuff just for graph view ... }		
+                      }		
+                    }		
+                  })
+            </pre>
+            <br/>
+            <span>View Names - Relative vs. Absolute Names[相对命名和绝对命名]</span>
+            <table>
+                <tr>
+                    <td>Behind the scenes, every view gets assigned/分配 an absolute name that follows a scheme of view name@statename,
+                        where view name is the name used in the view directive and state name is the state's absolute name,
+                        e.g. contact.item. You can also choose to write your view names in the absolute syntax.</td>
+                    <td>[每个视图都被分配一个绝对名称，它遵循视图名称@ statename的规定，其中视图名称是视图指令中使用的名称，状态名称是状态的绝对名称，例如contact.item。 还可以选择以绝对语法编写视图名称。]</td>
+                </tr>
+            </table>
+            <p>For example, the previous example could also be written as:</p>
+            <pre>
+                .state('report',{		
+                    views: {		
+                      'filters@': { },		
+                      'tabledata@': { },		
+                      'graph@': { }		
+                    }		
+                  })
+            </pre>
+            <table>
+                <tr>
+                    <td>Notice that the view names are now specified as absolute names, as opposed to the relative name. It is
+                        targeting the 'filters', 'tabledata', and 'graph' views located in the root unnamed template. Since
+                        it's unnamed, there is nothing following the '@'. The root unnamed template is your index.html.</td>
+                    <td>[请注意，视图名称现在被指定为绝对名称，而不是相对名称。 它的目标是位于根未命名模板中的'filters'，'tabledata'和'graph'视图。 由于它是未命名的，“@”之后没有任何内容。 根未命名的模板是您的index.html。]</td>
+                </tr>
+                <tr>
+                    <td>Absolute naming lets us do some powerful view targeting. Remember! With power comes responsibility. Let's
+                        assume we had several templates set up like this (this example is not realistic, it's just to llustrate
+                        view targeting):</td>
+                    <td>[绝对命名能更强大的定位。]</td>
+                </tr>
+            </table>
+            <pre>
+                &lt;!-- index.html (root unnamed template) --&gt;		
+                &lt;body ng-app&gt;		
+                &lt;div ui-view>&lt;/div&gt; &lt;!-- contacts.html plugs in here --&gt;		
+                &lt;div ui-view="status"&gt;&lt;/div&gt;		
+                &lt;/body&gt;
+
+                &lt;!-- contacts.html --&gt;		
+                &lt;h1>My Contacts&lt;/h1&gt;		
+                &lt;div ui-view>&lt;/div&gt;		
+                &lt;div ui-view="detail"&gt;&lt;/div&gt;
+
+                &lt;!-- contacts.detail.html --&gt;		
+                &lt;h1>Contacts Details&lt;/h1&gt;		
+                &lt;div ui-view="info">&lt;/div&gt;
+            </pre>
+            <table>
+                <tr>
+                    <td>Let's look at the various/各种各样的 views you could target from within the contacts.detail state. Remember
+                        that if an @ is used then the view path is considered/认为 absolute:</td>
+                    <td>[使用‘@’，则视图路径被认为时绝对的。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider		
+                  .state('contacts', {		
+                    // This will get automatically plugged into the unnamed ui-view 		
+                    // of the parent state template. Since this is a top level state, 		
+                    // its parent state template is index.html.		
+                    templateUrl: 'contacts.html'   		
+                  })		
+                  .state('contacts.detail', {		
+                    views: {		
+                        ////////////////////////////////////		
+                        // Relative Targeting             //		
+                        // Targets parent state ui-view's //		
+                        ////////////////////////////////////		
+
+                        // Relatively targets the 'detail' view in this state's parent state, 'contacts'.		
+                        // &lt;div ui-view='detail'/&gt; within contacts.html		
+                        "detail" : { },            		
+
+                        // Relatively targets the unnamed view in this state's parent state, 'contacts'.		
+                        // &lt;div ui-view/&gt; within contacts.html		
+                        "" : { }, 		
+
+                        ///////////////////////////////////////////////////////		
+                        // Absolute Targeting using '@'                      //		
+                        // Targets any view within this state or an ancestor //		
+                        ///////////////////////////////////////////////////////		
+
+                        // Absolutely targets the 'info' view in this state, 'contacts.detail'.		
+                        // &lt;div ui-view='info'/&gt; within contacts.detail.html		
+                        "info@contacts.detail" : { }		
+
+                        // Absolutely targets the 'detail' view in the 'contacts' state.		
+                        // &lt;div ui-view='detail'/&gt; within contacts.html		
+                        "detail@contacts" : { }		
+
+                        // Absolutely targets the unnamed view in parent 'contacts' state.		
+                        // &lt;div ui-view/&gt; within contacts.html		
+                        "@contacts" : { }		
+
+                        // absolutely targets the 'status' view in root unnamed state.		
+                        // &lt;div ui-view='status'/&gt; within index.html		
+                        "status@" : { }		
+
+                        // absolutely targets the unnamed view in root unnamed state.		
+                        // &lt;div ui-view/&gt; within index.html		
+                        "@" : { } 		
+                  });
+            </pre>
+            <p>You can see how this ability to not only set multiple views within the same state but ancestor states could become
+                a meritable playground for a developer</p>
+            <br/>
+            <span>URL Routing</span>
+            <table>
+                <tr>
+                    <td>Most states in your application will probably have a url associated with them. URL Routing was not an
+                        afterthought to the state mechanics, but was figured into the design from the beginning (all while
+                        keeping states separate from url routing)</td>
+                    <td>[应用程序中的大多数状态都有其相关联的URL。 URL路由是预设计]</td>
+                </tr>
+            </table>
+            <p>Here's how you set a basic url.</p>
+            <pre>
+                $stateProvider
+                    .state('contacts', {
+                        url: "/contacts",
+                        templateUrl: 'contacts.html'
+                    })
+            </pre>
+            <table>
+                <tr>
+                    <td>Now when the user accesses index.html/contacts then the 'contacts' state would become active and the
+                        main ui-view will be populated with the 'contacts.html' partial. Alternatively, if the user were
+                        to transition to the 'contacts' state via transitionTo('contacts') then the url would be updated
+                        to index.html/contacts</td>
+                    <td>[现在当用户访问index.html / contacts时，“contacts”状态将变为活动状态，主ui视图将填充“contacts.html”部分。 如果用户通过transitionTo（'contacts'）转换到“contacts”状态，那么url将被更新为index.html
+                        / contacts]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>URL Parameters</span>
+            <span>Basic Parameters</span>
+            <table>
+                <tr>
+                    <td>Often, URLs have dynamic parts to them which are called parameters. There are several options for specifying
+                        parameters. A basic parameter looks like this:</td>
+                    <td>[URL通常具有称为参数的动态部分。 有几个用于指定参数的选项。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                    .state('contacts.detail', {
+                        url: "/contacts/:contactId",
+                        templateUrl: 'contacts.detail.html',
+                        controller: function ($stateParams) {
+                            // If we got here from a url of /contacts/42
+                            expect($stateParams).toBe({contactId: "42"});
+                        }
+                    })
+            </pre>
+            <p>Alternatively you can also use curly brackets:</p>
+            <pre>
+                // identical to previous example
+                url: "/contacts/{contactId}"
+            </pre>
+            <p>Examples:</p>
+            <table>
+                <tr>
+                    <td>'/hello/' - Matches only if the path is exactly '/hello/'. There is no special treatment for trailing
+                        slashes, and patterns have to match the entire path, not just a prefix.</td>
+                    <td>[完全匹配]</td>
+                </tr>
+                <tr>
+                    <td>'/user/:id' - Matches '/user/bob' or '/user/1234!!!' or even '/user/' but not '/user' or </td>
+                </tr>
+                <tr>
+                    <td>'/user/bob/details'. The second path segment will be captured as the parameter 'id'.</td>
+                    <td>[第二个路径段将被捕获为参数’id’]</td>
+                </tr>
+                <tr>
+                    <td>'/user/{id}' - Same as the previous example, but using curly brace syntax.</td>
+                    <td>[花括号捕获]</td>
+                </tr>
+                <tr>
+                    <td>'/user/{id:int}' - The param is interpreted as Integer.</td>
+                    <td>[Id为整数]</td>
+                </tr>
+            </table>
+            <p>Note:</p>
+            <table>
+                <tr>
+                    <td>Parameter names may contain only word characters (latin letters, digits, and underscore) and must be
+                        unique within the pattern (across both path and search parameters).</td>
+                    <td>[参数名称只能包含字符（拉丁字母，数字和下划线），并且必须在模式内（跨路径和搜索参数）都是唯一的。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>Using Parameters in Links</span>
+            <table>
+                <tr>
+                    <td>To create a link that passes parameters, use the state name like a function and pass it an object with
+                        parameter names as keys. The proper href will be generated.</td>
+                    <td>[要创建传递参数的链接，请使用状态名称作为函数，并将具有参数名称的对象传递给键。 将生成正确的href。]</td>
+                </tr>
+                <tr>
+                    <td>For example, using the above state which specified a contactId parameter, create a link like so:</td>
+                    <td>[使用指定参数的上述状态]</td>
+                </tr>
+            </table>
+            <pre>
+                &lt;a ui-sref="contacts.detail({contactId: id})"&gt;View Contact&lt;/a&gt;
+            </pre>
+            <br/>
+            <span>Regex Parameters</span>
+            <table>
+                <tr>
+                    <td>A bonus to using curly brackets is the ability to set a Regular Expression rule for the parameter:</td>
+                    <td>[使用花括号能够为参数设置正则表达式规则]</td>
+                </tr>
+            </table>
+            <pre>
+                // will only match a contactId of one to eight number characters
+                url: "/contacts/{contactId:[0-9]{1,8}}"
+            </pre>
+            <span>Examples:</span>
+            <p>'/user/{id:[^/]*}' - Same as '/user/{id}' from the previous example.</p>
+            <p>'/user/{id:[0-9a-fA-F]{1,8}}' - Similar to the previous example, but only matches if the id parameter consists
+                of 1 to 8 hex/十六进制 digits.</p>
+            <p>'/files/{path:.*}' - Matches any URL starting with '/files/' and captures the rest of the path into the parameter
+                'path'.</p>
+            <p>'/files/*path' - Ditto. Special syntax for catch all.</p>
+            <span>Warning:</span>
+            <p>Don't put capturing parentheses into your regex patterns, the UrlMatcher in ui-router adds those itself around
+                the entire regex. You're effectively introducing a second capture group for the same parameter, which trips
+                up the numbering in the child URL. You can use non-capturing groups though, i.e. (?:...) is fine.</p>
+            <p>Regular expression can't include forward slashes as that's route segment delimiter</p>
+            <p>Route parameters with regular expressions can't be optional or greedy[正则表达式的路由参数不能是可选的或贪婪的。]</p>
+            <br/>
+            <span>Query Parameters</span>
+            <p>You can also specify parameters as query parameters, following a '?':</p>
+            <pre>
+                url: "/contacts?myParam"// will match to url of "/contacts?myParam=value"
+            </pre>
+            <p>If you need to have more than one, separate them with an '&amp;':</p>
+            <pre>
+                url: "/contacts?myParam1&amp;myParam2"// will match to url of "/contacts?myParam1=value1&amp;myParam2=wowcool"
+            </pre>
+            <br/>
+            <span>Using Parameters without Specifying Them in State URLs[使用参数，而不在状态url中指定它们]</span>
+            <table>
+                <tr>
+                    <td>You still can specify what parameters to receive even though the parameters don't appear in the url.
+                        You need to add a new field params in the state and create links as specified in Using Parameters
+                        in Links</td>
+                    <td>[即使参数没有显示在url中，仍然可以指定要接收的参数。 需要在状态中添加一个新的字段参数，并在“链接中的使用参数”中指定创建链接。]</td>
+                </tr>
+            </table>
+            <p>For example, you have the state.</p>
+            <pre>
+                .state('contacts', {
+                    url: "/contacts",
+                    params: {
+                        param1: null
+                    },
+                    templateUrl: 'contacts.html'
+                })
+            </pre>
+            <p>The link you create is</p>
+            <pre>
+                &lt;a ui-sref="contacts({param1: value1})"&gt;View Contacts&lt;/a&gt;
+            </pre>
+            <p>Or you can pass them to $state.go() too.</p>
+            <pre>
+                $state.go('contacts', {param1: value1})
+            </pre>
+            <br/>
+            <span>URL Routing for Nested States[url路由嵌套状态]</span>
+            <span>Appended Routes (default)</span>
+            <table>
+                <tr>
+                    <td>When using url routing together with nested states the default behavior is for child states to append
+                        their url to the urls of each of its parent states.</td>
+                    <td>[当使用URL路由和嵌套状态时，默认行为是子状态将URL添加到其父状态的URL中。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider
+                  .state('contacts', {
+                     url: '/contacts',
+                     ...
+                  })
+                  .state('contacts.list', {
+                     url: '/list',
+                     ...
+                  });
+            </pre>
+            <p>So the routes would become:</p>
+            <p>contacts' state matches/状态匹配 "/contacts"</p>
+            <p>'contacts.list' state matches "/contacts/list". The urls were combined.</p>
+            <br/>
+            <span>Absolute Routes (^)[绝对路由匹配使用’^’符号]</span>
+            <p>If you want to have absolute url matching, then you need to prefix your url string with a special symbol '^'.</p>
+            <pre>
+                $stateProvider
+                  .state('contacts', {
+                     url: '/contacts',
+                     ...
+                  })
+                  .state('contacts.list', {
+                     url: '^/list',
+                     ...
+                  });
+            </pre>
+            <p>So the routes would become:</p>
+            <p>'contacts' state matches "/contacts"</p>
+            <p>'contacts.list' state matches "/list". The urls were not combined because ^ was used.</p>
+            <br/>
+            <span>$stateParams Service</span>
+            <table>
+                <tr>
+                    <td>As you saw previously the $stateParams service is an object that will have one key per url parameter.
+                        The $stateParams is a perfect way to provide your controllers or other services with the individual
+                        parts of the navigated url.</td>
+                    <td>[$ stateParams服务是一个对象，每个url参数将有一个键。 $ stateParams是为控制器或其他服务提供导航url。]</td>
+                </tr>
+            </table>
+            <p>Note:</p>
+            <table>
+                <tr>
+                    <td>$stateParams service must be specified as a state controller, and it will be scoped so only the relevant
+                        parameters defined in that state are available可获得的 on the service object.</td>
+                    <td>[$stateParams必须明确指定为状态控制器，并且限定只有在该状态中定义的相关参数在service上使用。]</td>
+                </tr>
+            </table>
+            <pre>
+                // If you had a url on your state of:
+                url: '/users/:id/details/{type}/{repeat:[0-9]+}?from&to'
+
+                // Then you navigated your browser to:
+                '/users/123/details//0'
+
+                // Your $stateParams object would be
+                { id:'123', type:'', repeat:'0' }
+
+                // Then you navigated your browser to:
+                '/users/123/details/default/0?from=there&to=here'
+
+                // Your $stateParams object would be
+                { id:'123', type:'default', repeat:'0', from:'there', to:'here' }
+            </pre>
+            <br/>
+            <span>Important $stateParams Gotcha</span>
+            <table>
+                <tr>
+                    <td>In state controllers, the $stateParams object will only contain the params that were registered with
+                        that state. So you will not see params registered on other states, including ancestors.</td>
+                    <td>[在状态控制器中，$stateParams对象只包含在该状态下注册的参数。]</td>
+                </tr>
+            </table>
+            <pre>
+                $stateProvider.state('contacts.detail', {
+                   url: '/contacts/:contactId',   
+                   controller: function($stateParams){
+                      $stateParams.contactId  //*** Exists! ***//
+                   }
+                }).state('contacts.detail.subitem', {
+                   url: '/item/:itemId', 
+                   controller: function($stateParams){
+                      $stateParams.contactId //*** Watch Out! DOESN'T EXIST!! ***//
+                      $stateParams.itemId //*** Exists! ***//  
+                   }
+                })
+            </pre>
+            <p>Instead, use a resolve statement in the parent route.</p>
+            <pre>
+                $stateProvider.state('contacts.detail', {
+                   url: '/contacts/:contactId',   
+                   controller: function($stateParams){
+                      $stateParams.contactId  //*** Exists! ***//
+                   },
+                   resolve:{
+                      contactId: ['$stateParams', function($stateParams){
+                          return $stateParams.contactId;
+                      }]
+                   }
+                }).state('contacts.detail.subitem', {
+                   url: '/item/:itemId', 
+                   controller: function($stateParams, contactId){
+                      contactId //*** Exists! ***//
+                      $stateParams.itemId //*** Exists! ***//  
+                   }
+                })
+            </pre>
+            <br/>
+            <span>$urlRouterProvider</span>
+            <table>
+                <tr>
+                    <td>$urlRouterProvider has the responsibility of watching $location. When $location changes it runs through
+                        a list of rules one by one until a match is found. $urlRouterProvider is used behind the scenes anytime
+                        you specify a url in a state configuration. All urls are compiled into a UrlMatcher object (see $urlMatcherFactory
+                        below).]</td>
+                    <td>[$urlRouterProvider负责监控$location对象，当$location发生变化时，$urlRouterProvider会遍历一个规则直到找到匹配项。$urlRouterProvider在状态配置时会将url编译成一个UrlMatcher对象。</td>
+                </tr>
+                <tr>
+                    <td>There are several methods on $urlRouterProvider that make it useful to use directly/直接地 in your module
+                        config.</td>
+                    <td>[$ urlRouterProvider有几种方法可以直接在您的模块配置中使用。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>when() for redirection[重定向]</span>
+            <p>Parameters:</p>
+            <table>
+                <tr>
+                    <td>what String | RegExp | UrlMatcher The incoming path that you want to redirect.</td>
+                    <td>[重定向的输入路径。]</td>
+                </tr>
+                <tr>
+                    <td>handler String | Function The path you want to redirect your user to.</td>
+                    <td>[重定向用户的路径。]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>handler as String</span>
+            <table>
+                <tr>
+                    <td>If handler is a string, it is treated as a redirect, and is interpolated according to the syntax of match
+                        (i.e. like String.replace() for RegExp, or like a UrlMatcher pattern otherwise).</td>
+                    <td>[如果handler是字符串，则将其视为重定向，并根据匹配的语法进行插值（即与RegExp的String.replace（）类似，或者类似UrlMatcher模式）。]</td>
+                </tr>
+            </table>
+            <pre>
+                app.config(function($urlRouterProvider){
+                    // when there is an empty route, redirect to /index   
+                    $urlRouterProvider.when('', '/index');
+
+                    // You can also use regex for the match parameter
+                    $urlRouterProvider.when(/aspx/i, '/index');
+                })
+            </pre>
+            <br/>
+            <span>handler as Function</span>
+            <table>
+                <tr>
+                    <td>If the handler is a function, it is injectable. It gets invoked if $location matches. You have the option
+                        of inject the match object as $match</td>
+                    <td>[如果handler是一个函数，那么它是可注入的。 如果$ location匹配，则调用它。 您可以选择将匹配对象注入$ match]</td>
+                </tr>
+            </table>
+            <p>The handler can return:</p>
+            <table>
+                <tr>
+                    <td>falsy to indicate that the rule didn't match after all, then $urlRouter will continue trying to find
+                        another one that matches.</td>
+                    <td>[Falsy表面匹配规则完全不匹配，那么$urlRouter将会尝试找到另一个匹配项。]</td>
+                </tr>
+                <tr>
+                    <td>a String, which is treated as a redirect and passed to $location.url()</td>
+                    <td>[String将被是为重定向并传递给$location.url()]</td>
+                </tr>
+                <tr>
+                    <td>nothing or any truthy value tells $urlRouter that the url was handled</td>
+                    <td>[Nothing或truthy告诉$urlRouter已处理url。]</td>
+                </tr>
+                <tr>
+                    <td>Here's the actual code that we use to register state's that have urls behind the scenes.</td>
+                    <td>[这是我们用来注册状态的实际代码，后台有url。]</td>
+                </tr>
+            </table>
+            <pre>
+                $urlRouterProvider.when(state.url, ['$match', '$stateParams', function ($match, $stateParams) {
+                    if ($state.$current.navigable != state || !equalForKeys($match, $stateParams)) {
+                        $state.transitionTo(state, $match, false);
+                    }
+                }]);
+            </pre>
+            <br/>
+            <span>otherwise() for invalid routes</span>
+            <p>Parameters:</p>
+            <table>
+                <tr>
+                    <td>path String | Function The url path you want to redirect to or a function rule that returns the url path.
+                        The function version is passed two params: $injector and $location.</td>
+                    <td>[要重定向到的URL路径或返回URL路径的函数规则。两个参数：$ inject和$ location。]</td>
+                </tr>
+            </table>
+            <pre>
+                app.config(function($urlRouterProvider){
+                    // if the path doesn't match any of the urls you configured
+                    // otherwise will take care of routing the user to the specified url
+                    $urlRouterProvider.otherwise('/index');
+
+                    // Example of using function rule as param
+                    $urlRouterProvider.otherwise(function($injector, $location){
+                        ... some advanced code...
+                    });
+                })
+            </pre>
+            <br/>
+            <span>rule() for custom url handling[自定义url]</span>
+            <p>Parameters:handler Function A function that takes in the $injector and $location services as arguments. You are
+                responsible for returning a valid path as a string.</p>
+            <pre>
+                app.config(function ($urlRouterProvider) {
+                   // Here's an example of how you might allow case insensitive urls
+                   // Note that this is an example, and you may also use 
+                   // $urlMatcherFactory.caseInsensitive(true); for a similar result.
+                   $urlRouterProvider.rule(function ($injector, $location) {
+                       //what this function returns will be set as the $location.url
+                        var path = $location.path(), normalized = path.toLowerCase();
+                        if (path != normalized) {
+                            //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+                            $location.replace().path(normalized);
+                        }
+                        // because we've returned nothing, no state change occurs
+                    });
+                })
+            </pre>
+            <br/>
+            <span>$urlMatcherFactory and UrlMatchers</span>
+            <table>
+                <tr>
+                    <td>Defines the syntax for url patterns and parameter placeholders. This factory service is used behind the
+                        scenes by $urlRouterProvider to cache compiled UrlMatcher objects, instead of having to re-parse
+                        url patterns on every location change. Most users will not need to use $urlMatcherFactory directly,
+                        however it could be useful to craft a UrlMatcher object and pass it as the url to the state config.</td>
+                    <td>[定义url模式和参数占位符的语法。 这个工厂服务在后台被$ urlRouterProvider用于缓存编译的UrlMatcher对象，而不必在每个位置更改时重新解析url模式。 大多数用户不需要直接使用$
+                        urlMatcherFactory，但是它可以用于制作UrlMatcher对象，并将其作为url传递给状态配置。]</td>
+                </tr>
+            </table>
+            <p>Please refer to the comment documentation within the $urlMatcherFactory file to learn more.</p>
+            <pre>
+                var urlMatcher = $urlMatcherFactory.compile("/home/:id?param1");$stateProvider.state('myState', {
+                    url: urlMatcher 
+                });
+            </pre>
+            <br/>
+            <span>The Components[组件]</span>
+            <table>
+                <tr>
+                    <td>$state / $stateProvider: Manages state definitions, the current state, and state transitions. This includes
+                        triggering/触发 transition-related events and callbacks, asynchronously resolving any dependencies
+                        of the target state, and updating $location to reflect the current state. For states that have URLs,
+                        a rule is automatically registered with $urlRouterProvider that performs a transition to that state.</td>
+                    <td> state / $ stateProvider：管理状态定义，当前状态和状态转换。这包括触发与转换相关的事件和回调，异步地解析目标状态的任何依赖关系，并更新$ location以反映当前状态。对于具有URL的状态，规则将自动注册到$urlRouterProvider，以执行到该状态的转换</td>
+                </tr>
+                <tr>
+                    <td>ui-sref directive: Equivalent/等效 to href or ng-href in &lt;a/&gt; elements except the target value is
+                        a state name. Adds an appropriate href to the element according to the state associated URL.</td>
+                    <td>ui-sref指令：等效于&lt;a/&gt;元素中的href或ng-href，但目标值除外是一个状态名称。根据状态关联的URL向元素添加适当的href。</td>
+                </tr>
+                <tr>
+                    <td>ui-view directive: Renders views defined in the current state. Essentially ui-view directives are (optionally
+                        named) placeholders that gets filled with views defined in the current state.</td>
+                    <td>i-view指令：呈现当前状态中定义的视图。基本的ui-view指令是（可选地命名的）占位符，用于填充当前状态中定义的视图。</td>
+                </tr>
+                <tr>
+                    <td>$urlRouter / $urlRouterProvider: Manages a list of rules that are matched against $location whenever
+                        it changes. At the lowest level, a rule can be an arbitrary function that inspects $location and
+                        returns true if it was handled. Support is provided on top of this for RegExp rules and URL patterns
+                        that are compiled into UrlMatcher objects via $urlMatcherFactory.</td>
+                    <td> urlRouter / $ urlRouterProvider：管理与$位置匹配的规则列表，只要更改。在最底层，一个规则可以是一个任意函数，它检查$ location，如果被处理，返回true。对于通过$
+                        urlMatcherFactory编译成UrlMatcher对象的RegExp规则和URL模式，还提供了支持。</td>
+                </tr>
+                <tr>
+                    <td>$urlMatcherFactory: Compiles URL patterns with placeholders into UrlMatcher objects. In addition to the
+                        placeholder syntax supported by $routeProvider, it also supports an extended syntax that allows a
+                        regexp to be specified for the placeholder, and has the ability to extract named parameters from
+                        the query part of the URL.</td>
+                    <td> urlMatcherFactory：使用占位符将URL模式编译到UrlMatcher对象中。除了$ routeProvider支持的占位符语法外，它还支持扩展语法，允许为占位符指定正则表达式，并且可以从URL的查询部分中提取命名参数。</td>
+                </tr>
+                <tr>
+                    <td>$templateFactory: Loads templates via $http / $templateCache. Used by $state.</td>
+                    <td>[$ templateFactory：通过$ http / $ templateCache加载模板。由$scope使用]</td>
+                </tr>
+            </table>
+            <br/>
+            <span>来自学渣灵魂的拷问，她仿佛呕出了灵魂……</span>
+            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+
+
+    <script type="text/javascript" src='/resources/js/main.js'></script>
+</body>
+
+</html>

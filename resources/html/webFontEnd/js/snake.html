@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ZXCCHEN.blog</title>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id='back'>Top</div>
+        <div class="col-lg-2 col-xs-3" id='sidebar'>
+
+        </div>
+        <div class="col-lg-8 col-xs-9" id='content'>
+            <h1 data-type=0>贪吃蛇</h1>
+            <div id="snake_box"></div>
+            <div id="snake_btn">
+                <button>开始</button>
+                <button>暂停</button>
+                <button>清除</button>
+            </div>
+            <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
+        </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+    <script>
+        var snakeBox = document.getElementById("snake_box");
+        var snakeBtn = document.getElementById("snake_btn");
+        
+        snakeBtn.addEventListener("click",function(){
+            alert("F")
+        })
+    </script>
+
+</body>
+
+</html>
