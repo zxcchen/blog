@@ -64,7 +64,7 @@ let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
         setTimeout(function(){
 	    config.rebuildAssetManifest().then(function (manifest) {
                 assetManifest = manifest;
-                //console.log(assetManifest);
+                console.log(assetManifest);
             })
 	},20000);
     }

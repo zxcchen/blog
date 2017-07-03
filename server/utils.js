@@ -217,7 +217,6 @@ if (require.main === module) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
     db.globalInit().then(function () {
-        //let dirname = "D:\\Application\\cygwin\\home\\azywrmor\\Workspace\\qiqiblog\\resources\\html\\webFontEnd\\css\\zombie.html"; 
         let dirname = path.join(__dirname, "../resources/html");
         loadBlogPostToDB(dirname,true).then(function () {
             db.globalRelease();
