@@ -19,59 +19,405 @@
 
         </div>
         <div class="col-lg-8 col-xs-9" id='content'>
-            <h1 data-type=0>面试题</h1>
-            <p>1.如何获取浏览器的版本，或者说如何通过JS获取浏览器的版本信息</p>
-            <p></p>
-            <p>2.如何获取屏幕的宽高或页面的宽高，不同浏览器有什么不一样</p>
-            <p></p>
-            <p>3.媒体感应是如何工作的</p>
-            <p></p>
-            <p>4.什么是响应式布局</p>
-            <p></p>
-            <p>5.移动端如何处理多设备尺寸分辨率不一致的问题</p>
-            <p></p>
-            <p>6.http协议的工作过程</p>
-            <p></p>
-            <p>7.http状态码302，304的意义，4开头的状态码，5开头的状态码</p>
-            <p></p>
-            <p>8.简述浏览器访问一个页面的背后了发生了什么（加载过程和渲染过程）</p>
-            <p></p>
-            <p>9.浏览器缓存的作用，如何减少客户端与服务端的通信量</p>
-            <p></p>
-            <p>10.简述Ajax的好处</p>
-            <p></p>
-            <p>11.单页应用与传统多页面应用的区别，单页应用一般涉及什么样的技术</p>
-            <p></p>
-            <p>12.什么是跨域问题，什么情况下会遇到跨域问题，如何解决</p>
-            <p></p>
-            <p>13.Javascript的闭包什么时候产生</p>
-            <p></p>
-            <p>14.Javascript的new操作符到底做了些什么</p>
-            <p></p>
-            <p>15.比如我有一个对象A，当我在代码中写A.hello的时候到底发生了什么</p>
-            <p></p>
-            <p>16.类和实例的区别和联系</p>
-            <p></p>
-            <p>17.Object.create的实现，做了什么</p>
-            <p></p>
-            <p>18.使用for in 去遍历一个对象的内容的时候有什么坑？</p>
-            <p></p>
-            <p>19.假设我有一个类A，类A有move方法，有一个head属性,同时有一个log的静态方法。然后有一个需求需要你去实现一个类B，使得B有A的所有属性。有什么解决方案？（继承，mixin）</p>
-            <p></p>
-            <p>20.构造函数和普通函数的区别，工厂函数是如何定义的</p>
-            <p></p>
-            <p>21.setTimeout 和 setInterval的用法，有什么区别，如何实现一个定时器来定时完成一个工作,如何取消这个定时器</p>
-            <p></p>
-            <p>22.Javascript事件循环</p>
-            <p></p>
-            <p>23.如何拦截一个DOM元素上所发生的事件，比如说点击事件</p>
-            <p></p>
-            <p>24.什么是事件委托，有什么好处？</p>
-            <p></p>
-            <p>25.es6 有什么新特性，Promise怎么用？</p>
-            <p></p>
-            <p>26.Javascript中如何实现命名空间的？如何实现私有变量和私有方法？</p>
-            <p></p>
+            <h1 data-type=0>前端问题总结</h1>
+            <span>如何获取浏览器的版本，或者说如何通过JS获取浏览器的版本信息</span>
+                <p>在每一次的HTTP请求过程中，用户代理字符串是作为响应首部发送的，而且该字符串可以通过JavaScript的navigator.userAgent属性访问。</p>
+                <pre>
+                //用户代理
+                //User-Agent Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US; rv:1.9.2.3) 
+                    function BrowserType(){
+                        var userAgent = navigator.userAgent;
+                        if(userAgent.indexOf("compatible")>-1&amp;&amp;userAgent.indexOf("MSIE")>-1){//IE,MSIE微软推出的浏览器
+                            return "IE";
+                        }
+                        eles if(userAgent.indexOf("Chrome")>-1){
+                            return "Chrome";
+                        }
+                        eles if(userAgent.indexOf("Firefox")>-1){
+                            return "Firefox";
+                        }
+                        eles if(userAgent.indexOf("Safari")>-1){
+                            return "Safari";
+                        }
+                        eles if(userAgent.indexOf("Opera")>-1){
+                            return "Opera";
+                        }
+                        else{
+                            return;
+                        }
+                    }
+                </pre>
+            <br/>
+            <span>如何获取屏幕的宽高或页面的宽高，不同浏览器有什么不一样</span>
+<!--                <img src="/resources/img/tool/interview/2.png" title="网页上的宽高" style="width=100%;">-->
+                <table>
+                    <tr>
+                        <td colspan="4"><h5>常用</h5></td>
+                    </tr>
+                    <tr>
+                        <td>body可见区域宽</td>
+                        <td>document.body.clientWidth</td>
+                        <td>body可见区域高</td>
+                        <td>document.body.clientHeight</td>
+                    </tr>
+                    <tr>
+                        <td>body全文宽</td>
+                        <td>document.body.scrollWidth</td>
+                        <td>body全文高</td>
+                        <td>document.body.scrollHeight</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4><h5>不常用</h5></td>
+                    </tr>
+                    <tr>
+                        <td>网页可见区域宽/包括边线</td>
+                        <td>document.body.offsetWidth</td>
+                        <td>网页可见区域高/包括边线</td>
+                        <td>document.body.offsetHeight</td>
+                    </tr>
+                    <tr>
+                        <td>屏幕分辨率的宽</td>
+                        <td>window.screen.width</td>
+                        <td>屏幕分辨率的高</td>
+                        <td>window.screen.height</td>
+                    </tr>
+                </table>
+            <br/>
+            <span>媒体感应是如何工作的</span>
+                <p></p>
+            <br/>
+            <span>什么是响应式布局</span>
+                <p>网站能同时兼容多个终端。利用css特性@media设置在不同分辨率下，不同元素的宽高。</p>
+                <table>
+                    <tr>
+                        <td colspan="4">
+                            <h5>屏幕宽度</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>小于768px</td>
+                        <td>768px~992px</td>
+                        <td>992px~1200px</td>
+                        <td>大于1200px</td>
+                    </tr>
+                </table>
+            <br/>
+            <span>移动端如何处理多设备尺寸分辨率不一致的问题</span>
+                <p>"px"是相对与屏幕分辨率而言的。"rem"是相对于当前对象内字体而言的。利用单位"rem"制作网页。</p>
+            <br/>
+            <span>http协议的工作过程</span>
+                <p>1.客户端链接到web服务器</p>
+                <p>2.发生HTTP请求</p>
+                <p>3.开启链接TCP链接</p>
+                <p>4.服务器接受请求并返回HTTP请求</p>
+                <p>5.释放链接TCP链接</p>
+                <p>6.客户端浏览器解析HTML内容</p>
+                <p><span>1.Request消息结构</span>客户端向服务器发出请求</p>
+                <table style="width:25%;margin-left:0;">
+                    <tr>
+                        <td class="text-right">请求行</td>
+                        <td>METHOD/path-to-resource HTTP/wersion-number</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">http head</td>
+                        <td>Header-Name-1:value<br/>Header-Name-2:value</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">空格</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">body head</td>
+                        <td>Optional Request body</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+<!--            <img src="/resources/img/tool/interview/3.png"/>-->
+                <pre>
+Host www.google.com.hk 
+User-Agent Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 GTBDFff GTB7.0 
+Accept text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8 
+Accept-Language zh-cn,en-us;q=0.7,en;q=0.3 
+Accept-Encoding gzip,deflate 
+Accept-Charset ISO-8859-1,utf-8;q=0.7,*;q=0.7 
+Keep-Alive 115 
+Proxy-Connection keep-alive 
+                </pre>
+                <p><span>2.Response消息结构</span>服务端向客户端发回请求</p>
+                <table style="width:50%;margin-left:0;">
+                    <tr>
+                        <td class="text-right">request line</td>
+                        <td>HTTP/Version-number status code message</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">request header</td>
+                        <td>Header-Name-1:value<br/>Header-Name-2:value</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">空格</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">body head</td>
+                        <td>Optional Response body</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+<!--            <img src="/resources/img/tool/interview/4.png"/>-->
+                <pre>
+Date Sat, 17 Apr 2010 08:18:18 GMT 
+Expires -1 
+Cache-Control private, max-age=0 
+Content-Type text/html; charset=UTF-8 
+Set-Cookie PREF=ID=b94a24e8e90a0f50:NW=1:TM=1271492298:LM=1271492298:S=JH7CxsIx48Zoo8Nn; expires=Mon, 16-Apr-2012 08:18:18 GMT; path=/; domain=.google.com.hk NID=33=EJVyLQBv2CSgpXQTq8DLIT2JQ4aCAE9YKkU2x-h4hVw_ATrGx7njA69UUBMbzVHVnkAOe_jlGGzOoXhQACSFDP1i53C8hWjRTJd0vYtRNWhGYGv491mwbngkT6LCYbvg; expires=Sun, 17-Oct-2010 08:18:18 GMT; path=/; domain=.google.com.hk; HttpOnly 
+Content-Encoding gzip 
+Server gws 
+
+Content-Length 4344 
+                </pre>
+            <br/>
+            <span>http状态码302，304的意义，4开头的状态码，5开头的状态码</span>
+                <p>302临时性重定向</p>
+                <p>304自上次请求后，页面未发生变化</p>
+                <p>4..域名错误</p>
+                <p>5..服务器错误</p>
+            <br/>
+            <span>简述浏览器访问一个页面的背后了发生了什么（加载过程和渲染过程）</span>
+                <p>1.浏览器给服务器发送一个HTTP请求</p>
+                <p>2.服务器处理请求</p>
+                <p>3.浏览器获取并嵌入HTML</p>
+                <p>
+                    渲染过程:<br/>
+                    浏览器包含几大组件，网络功能、渲染引擎、UI界面、javascript解析器、客户端数据等。客户端渲染依赖javascript解析器和渲染引擎。主流引擎包括IE：Trident，chrome、safari：webkit，firefox：Gecko。客户端接收到服务器传来的响应对象，从中得到html字符串和MIME&lt;多用途互联网邮件扩展类型：旧标准只允许字符串，新标准允许非英语字符、二进制文件、图像、声音等在邮件中传输&gt;作为输入,然后对html进行转换，转化成能被DOM处理的形式，接着形成DOM树，在解析html时，遇到&lt;link&gt;&lt;script&gt;&lt;img&gt;等一些请求标签时，会发送请求吧对应的内容获取到，然后同步进行css解析，构建出css样式规则应用到dom树上，然后进行布局。比如标记节点块在浏览器中的坐标等形成最终的渲染树，最后根据渲染树在窗口重绘制页面。
+                </p>
+            <br/>
+            <span>浏览器缓存的作用，如何减少客户端与服务端的通信量</span>
+                <p>web缓存密切注释这服务器与客户端的通信，监控请求，并且吧请求输出的内容（例如html页面、图片、文件）另存一份；当下一次请求是相同的url时，则直接使用保存的副本，而不是再次请求服务器。</p>
+                <p>
+                    优点：<br/>
+                    1.减少网络延迟，加快页面渲染速度。<br/>
+                    2.降低服务器压力。<br/>
+                    3.减少网络带宽损耗。<br/>
+                    缺点：<br/>
+                    1.缓存没有清理机制，需要手动清除。<br/>
+                    2.给开发带来困扰，不能实时更新。<br/>
+                </p>
+                <p>请求耗时：每次请求花费的大部分时间在其他阶段，而不是下载阶段。</p>
+<!--            <img src="/resources/img/tool/interview/5.jpg"/>-->
+                <p>
+                    如何减少：<br/>
+                    1.整合小图标到一张图片上，利用css position来定位引用。&lt;css sprite&gt;<br/>
+                    2.合并文件。webpack、gulp等<br/>
+                    3.利用浏览器缓存。
+                </p>
+            <span>简述Ajax的优缺点</span>
+                <p>
+                    Ajax&lt;Asynchronous JavaScript and XML&gt;异步js和xml。<br/>
+                    工作原理：相当于在用户和服务器之间加了一个中间层（Ajax引擎），使用户操作与服务器响应异步化。Ajax对用户提交的数据验证和数据请求先在内部判断，在确定需要从服务器读取新数据时再由Ajax引擎代为向服务器提交请求。<br/>
+                    核心：JavaScript、XMLHTTPRequest、DOM对象组成。通过XMLHTTPRequest对象向服务器发送异步请求，从服务器获取数据，用JavaScript来操作DOM，使页面更新。<br/>
+                </p>
+                <p>
+                    优点：<br/>
+                    1.无刷新更新数据。AJAX最大优点就是能在不刷新整个页面的前提下与服务器通信维护数据。这使得Web应用程序更为迅捷地响应用户交互，并避免了在网络上发送那些没有改变的信息，减少用户等待时间，带来非常好的用户体验。<br/>
+                    2.异步和服务器通信。AJAX使用异步方式与服务器通信，不需要打断用户的操作，具有更加迅速的响应能力。优化了Browser和Server之间的沟通，减少不必要的数据传输、时间及降低网络上数据流量。<br/>
+                    3.前端和后台负载平衡。AJAX可以把以前一些服务器负担的工作转嫁到客户端，利用客户端闲置的能力来处理，减轻服务器和带宽的负担，节约空间和宽带租用成本。并且减轻服务器的负担，AJAX的原则是“按需取数据”，可以最大程度的减少冗余请求和响应对服务器造成的负担，提升站点性能。<br/>
+                    4.基于标准被广泛支持。AJAX基于标准化的并被广泛支持的技术，不需要下载浏览器插件或者小程序，但需要客户允许JavaScript在浏览器上执行。随着Ajax的成熟，一些简化Ajax使用方法的程序库也相继问世。同样，也出现了另一种辅助程序设计的技术，为那些不支持JavaScript的用户提供替代功能。<br/>
+                    5.界面与应用分离。Ajax使web中的界面与应用分离（也可以说是数据与呈现分离），有利于分工合作、减少非技术人员对页面的修改造成的WEB应用程序错误、提高效率、也更加适用于现在的发布系统。<br/>
+                </p>
+                <p>
+                    缺点：<br/>
+                    1.无法维护历史状态。<br/>
+                    2.暴露了安全问题。Ajax技术就如同对企业数据建立了一个直接通道。这使得开发者在不经意间会暴露比以前更多的数据和服务器逻辑。Ajax的逻辑可以对客户端的安全扫描技术隐藏起来，允许黑客从远端服务器上建立新的攻击。还有Ajax也难以避免一些已知的安全弱点，诸如跨站点脚步攻击、SQL注入攻击和基于Credentials的安全漏洞等等。<br/>
+                    3.对搜索引擎支持比较弱。<br/>
+                    4.破坏程序的异常处理机制。<br/>
+                    5.违背了url和资源定位的初衷。<br/>
+                    6.Ajax不能很好的支持移动端。<br/>
+                    7.客户端过多造成开发上成本增加。<br/>
+                </p>
+                <p>注意点：Ajax开发时，造成网络延迟。解决方案：使用可视化组件告诉用户，系统正在进行后台读取数据。</p>
+                <p>
+                    适用场景：<br/>
+                    1.表单驱动的交互<br/>
+                    2.深层次的树的导航<br/>
+                    3.快速的用户与用户间的交流响应<br/>
+                    4.类似投票、yes/no等无关痛痒的场景<br/>
+                    5.对数据进行过滤和操纵相关数据的场景<br/>
+                    6.普通的文本输入提示和自动完成的场景<br/>
+                </p>
+                <p>
+                    不适用场景：<br/>
+                    1.部分简单的表单<br/>
+                    2.搜索<br/>
+                    3.基本的导航<br/>
+                    4.替换大量的文本<br/>
+                    5.对呈现的操纵<br/>
+                </p>
+            <br/>
+            <span>单页应用与传统多页面应用的区别，单页应用一般涉及什么样的技术</span>
+<!--            <img src="/resources/img/tool/interview/6.png">-->
+                <p>单页应用：指将所有的静态资源整合到一个文件，一次性加载所有js，css，跳转是单页面片段隐藏或删除；局部刷新页面；用户体验流畅；可以完全还原路径，是一种可回溯的用户交互路径；避免多次向服务器提供相同资源的请求，可离线使用。</p>
+                <p>多页应用：由多个页面构成，跳转是url的跳转；整体刷新页面；便于搜索引擎搜索。</p>
+            <br/>
+            <span>什么是跨域问题，什么情况下会遇到跨域问题，如何解决</span>
+                <p>跨域：同一个域名下，不同端口、协议、主域相同而子域不同、二级域名不同；不同域名；以上情况都称为跨域。</p>
+                <p>解决：
+                    1.主域相同时，document.domain+iframe<br/>
+                    2.动态创建&lt;script&gt;标签，script不受同源策略的限制<br/>
+                    3.location.hash+iframe<br/>
+                    4.window.name<br/>
+                    5.html5新特性postmessage<br/>
+                    6.利用hash
+                </p>
+            <br/>
+            <span>Javascript的闭包什么时候产生</span>
+                <p>函数内嵌套函数，内部函数引用外部函数的局部变量。</p>
+            <br/>
+            <span>Javascript的new操作符到底做了些什么</span>
+            <p>1.创建一个空对象，this引用该对象，继承该函数的原型。</p>
+            <p>2.属性和方法被加入到this引用的对象中。</p>
+            <p>3.新创建的对象由this所引用，并且最后隐式的返回了this。</p>
+            <br/>
+            <span>比如我有一个对象A，当我在代码中写A.hello的时候到底发生了什么</span>
+                <p>读操作：例如var b = A.hello；首先会去查询A是否有hello属性，如果有，返回该属性，如果没有，则到A的原型上一层一层向上查找，有则返回，无则返回undefined。</p>
+                <p>写操作：例如A.hello = "hello"；首先会去访问A是否有hello属性，如果有，则覆盖此属性值，如果没有，则到A的原型上一层一层向上查找，有则在A的属性上添加hello属性，下次访问时直接访问A的属性，不访问原型的属性（屏蔽但不修改原型的属性）。</p>
+            <br/>
+            <span>类和实例的区别和联系</span>
+                <p>类通过构造函数生成实例，实例属于此类。</p>
+            <br/>
+            <span>Object.create的实现，做了什么</span>
+                <p>
+                    
+                </p>
+            <br/>
+            <span>使用for in 去遍历一个对象的内容的时候有什么坑？</span>
+                <p>Object.hasOwnPrototype()返回该对象自定义的属性，for in返回该对象及对象原型链上所有可枚举的属性。</p>
+            <br/>
+            <span>假设我有一个类A，类A有move方法，有一个head属性,同时有一个log的静态方法。然后有一个需求需要你去实现一个类B，使得B有A的所有属性。有什么解决方案？（继承，mixin）</span>
+                <p></p>
+            <br/>
+            <span>构造函数和普通函数的区别，工厂函数是如何定义的</span>
+                <p>通过new来操作的都是构造函数，否则为普通函数。</p>
+                <pre>
+                    function Person(){
+                        var o = {};
+                        o.name = "Jack";
+                        o.age = 28;
+                        return o;
+                    }
+                </pre>
+            <br/>
+            <span>setTimeout和 setInterval的用法，有什么区别，如何实现一个定时器来定时完成一个工作,如何取消这个定时器</span>
+                <p>setTimeout(function,time)指延迟触发,等待时间到了，执行一次</p>
+                <pre>
+                    var i = 0;
+                    var timer = null;
+                    function start(){
+                        i++;
+                        alert(i);
+                        timer = setTimeout(start,1000);
+                    }
+                    function clear(){
+                        clearTimeout(timer);
+                    }
+                </pre>
+                <p>setInterval(function,time)指间歇触发，每间隔一个时间段，执行一次</p>
+                <pre>
+                    var i = 0;
+                    var timer = null;
+                    function clock(){
+                        i++;
+                        alert(i);
+                        timer = setInterval(start,1000);
+                    }
+                    function clear(){
+                        clearInterval(timer);
+                    }
+                </pre>
+            <br/>
+            <span>Javascript事件循环</span>
+                <p>js属于单线程。单线程指在执行时，每一个任务都需要排队，前一个任务结束，后一个任务才会开始执行。此方法出现诸多弊端，于是任务被分为两种，同步任务与异步任务。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入"任务队列"的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+                <p>异步任务：所有同步任务都在主线程上执行，形成一个执行栈；主线程之外，还存在一个"任务队列"，只要异步任务有了运行结果，就在"任务队列"之中放置一个事件；一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件，那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行；主线程不断重复上面的第三步。定时器也是如此，即使setTimeout(function,0)也不会立即执行，而是被推入执行栈中，等待执行栈前面的任务执行完毕，推出setTimeout，才会执行定时器。只要主线程空了，就会去读取"任务队列"，这就是JavaScript的运行机制。这个过程会不断重复。</p>
+                <p>"任务队列"中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入"任务队列"，等待主线程读取。所谓"回调函数"（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。</p>
+            <br/>
+            <span>如何拦截一个DOM元素上所发生的事件，比如说点击事件</span>
+                <p>使用Event.canceable属性检查是否可以防止与特定事件关联的默认行为。如果检查返回值为true，则可以使用event.preventDefault阻止默认行为，否则无效。</p>
+            <br/>
+            <span>什么是事件委托，有什么好处？</span>
+                <p>例如ul列表，点击某个li，显示相应的内容，这个就可以使用事件委托。将点击事件绑定到父级元素上，当点击时在查找判断哪个子属性获取点击。dom操作查找会花费大量资源，这样做的好处是节省开销。</p>
+            <br/>
+            <span>es6 有什么新特性，Promise怎么用？</span>
+                <p>新特性：<br/>
+                    箭头操作符；<br/>
+                    类的支持；<br/>
+                    增强对象字面量；<br/>
+                    允许使用字符串模板；<br/>
+                    自动解构数组或对象中的值；<br/>
+                    参数可设置默认值、不定参数、拓展参数；<br/>
+                    let和const关键字；<br/>
+                    for of值遍历；<br/>
+                    支持原生模块；<br/>
+                    新增Map、Set、WeakMap、WeakSet；<br/>
+                    新增proxies；<br/>
+                    新增Symbols；<br/>
+                    新增Math、Number、String、Object 的新API；<br/>
+                    新增Promises；
+                </p>
+            <pre>
+                //异步操作的一种模式
+                //创建promise
+                var promise = new Promise(function(resolve, reject) {
+                    // 进行一些异步或耗时操作
+                    if ( /*如果成功 */ ) {
+                        resolve("Stuff worked!");
+                    } else {
+                        reject(Error("It broke"));
+                    }
+                });
+                
+                //绑定处理程序
+                promise.then(function(result) {
+                    //promise成功的话会执行这里
+                    console.log(result); // "Stuff worked!"
+                }, function(err) {
+                    //promise失败会执行这里
+                    console.log(err); // Error: "It broke"
+                });
+            </pre>
+            <br/>
+            <span>Javascript中如何实现命名空间的？如何实现私有变量和私有方法？</span>
+            <pre>
+                var shcool = shcool||{};
+                shcool.namespace = function(){
+                    var name = shcool;
+                    //操作
+                    return name;
+                }
+            </pre>
+            <pre>
+                //私有变量指在函数内部定义的局部变量,私有方法指在函数内部定义的函数，只能访问私有的方法和属性
+                function shcool(){
+                    var theClass = 20;
+                    function getClass(){
+                        alert(theClass);
+                    }
+                }
+            </pre>
+            <br/>
+            
             <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 body {
-    color: #74787c;
-    font-size: '黑体', sans-serif;
+    color: #3e4145;
+    font-family: Monospace;
     line-height: 1.5em;
     background-color: rgba(104, 173, 242, 0.4);
     overflow-x: hidden;
@@ -36,8 +36,7 @@ form.login table tr td {
 }
 
 #sidebar {
-    background-color: rgba(255, 255, 255, 0.4);
-    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.2);
     padding-left: 60px;
     z-index: 1;
 }
@@ -57,6 +56,8 @@ form.login table tr td {
 
 #sidebar .article h5,
 h4:hover {
+    color: #2a5caa;
+    font-size: 1.25em;
     cursor: pointer;
 }
 
@@ -91,7 +92,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: rgb(54, 59, 70);
+    color: #3e4145;
 }
 
 #content table {
@@ -132,18 +133,20 @@ h6 {
 }
 
 #content .red {
-    color: rgb(200, 42, 82);
-    background-color: rgb(249, 242, 244);
+    color: #C82A50;
+    background-color: #F9F2F4;
 }
 
 #content h5 {
-    color: #74787c;
+    color: #3e4145;
     background-color: #B2DFEE;
 }
 
 #content span {
-    background-color: #D1EEEE;
+    color: #C82A50;
+    background-color: #F9F2F4;
     margin-right: 10px;
+    font-size: 1.25em;
 }
 
 #content .ife_tab tr {
@@ -167,17 +170,20 @@ h6 {
 }
 
 #content .ife .ife_body {
-    height: 80%;
+    height: 70%;
+    overflow-y: hidden;
 }
 
 #content .ife .ife_foot {
-    height: 10%;
-    background-color: #33a3dc;
+    height: 20%;
+    font-size: 24px;
+    line-height: 40px;
+    background-color: rgba(123,191,234,0.6);
     text-align: center;
 }
 
 #content .ife .ife_foot a {
-    color: aliceblue;
+    color: rgb(16,43,106);
 }
 
 #content .ife_show {
@@ -185,26 +191,43 @@ h6 {
     border: 1px solid #B2DFEE;
 }
 
-#content #snake_box {
-    width: 600px;
-    height: 600px;
+#snake_box {
+    width: 802px;
+    height: 800px;
     border: 1px solid black;
-    margin: 0 auto 10px;
-    box-sizing: border-box;
+    margin: auto;
 }
 
-#content #snake_box div {
-    width: 20px;
+#snake_box div {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    color: gray;
+    margin-bottom: -5px;
+}
+
+#snake_btn{
+    width: 500px;
     height: 20px;
-    border: 1px solid black;
-    box-sizing: border-box;
+    margin:10px auto;
+    display: flex;
+    justify-content: space-around;
 }
 
-#content #snake_btn {
-    width: 600px;
-    height: 30px;
-    margin: 0 auto;
-    text-align: center;
+#snake_btn button{
+    background-color:white;
+    display: inline-block;
+    width: 25%;
+}
+
+.snake {
+    background-color: black;
+}
+
+.food {
+    background-color: green;
 }
 
 .pointer:hover {

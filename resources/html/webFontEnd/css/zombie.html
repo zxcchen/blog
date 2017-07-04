@@ -17,33 +17,39 @@
         <div id='back'>Top</div>
         <div class="col-lg-2 col-xs-3" id='sidebar'></div>
         <div class="col-lg-8 col-xs-9" id='content'>
-            <h1 data-type=0>CSS笔记</h1>
-            <div class="col-lg-8 col-xs-9" id='content'>
-                <div class="zombie">
-                    <div class="face">
-                        <div class="head">
-                            <div class="brain"></div>
-                            <div class="cheek"></div>
-                            <div class="cheek1"></div>
-                            <div class="leftEye">
-                                <div class="brow"></div>
-                            </div>
-                            <div class="rightEye">
-                                <div class="brow"></div>
-                            </div>
-                            <div class="chin"></div>
+            <h1 data-type=0>css画僵尸</h1>
+            <div class="zombie">
+                <div class="face">
+                    <div class="head">
+                        <div class="brain"></div>
+                        <div class="cheek"></div>
+                        <div class="cheek1"></div>
+                        <div class="leftEye">
+                            <div class="brow"></div>
+                        </div>
+                        <div class="rightEye">
+                            <div class="brow"></div>
+                        </div>
+                        <div class="chin"></div>
 
-                            <div class="nose"></div>
-                            <div class="mouth">
-                                <div class="tooth">
-                                    <div class="toothTop"></div>
-                                    <div class="toothBottom"></div>
-                                </div>
+                        <div class="nose"></div>
+                        <div class="mouth">
+                            <div class="tooth">
+                                <div class="toothTop"></div>
+                                <div class="toothBottom"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <script>
+                $(".zombie").css({
+                    height:($(window).height()*0.8)
+                })
+                $(".face").css({
+                    "margin-top":($(window).height()/3)
+                })
+            </script>
             <div id='btn'><span id='page_up'>上一章</span><span id='page_down'>下一章</span></div>
         </div>
     </div>
