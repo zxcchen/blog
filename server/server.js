@@ -61,12 +61,12 @@ let assetManifest = config.assetManifest;
 let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
     //console.log(filename," event:",evt);
     if (filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME) {
-        setTimeout(function(){
-	    config.rebuildAssetManifest().then(function (manifest) {
+        setTimeout(function () {
+            config.rebuildAssetManifest().then(function (manifest) {
                 assetManifest = manifest;
                 console.log(assetManifest);
             })
-	},20000);
+        }, 20000);
     }
 });
 
@@ -294,14 +294,14 @@ server.all("/blogpost", function (req, res, next) {
                                     content: true,
                                     createtime: true
                                 }, 0, 1).then(function (result) {
-				    let renderDoc = {};
-				    if(result.length>=0){
-					for(let r of result){
-						renderDoc.title = r.title;
-						renderDoc.content = htmlencode.htmlEncode(r.content);
-						break;
-					}
-				    }
+                                    let renderDoc = {};
+                                    if (result.length >= 0) {
+                                        for (let r of result) {
+                                            renderDoc.title = r.title;
+                                            renderDoc.content = htmlencode.htmlEncode(r.content);
+                                            break;
+                                        }
+                                    }
                                     let renderObject = {
                                         renderType: renderTypeDict[op],
                                         docs: renderDoc,

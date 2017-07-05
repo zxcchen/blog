@@ -28,6 +28,11 @@ function currentTime() {
     return parseInt(new Date().getTime() / 1000);
 }
 
+function extractDate(str){
+    let d = new Date(str);
+    return parseInt(d.getTime()/1000);
+}
+
 /**
  * 二分查找，找到第一个大于等于key的元素的位置
  * @param {排好序的正序数组} sortedArray 
@@ -91,24 +96,25 @@ function loadBlogPostToDB(fullFilename, isNew = true) {
         let promises = [];
         let stat = fs.statSync(fullFilename);
         if (!stat.isDirectory()) {
-            let contentRegExp = /<div [\w\W]*id='content'>\W+<h1 data-type=([0-9]+)>([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
+            let contentRegExp = /<div [\w\W]*id='content'>\W+<h1 data-type=([0-9]+) data-time="([\w\W]+)">([\w\W]+)<\/h1>([\w\W]+)<div id='btn'><span id='page_up'>上一章<\/span><span id='page_down'>下一章<\/span><\/div>\r\n\s+<\/div>/
             contentRegExp.global = true;
             contentRegExp.ignoreCase = true;
             contentRegExp.multiline = true;
             let content = fs.readFileSync(fullFilename).toString();
             let result = contentRegExp.exec(content);
-            if (result && result.length > 3) {
+            if (result && result.length > 4) {
                 //console.log("filename:",fullFilename,"type:",result[1],",title:",result[2],",content:",result[3]);
                 let type = parseInt(result[1]);
-                let title = result[2];
-                let content = result[3];
+                let createTime = extractDate(result[2]);
+                let title = result[3];
+                let content = result[4];
                 if (isNew) { //新文章
                     promises.push(db.newBlogPost({
                         title: title,
                         type: type,
-                        time: currentTime(),
+                        time: createTime,
                         content: content,
-                        createtime: currentTime()
+                        createtime: createTime
                     }));
                 } else { //更新文章
                     promises.push(db.updateBlogPost({

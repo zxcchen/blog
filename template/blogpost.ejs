@@ -21,12 +21,14 @@
                 "z-index": 5
             })
             if (blogpost.pageInfo) {
+                $("#page_up").text("上一篇");
+                $("#page_down").text("下一篇");
                 if (blogpost.pageInfo.prev) {
                     var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
                     $("#page_up").attr("title", blogpost.pageInfo.prev.title);
                     $("#page_up").click(function () {
                         $("#page_up").attr("href", tmpPrev);
-                    })
+                    });
                 } else {
                     $("#page_up").attr("title", "没有了");
                 }
@@ -39,6 +41,9 @@
                 } else {
                     $("#page_down").attr("title", "没有了");
                 }
+            }else{
+                $("#page_up").text("上一页");
+                $("#page_down").text("下一页");
             }
             $("#back").click(function () {
                 var time = setInterval(function () {
