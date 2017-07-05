@@ -21,10 +21,11 @@
                 "z-index": 5
             })
             if (blogpost.pageInfo) {
+                $("#page_up").text("上一篇");
+                $("#page_down").text("下一篇");
                 if (blogpost.pageInfo.prev) {
                     var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
                     $("#page_up").attr("title", blogpost.pageInfo.prev.title);
-                    $("#page_up").text("上一篇");
                     $("#page_up").click(function () {
                         $("#page_up").attr("href", tmpPrev);
                     });
@@ -34,7 +35,6 @@
                 if (blogpost.pageInfo.next) {
                     var tmpNext = "/blogpost?op=show&postId=" + blogpost.pageInfo.next._id;
                     $("#page_down").attr("title", blogpost.pageInfo.next.title);
-                    $("#page_down").text("下一篇");
                     $("#page_down").click(function () {
                         $("#page_down").attr("href", tmpNext);
                     })
@@ -43,7 +43,7 @@
                 }
             }else{
                 $("#page_up").text("上一页");
-                $("#page_up").text("下一页");
+                $("#page_down").text("下一页");
             }
             $("#back").click(function () {
                 var time = setInterval(function () {
