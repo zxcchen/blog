@@ -40,3 +40,4 @@ let queryPath = utils.getQueryPath();
 if(queryPath.match(/\/blogpost\?op=show/)){
     app.addRender(blogpost.renderArticle);
 }else{}
+console.log(queryPath);
