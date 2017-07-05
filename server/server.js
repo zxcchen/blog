@@ -17,7 +17,7 @@ const MINUTE_SECOND = 60;
 const HOUR_SECOND = 3600;
 const DAY_SECOND = 24 * 3600;
 const WEEK_SECOND = 7 * DAY_SECOND;
-const CACHE_UNIT_SECOND = 1;
+const CACHE_UNIT_SECOND = config.prod ? MINUTE_SECOND : 1;
 const CACHEKEY_MENU_LIST = "menulist";
 const CACHEKEY_ARTICLE_TITLELIST = "articlelist";
 const SERVER_PORT = 9000;
@@ -61,12 +61,12 @@ let assetManifest = config.assetManifest;
 let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
     //console.log(filename," event:",evt);
     if (filename == config.CSS_MANIFEST_FILENAME || filename == config.JS_MANIFEST_FILENAME) {
-        setTimeout(function(){
-	    config.rebuildAssetManifest().then(function (manifest) {
+        setTimeout(function () {
+            config.rebuildAssetManifest().then(function (manifest) {
                 assetManifest = manifest;
                 console.log(assetManifest);
             })
-	},20000);
+        }, 20000);
     }
 });
 
@@ -294,14 +294,14 @@ server.all("/blogpost", function (req, res, next) {
                                     content: true,
                                     createtime: true
                                 }, 0, 1).then(function (result) {
-				    let renderDoc = {};
-				    if(result.length>=0){
-					for(let r of result){
-						renderDoc.title = r.title;
-						renderDoc.content = htmlencode.htmlEncode(r.content);
-						break;
-					}
-				    }
+                                    let renderDoc = {};
+                                    if (result.length >= 0) {
+                                        for (let r of result) {
+                                            renderDoc.title = r.title;
+                                            renderDoc.content = htmlencode.htmlEncode(r.content);
+                                            break;
+                                        }
+                                    }
                                     let renderObject = {
                                         renderType: renderTypeDict[op],
                                         docs: renderDoc,
