@@ -194,7 +194,7 @@ h6 {
 #snake_box {
     width: 802px;
     height: 800px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: auto;
 }
 
@@ -205,7 +205,7 @@ h6 {
     border: 1px solid black;
     box-sizing: border-box;
     color: gray;
-    margin-bottom: -5px;
+    margin-top: -6px;
 }
 
 #snake_btn{
