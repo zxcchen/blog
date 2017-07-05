@@ -109,8 +109,8 @@ db.getBlogPost = function (options, toShow, start, limit, sortRule = {
         }
     }
     toShow = toShow || {};
-    start = start || 0;
-    limit = limit || 10;
+    start = start < 0 ? 0 : start;
+    limit = limit < 0 ? 10 : limit;
 
     var collection = conn.collection(blogTable);
     return collection.find(options, toShow).sort(sortRule).skip(start).limit(limit).toArray().catch(function (e) {
@@ -132,11 +132,11 @@ db.updateBlogPost = function (id, post) {
     assert.notEqual(conn, null);
     assert.notEqual(post, null);
     let opts = {};
-    if(typeof id === "string"){
+    if (typeof id === "string") {
         opts._id = new ObjectId(id);
-    }else if(id instanceof Object){
+    } else if (id instanceof Object) {
         opts = id;
-    }else{
+    } else {
         throw "no id specifed,no update";
     }
     return conn.collection(blogTable).updateOne(opts, {
@@ -150,7 +150,7 @@ db.updateBlogPost = function (id, post) {
 db.removeBlogPost = function (id) {
     assert.notEqual(conn, null);
     return conn.collection(blogTable).deleteOne({
-        _id : new ObjectId(id)
+        _id: new ObjectId(id)
     });
 }
 
@@ -178,8 +178,9 @@ if (require.main === module) {
         }).then(function (result) {
             console.log(result);
         });*/
-        db.updateBlogPost("5947393e4caab06cf815ee85",{type:0}).then(function(result){
-        });
+        db.updateBlogPost("5947393e4caab06cf815ee85", {
+            type: 0
+        }).then(function (result) {});
         db.globalRelease();
     });
 }
