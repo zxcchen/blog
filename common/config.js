@@ -2,7 +2,7 @@ const BLOG_POST_TYPE = {
     0: "编程",
     1: "生活",
     2: "电影",
-    3: "书籍"
+    3: "数学"
 };
 
 module.exports = {

@@ -109,8 +109,8 @@ db.getBlogPost = function (options, toShow, start, limit, sortRule = {
         }
     }
     toShow = toShow || {};
-    start = start || 0;
-    limit = limit || 10;
+    start = start < 0 ? 0 : start;
+    limit = limit < 0 ? 10 : limit;
 
     var collection = conn.collection(blogTable);
     return collection.find(options, toShow).sort(sortRule).skip(start).limit(limit).toArray().catch(function (e) {
