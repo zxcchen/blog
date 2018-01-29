@@ -6,7 +6,7 @@ var fs = require("fs");
 var path = require("path");
 
 const validUserName = /[a-zA-Z0-9_]{3,12}/;
-const validPassword = /[a-zA-Z0-9_\*\.\+]{9,12}/;
+const validPassword = /[a-zA-Z0-9_\*\.\+]{8,12}/;
 
 /**
  * 判断用户名密码是否符合规定
@@ -222,12 +222,12 @@ if (require.main === module) {
         } of bSearchTestCases) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
-    /*db.globalInit().then(function () {
-        let dirname = path.join(__dirname, "../resources/html");
-        loadBlogPostToDB(dirname,true).then(function () {
-            db.globalRelease();
-        }).catch(function () {
-            db.globalRelease();
-        });
-    });*/
+    // db.globalInit().then(function () {
+    //     let dirname = path.join(__dirname, "../resources/html");
+    //     loadBlogPostToDB(dirname,true).then(function () {
+    //         db.globalRelease();
+    //     }).catch(function () {
+    //         db.globalRelease();
+    //     });
+    // });
 }
