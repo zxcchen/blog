@@ -1,33 +1,25 @@
-<%- include("header",assetManifest); %>
+    <%- include("header",assetManifest); %>
+    <div class="container">
+        <%- include("sidebar",{}) %>
+            <div class="col-lg-10 col-xs-9" id='content'>
+                <form class="login" action="/login" method="post">
+                    <table>
+                        <tr>
+                            <td>用户名:</td>
+                            <td><input type="text" name="username" /></td>
+                        </tr>
+                        <tr>
+                            <td>密 码:</td>
+                            <td><input type="password" name="pwd" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="submit" value="登录" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+    </div>
+    <div class="container" id="box_foot"></div>
+</body>
 
-    <body>
-        <div class="container">
-            <div id='back'>Top</div>
-            <%- include("sidebar",{}) %>
-                <div class="col-lg-10 col-xs-9" id='content'>
-                    <form class="login" action="/login" method="post">
-                        <table>
-                            <tr>
-                                <td>用户名:</td>
-                                <td><input type="text" name="username" /></td>
-                            </tr>
-                            <tr>
-                                <td>密 码:</td>
-                                <td><input type="password" name="pwd" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><input type="submit" value="登录" /></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-        </div>
-        <div class="container" id="box_foot"></div>
-        <script>
-            $("#content").css({
-                height:($(window).height()-5)
-            })
-        </script>
-    </body>
-
-    </html>
+</html>

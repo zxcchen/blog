@@ -132,11 +132,12 @@ function showeditor(blogPostId, title, content, articleType) {
     return editorContent;
 }
 
-function showarticle(blogPostId, title, content, isAdmin) {
+function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000) {
     let article = `
     <div id="article_content">
-        <h2>${title}</h2>
+        <h2 class="article_title">${title}</h2>
         ${content}
+        <div class="article_time">${commonlib.dateString(time)}</div>
     </div>
     ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button><a href="/blogpost?op=remove&postId='+blogPostId+'">删除</a></button>':""}
     `;
@@ -144,12 +145,12 @@ function showarticle(blogPostId, title, content, isAdmin) {
 }
 
 function showarticlelist(articleList) {
-    let article = "<div><ul>";
+    let article = "<div class='article_list_content'><ul>";
     for (let i = 0; i < articleList.length; i++) {
         let title = articleList[i].title;
         let id = articleList[i]._id;
         let createTime = commonlib.dateString(articleList[i].createtime);
-        article += `<li><a href="/blogpost?op=show&postId=${id}">${title}</a>.............${createTime}</li>`;
+        article += `<li><a href="/blogpost?op=show&postId=${id}">${title}</a><span>${createTime}</span></li>`;
     }
     article += "</ul></div>";
     return article;
@@ -253,8 +254,9 @@ server.all("/blogpost", function (req, res, next) {
                         {
                             let start = req.query.begin || 0;
                             start = start < 0 ? 0 : start;
-                            let limit = req.query.limit || 100;
-                            limit = limit < 0 ? 100 : limit;
+                            let limit = req.query.limit || 10;
+                            limit = limit < 0 ? 10 : limit;
+                            console.log(start,limit);
                             let filter = {};
                             if (req.query.type) {
                                 filter.type = parseInt(req.query.type);
@@ -298,6 +300,7 @@ server.all("/blogpost", function (req, res, next) {
                                     if (result.length >= 0) {
                                         for (let r of result) {
                                             renderDoc.title = r.title;
+                                            renderDoc.time = r.time;
                                             renderDoc.content = htmlencode.htmlEncode(r.content);
                                             break;
                                         }
@@ -314,7 +317,7 @@ server.all("/blogpost", function (req, res, next) {
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
                                             param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type);
                                         } else {
-                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin);
+                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].time);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);

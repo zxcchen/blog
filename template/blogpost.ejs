@@ -12,29 +12,32 @@
   });
     </script>
     <script type="text/javascript" async="" src="resources/js/MathJax/MathJax.js"></script>
-    <body>
-        <div class="container" id="backToTop">
-            <div id='back'>TOP</div>
+        <header class='head'>
+            <div>
+                <h1 class="login_name">ZXCCHEN</h1>
+                <span class='login_msg'>不忘初心，方得始终</span>
+                <span class='login_btn'><a href="/login">F F F</a></span>
+            </div>
+        </header>
+        <div class="content">
             <%- include("sidebar",{}) %>
-                <div class="col-lg-8 col-xs-9" id='content'>
-                    <script type="text/javascript">
-                        var blogpost = <%- blogPost %>;
-                    </script>
-                    <% if(typeof(editorcontent)!='undefined'){ %>
-                        <%- editorcontent %>
-                            <% } %>
-                                <div id='btn'><span><a id='page_up' href="">上一章</a></span><span><a id='page_down' href="">下一章</a></span></div>
+            <script type="text/javascript">
+                var blogpost = <%- blogPost %>;
+            </script>
+            <div class='article_list'>
+                <% if(typeof(editorcontent)!='undefined'){ %>
+                    <%- editorcontent %>
+                <% } %>
+                <div class='page_btn'>
+                    <a id='page_up' href="">上一章</a>
+                    <a id='page_down' href="">下一章</a>
                 </div>
+            </div>
         </div>
         <script>
-            $("#back").css({
-                left: ($(window).width() * 0.9),
-                top: ($(window).height() * 0.9),
-                "z-index": 5
-            })
             if (blogpost.pageInfo) {
-                $("#page_up").text("上一篇");
-                $("#page_down").text("下一篇");
+                $("#page_up").text("上一章");
+                $("#page_down").text("下一章");
                 if (blogpost.pageInfo.prev) {
                     var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
                     $("#page_up").attr("title", blogpost.pageInfo.prev.title);
@@ -54,8 +57,8 @@
                     $("#page_down").attr("title", "没有了");
                 }
             }else{
-                $("#page_up").text("上一页");
-                $("#page_down").text("下一页");
+                $("#page_up").text("上一章");
+                $("#page_down").text("下一章");
             }
             $("#back").click(function () {
                 var time = setInterval(function () {
@@ -64,9 +67,6 @@
                         clearInterval(time);
                     }
                 }, 1);
-            })
-            $("#content").css({
-                "min-height":($(window).height()-5)
             })
         </script>
     </body>

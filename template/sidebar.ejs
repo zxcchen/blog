@@ -1,57 +1,34 @@
-<div class="col-lg-2 col-xs-3" id='sidebar'>
-    <div class="bg"></div>
-    <div id="cloudbox" style="background-color:#68adf2;">
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-        <div class="cloud"></div>
-    </div>
-    <div class='logo_head'>
-        <h1 id="logoTest">ZXCCHEN</h1>
-        <div id="logo_box">
-            <div>
-                <h4 class='h4'>一个编程萌新</h4>
-                <h6 class='h6'>不忘初心，方得始终</h6>
-                <h6 class='h6' id='login_btn'><a href="/login">F F F</a></h6>
-            </div>
-        </div>
-    </div>
-    <div class='article'>
-        <script type="text/javascript">
-            var menuList = <%- menuList %>;
-            app.addRender(function () {
-                var blogMenu = document.getElementById("blog_menu");
-                var listContent = {};
-                var blogMenuContent = '';
-                for (var key in config.BLOG_POST_TYPES) {
-                    listContent[key] = [];
+ <div class='sidebar'>
+    <script type="text/javascript">
+        var menuList = <%- menuList %>;
+        app.addRender(function () {
+            var blogMenu = document.getElementById("blog_menu");
+            var listContent = {};
+            var blogMenuContent = '';
+            for (var key in config.BLOG_POST_TYPES) {
+                listContent[key] = [];
+            }
+            if (menuList instanceof Array) {
+                for (var i = 0; i < menuList.length; i++) {
+                    listContent[menuList[i].type].push(menuList[i]);
                 }
-                if (menuList instanceof Array) {
-                    for (var i = 0; i < menuList.length; i++) {
-                        listContent[menuList[i].type].push(menuList[i]);
-                    }
+            }
+            for (var j in listContent) {
+                var articleUl = [];
+                articleUl.push("<div class='sidebar_box'><h5 class='sidebar_type'>" + config.BLOG_POST_TYPES[j] + "</h5>");
+                articleUl.push("<ul class='sidebar_list'>");
+                for (var k = 0; k < listContent[j].length; k++) {
+                    var liContent = "<li><a href='/blogpost?op=show&postId=" + listContent[j][k]._id + "'>" +
+                        listContent[j][k].title + "</a></li>";
+                    articleUl.push(liContent);
                 }
-                for (var j in listContent) {
-                    var articleUl = [];
-                    articleUl.push("<h5 class='h5'>" + config.BLOG_POST_TYPES[j] + "</h5>");
-                    articleUl.push("<ul>");
-                    for (var k = 0; k < listContent[j].length; k++) {
-                        var liContent = "<li><a href='/blogpost?op=show&postId=" + listContent[j][k]._id + "'>" +
-                            listContent[j][k].title + "</a></li>";
-                        articleUl.push(liContent);
-                    }
-                    articleUl.push("<li><a href='/blogpost?op=list&type=" + j + "'>更多...</a></li>")
-                    articleUl.push("</ul>");
-                    blogMenuContent += articleUl.join("");
-                }
-                blogMenu.innerHTML = blogMenuContent;
-            });
-            $("#sidebar").css({
-                "min-height": ($(window).height() - 5),
-            });
-        </script>
-        <div id="blog_menu"></div>
-        <div class="pointer">简历</div>
-    </div>
+                articleUl.push("<li><a href='/blogpost?op=list&type=" + j + "'>&nbsp;更多...</a></li>")
+                articleUl.push("</ul></div>");
+                blogMenuContent += articleUl.join("");
+            }
+            blogMenu.innerHTML = blogMenuContent;
+        });
+    </script>
+    <div id="blog_menu"></div>
+    <div class="pointer">简历</div>
 </div>
