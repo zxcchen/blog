@@ -222,12 +222,12 @@ if (require.main === module) {
         } of bSearchTestCases) {
         console.log("testcase:", arr, ",key:", key, ",found:", bSearch(arr, key));
     }
-    db.globalInit().then(function () {
+    /*db.globalInit().then(function () {
         let dirname = path.join(__dirname, "../resources/html");
         loadBlogPostToDB(dirname,true).then(function () {
             db.globalRelease();
         }).catch(function () {
             db.globalRelease();
         });
-    });
+    });*/
 }
