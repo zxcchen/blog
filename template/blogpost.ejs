@@ -35,6 +35,13 @@
             </div>
         </div>
         <script>
+
+	    var urlQueryObj = commonlib.getUrlQueryObject(window.location.search); 
+            $("#back").css({
+                left: ($(window).width() * 0.9),
+                top: ($(window).height() * 0.9),
+                "z-index": 5
+            })
             if (blogpost.pageInfo) {
                 $("#page_up").text("上一章");
                 $("#page_down").text("下一章");
@@ -57,8 +64,12 @@
                     $("#page_down").attr("title", "没有了");
                 }
             }else{
+                var pageOffset = urlQueryObj.begin && parseInt(urlQueryObj.begin)|| 0;
+                var pageArticles = config.BLOG_POST_ARTICLES;
                 $("#page_up").text("上一章");
+                $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0));
                 $("#page_down").text("下一章");
+                $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles));
             }
             $("#back").click(function () {
                 var time = setInterval(function () {

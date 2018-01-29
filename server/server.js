@@ -11,6 +11,7 @@ var commonlib = require("../common/common");
 var sessionManager = require("./session");
 var config = require("./site.config");
 var cacheManager = require("./cache");
+var frontConfig = require("../common/config");
 
 //常量
 const MINUTE_SECOND = 60;
@@ -252,11 +253,10 @@ server.all("/blogpost", function (req, res, next) {
                 switch (op) {
                     case "list":
                         {
-                            let start = req.query.begin || 0;
+                            let start = req.query.begin && parseInt(req.query.begin) || 0;
                             start = start < 0 ? 0 : start;
-                            let limit = req.query.limit || 10;
-                            limit = limit < 0 ? 10 : limit;
-                            console.log(start,limit);
+                            let limit = req.query.limit && parseInt(req.query.limit) || frontConfig.BLOG_POST_ARTICLES;
+                            limit = limit < 0 ? frontConfig.BLOG_POST_ARTICLES : limit;
                             let filter = {};
                             if (req.query.type) {
                                 filter.type = parseInt(req.query.type);

@@ -9,7 +9,13 @@ function numPadding(num, padding) {
     }
 }
 
+
 let commonlib = exports = module.exports = {};
+
+commonlib.getUrlQueryObject = function (queryString){
+	return JSON.parse("{"+encodeURI(queryString).slice(1).replace(/([a-zA-Z0-9_\+%]+)=?([a-zA-Z0-9_\+\-%]*)&*/g,"\"$1\":\"$2\",").slice(0,-1)+"}");
+}
+
 
 commonlib.dateString = function (timestampSec) {
     var d = new Date(timestampSec * 1000);
