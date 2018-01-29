@@ -30,8 +30,13 @@ ul li,ol,li{
     margin: auto 10%;
 }
 
+
 .login_name{
     font-size: 34px;
+}
+
+.login_name:hover {
+    cursor:pointer;
 }
 
 .head>div span{
@@ -115,17 +120,48 @@ ul li,ol,li{
     color: #535353;
 }
 
+.login {
+    width:80%;
+    margin-left:22%;
+}
+
+.login table{
+    margin:100px auto;
+}
+
 .article_list_content{
-    height: 90%;
+}
+
+.article_list_content ul {
+    margin: 20px auto;
+}
+
+.article_list_content ul li {
+    padding: 15px 0;
+}
+
+.article_list_content ul li a,
+.article_list_content ul li a:link,
+.article_list_content ul li a:visited{
+    color:#333;
+    text-decoration: none;
+}
+
+.article_list_content ul li a:hover {
+    background: #555;
+    color:#fff;
 }
 
 #article_content{
+    font-family: "Roboto";
     line-height: 1.5;
 }
 
 #article_content .article_title{
+    font-family: "Roboto Slab";
     font-size: 26px;
-    color: #2e3a41;
+    color: rgb(85,85,85);
+    font-weight:300;
 }
 
 #article_content h1,
@@ -134,8 +170,12 @@ ul li,ol,li{
 #article_content h4,
 #article_content h5,
 #article_content h6{
+    font-family: "Roboto Slab";
     font-size: 20px;
     color:#2e3a41;
+    font-weight:300;
+    padding:20px 0;
+    
 }
 
 #article_content a,
@@ -147,7 +187,7 @@ ul li,ol,li{
 #article_content p{
     line-height: 2;
     text-indent: 1rem;
-    color: #535353;
+    color: rgb(85,85,85);
 }
 
 #article_content table{
@@ -159,12 +199,32 @@ ul li,ol,li{
     line-height: 2;
 }
 
+.article_list button a:hover{
+    cursor: default;
+}
+
+.article_list button a,
+.article_list button a:link,
+.article_list button a:visited{
+    color: rgb(85,85,85);
+    text-decoration: none;
+}
+
 .article_time{
+    font-family: "Roboto Slab";
     text-align: right;
+    padding:20px 0;
+
 }
 
 .page_btn{
     display: flex;
     justify-content: space-around;
     margin-top: 1rem;
+}
+
+.page_btn a,
+.page_btn a:link,
+.page_btn a:visited{
+    color:rgb(85,85,85);
 }

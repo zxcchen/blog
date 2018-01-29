@@ -67,7 +67,7 @@ let assetWatcher = fs.watch(config.cdnRoot, function (evt, filename) {
                 assetManifest = manifest;
                 console.log(assetManifest);
             })
-        }, 20000);
+        }, 5000);
     }
 });
 
@@ -95,7 +95,7 @@ server.use(cookieparser());
 server.set("view engine", "ejs");
 server.set("views", config.templateDir);
 
-function showeditor(blogPostId, title, content, articleType) {
+function showeditor(blogPostId, title, content, articleType, userId, userName) {
     let typeSelect = "";
     for (let type in config.blogPostTypes) {
         let name = config.blogPostTypes[type];
@@ -108,6 +108,8 @@ function showeditor(blogPostId, title, content, articleType) {
         <input type="hidden" name="blogPostId" value="${blogPostId}">
         <span>标题:</span><input name="title" type="text" value="${title}" style="width:200px"></input>
         <span>栏目:</span><select name="type"><option>${typeSelect}</select>
+        <input type="hidden" name="authorId" value="${userId}" />
+        <input type="hidden" name="authorName" value="${userName}" />
         <textarea name="content" id="blogpost_editor_textarea">${content}</textarea>
         <input type="submit" value="提交"></input>
     </form>
@@ -133,14 +135,15 @@ function showeditor(blogPostId, title, content, articleType) {
     return editorContent;
 }
 
-function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000) {
+function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000, authorName = "") {
+    let byAuthor = authorName && authorName.length>0? " by "+authorName : "";
     let article = `
     <div id="article_content">
         <h2 class="article_title">${title}</h2>
         ${content}
-        <div class="article_time">${commonlib.dateString(time)}</div>
+        <div class="article_time">${commonlib.dateString(time)} ${byAuthor}</div>
     </div>
-    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button><a href="/blogpost?op=remove&postId='+blogPostId+'">删除</a></button>':""}
+    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button onclick="blog.deleteArticle(\''+blogPostId+'\')">删除</button>':""}
     `;
     return article;
 }
@@ -151,7 +154,7 @@ function showarticlelist(articleList) {
         let title = articleList[i].title;
         let id = articleList[i]._id;
         let createTime = commonlib.dateString(articleList[i].createtime);
-        article += `<li><a href="/blogpost?op=show&postId=${id}">${title}</a><span>${createTime}</span></li>`;
+        article += `<li><a href="/blogpost?op=show&postId=${id}" title="${title}      ${createTime}">${title}</a></li>`;
     }
     article += "</ul></div>";
     return article;
@@ -212,7 +215,7 @@ server.all("/login", function (req, res, next) {
                         renderErrorPage(res, "用户名不存在或密码错误");
                     } else {
                         let result = doc[0];
-                        let cookie = sessionManager.login(result._id);
+                        let cookie = sessionManager.login(result._id,username);
                         res.cookie("u", cookie, {
                             maxAge: 24 * 3600000
                         });
@@ -247,6 +250,7 @@ server.all("/blogpost", function (req, res, next) {
             edit: RENDER_TYPE_EDIT_ARTICLE
         };
         let method = req.method.toLowerCase();
+        
         if (method === "get") { //获取文章列表
             if (req.query) {
                 let op = req.query.op;
@@ -294,7 +298,9 @@ server.all("/blogpost", function (req, res, next) {
                                     time: true,
                                     type: true,
                                     content: true,
-                                    createtime: true
+                                    createtime: true,
+                                    authorId: true,
+                                    authorName: true
                                 }, 0, 1).then(function (result) {
                                     let renderDoc = {};
                                     if (result.length >= 0) {
@@ -315,9 +321,9 @@ server.all("/blogpost", function (req, res, next) {
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
                                         renderObject.pageInfo = prevnextInfo;
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
-                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type);
+                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
-                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].time);
+                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].time,result[0].authorName);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);
@@ -327,12 +333,13 @@ server.all("/blogpost", function (req, res, next) {
                                     renderErrorPage(res, "无法显示该文章!");
                                 })
                             } else if (isAdmin) { //编辑一个新增的文章
+                                let userInfo = sessionManager.getUser(req.cookies["u"]);
                                 renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify({
                                         renderType: renderTypeDict[op],
                                         doc: []
                                     }),
-                                    editorcontent: showeditor("", "", "")
+                                    editorcontent: showeditor("", "", "","",userInfo.u,userInfo.uname)
                                 });
                             } else {
                                 next();
@@ -379,6 +386,8 @@ server.all("/blogpost", function (req, res, next) {
             let time = parseInt(new Date().getTime() / 1000);
             let content = req.body.content;
             let type = parseInt(req.body.type);
+            let authorId = req.body.authorId;
+            let authorName = req.body.authorName;
             if (id && id.length > 0) { //已有文章,进行更新
                 db.updateBlogPost(id, {
                     title: title,
@@ -404,7 +413,9 @@ server.all("/blogpost", function (req, res, next) {
                     time: time,
                     content: content,
                     type: parseInt(type),
-                    createtime: time
+                    createtime: time,
+                    authorId:authorId,
+                    authorName:authorName
                 }).then(function (result) {
                     if (result.insertedCount > 0) {
                         res.location("/blogpost?op=show&postId=" + result.insertedId);

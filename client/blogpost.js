@@ -20,3 +20,13 @@ function renderJqueryNote() {
 blogpost.renderArticle = function(){
     renderJqueryNote();
 }
+
+blogpost.deleteArticle = function(postId){
+    blogUtils.confirmAction("确定删除文章？",()=>{
+        blogUtils.httpGet(`/blogpost?op=remove&postId=${postId}`).then(
+            ()=>{
+                alert("OK!");
+                window.location.href="/blogpost?op=list";
+            })
+        });
+}

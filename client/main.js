@@ -31,7 +31,7 @@ var main = module = module.exports = {
 }
 
 window.app = main;
-window.blogpost = blogpost;
+window.blog = blogpost;
 window.blogUtils = utils;
 window.config = config;
 window.commonlib = commonlib;

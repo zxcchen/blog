@@ -1,9 +1,17 @@
 var commonlib = require("../common/common");
-var blogUtils = exports = module.exports = {};
+var http = require("axios");
 
-
-blogUtils.DateString = commonlib.dateString;
-
-blogUtils.getQueryPath = function(){
-    return window.location.pathname+window.location.search;
-}
+exports = module.exports = {
+    DateString : commonlib.dateString,
+    getQueryPath : function(){
+        return window.location.pathname+window.location.search;
+    },
+    confirmAction : function(msg,action){
+        if(confirm(msg)){
+            action();
+        }
+    },
+    httpGet: function(url){
+        return http.get(url);
+    }
+};

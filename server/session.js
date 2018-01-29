@@ -7,10 +7,10 @@ var sessionManager=exports = module.exports;
 
 sessionManager.sessions = sessions;
 
-sessionManager.login = function(uid){
+sessionManager.login = function(uid,username){
     //这里生成cookie的算法采用简单的随机数拼接，如果需要更高的安全性再重写
     var cookie = uid+Math.random();
-    sessions[cookie] = {t:new Date().getTime()/1000,u:uid};
+    sessions[cookie] = {t:new Date().getTime()/1000,u:uid,uname:username};
     return cookie;
 }
 
@@ -20,6 +20,11 @@ sessionManager.logout = function(cookie){
     }
 }
 
+sessionManager.getUser = function(cookie){
+    if(cookie && cookie!=""){
+        return sessions[cookie];
+    }
+}
 
 sessionManager.isLogin = function(cookie){
     if(cookie && cookie!=""){

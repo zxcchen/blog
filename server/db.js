@@ -122,6 +122,9 @@ db.getBlogPost = function (options, toShow, start, limit, sortRule = {
 db.newBlogPost = function (post) {
     assert.notEqual(conn, null);
     assert.notEqual(post, null);
+    if(post.authorId){
+        post.authorId = new ObjectId(post.authorId);
+    }
     return conn.collection(blogTable).insertOne(post).catch(function (e) {
         db.globalInit();
         throw e;

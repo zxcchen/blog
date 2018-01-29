@@ -1,8 +1,8 @@
     <%- include("header",assetManifest); %>
-    <div class="container">
+    <div class="content">
         <%- include("sidebar",{}) %>
-            <div class="col-lg-10 col-xs-9" id='content'>
-                <form class="login" action="/login" method="post">
+            <div class="col-lg-10 col-xs-9 login">
+                <form action="/login" method="post">
                     <table>
                         <tr>
                             <td>用户名:</td>
@@ -13,7 +13,7 @@
                             <td><input type="password" name="pwd" /></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><input type="submit" value="登录" /></td>
+                            <td colspan="2" align="center"><input type="submit" value="登录" /></td>
                         </tr>
                     </table>
                 </form>
