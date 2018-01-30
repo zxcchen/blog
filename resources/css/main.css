@@ -279,6 +279,10 @@ ul li,ol,li{
         max-width:100%;
     }
 
+    #article_content img {
+        max-width:100%;
+    }
+
     .toggle_meau{
         display: block;
         animation: toggleMeau 1s forwards;
