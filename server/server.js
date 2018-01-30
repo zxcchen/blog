@@ -22,26 +22,40 @@ const CACHE_UNIT_SECOND = config.prod ? MINUTE_SECOND : 1;
 const CACHEKEY_MENU_LIST = "menulist";
 const CACHEKEY_ARTICLE_TITLELIST = "articlelist";
 const SERVER_PORT = 9000;
+let domainUserMap = {};
+
+function cacheKey(key,user){
+	return !user?key:key+"_"+user;
+}
 
 //初始化缓存
-db.globalInit().then(function () {
+function initCache(user) {
+    if(typeof user != "string"){
+       user = undefined;
+    }
+    let menuCacheKey = cacheKey(CACHEKEY_MENU_LIST,user);
     //目录
-    db.getMultiBlogList().then(function (result) {
-        cacheManager.set(CACHEKEY_MENU_LIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
-            db.getMultiBlogList().then(function (result) {
+    db.getMultiBlogList(user).then(function (result) {
+        cacheManager.set(menuCacheKey, result, CACHE_UNIT_SECOND * 10, function (cb) {
+            db.getMultiBlogList(user).then(function (result) {
                 cb(result);
             }).catch(function (err) {});
         });
     });
+    let blogPostFilter = {};
+    if(user){
+	blogPostFilter.authorId = user;
+    }
     //全部文章列表
-    db.getBlogPost({}, {
+    let articleTitleCacheKey = cacheKey(CACHEKEY_ARTICLE_TITLELIST,user);
+    db.getBlogPost(blogPostFilter, {
         _id: true,
         title: true,
         createtime: true
     }, 0, 0).then(function (result) {
         result.reverse();
-        cacheManager.set(CACHEKEY_ARTICLE_TITLELIST, result, CACHE_UNIT_SECOND * 10, function (cb) {
-            db.getBlogPost({}, {
+        cacheManager.set(articleTitleCacheKey, result, CACHE_UNIT_SECOND * 10, function (cb) {
+            db.getBlogPost(blogPostFilter, {
                 _id: true,
                 title: true,
                 createtime: true
@@ -51,7 +65,24 @@ db.globalInit().then(function () {
             }).catch(function (err) {});
         });
     });
-});
+
+    if(user){
+	return;
+    }
+
+    db.getUserList().then(function (result){
+        for(r of result){
+	    let domain = frontConfig.USER_DOMAIN_MAP[r.username];
+	    if(domain){
+               let uId = r._id+"";
+		domainUserMap[domain] = uId;
+		initCache(uId);
+            }
+	} 
+    });
+}
+
+db.globalInit().then(initCache)
 
 const SERVER_ROOT = config.root;
 console.log("serving " + SERVER_ROOT);
@@ -160,7 +191,7 @@ function showarticlelist(articleList) {
     return article;
 }
 
-function renderPage(res, template, obj) {
+function renderPage(res, template, obj, domainUser) {
     if (!obj) {
         obj = {};
     }
@@ -168,21 +199,23 @@ function renderPage(res, template, obj) {
         obj.assetManifest = assetManifest;
     }
     if (!obj.menuList) {
-        obj.menuList = JSON.stringify(cacheManager.get(CACHEKEY_MENU_LIST));
+        obj.menuList = JSON.stringify(cacheManager.get(cacheKey(CACHEKEY_MENU_LIST,domainUser)));
     }
     res.render(template, obj);
 }
 
-function renderErrorPage(res, message) {
+function renderErrorPage(res, message, domainUser) {
     renderPage(res, "error", {
         errorMessage: message,
         assetManifest: assetManifest
-    });
+    },domainUser);
 }
 
 //设置主页路由
 server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
-    renderPage(res, "index");
+    let domainUser = util.getDomainUser(req.hostname);
+    domainUser = domainUser?domainUserMap[domainUser]:undefined;
+    renderPage(res, "index",{},domainUser);
 });
 
 //设置登录路由
@@ -197,6 +230,9 @@ server.all("/login", function (req, res, next) {
             return;
         }
     }
+    let domainUser = util.getDomainUser(req.hostname);
+    domainUser = domainUser?domainUserMap[domainUser]:undefined;
+
     let method = req.method.toLowerCase();
     if (method === "get") {
         renderPage(res, "login", {
@@ -212,23 +248,25 @@ server.all("/login", function (req, res, next) {
                 password = util.md5(password);
                 db.getUserInfo(username, password).then(function (doc) {
                     if (doc.length == 0) {
-                        renderErrorPage(res, "用户名不存在或密码错误");
+                        renderErrorPage(res, "用户名不存在或密码错误",domainUser);
                     } else {
                         let result = doc[0];
                         let cookie = sessionManager.login(result._id,username);
                         res.cookie("u", cookie, {
                             maxAge: 24 * 3600000
                         });
-                        res.location("/blogpost?op=list");
+                        let userDomain = frontConfig.USER_DOMAIN_MAP[username];
+                        let host = userDomain && "http://"+userDomain +"."+config.hostname || "";
+                        res.location(host+"/blogpost?op=list");
                         res.status(302);
                         res.send();
                     }
                 }).catch(function (err) {
                     console.log("error after db.getUserInfo,error:", err);
-                    renderErrorPage(res, "登录失败");
+                    renderErrorPage(res, "登录失败", domainUser);
                 });
             } else {
-                renderErrorPage(res, "用户名密码非法");
+                renderErrorPage(res, "用户名密码非法", domainUser);
             }
         } else {
             next();
@@ -240,6 +278,8 @@ server.all("/login", function (req, res, next) {
 
 //设置博客文章接口路由
 server.all("/blogpost", function (req, res, next) {
+    let domainUser = util.getDomainUser(req.hostname);
+    domainUser = domainUser?domainUserMap[domainUser]:undefined;
     try {
         const RENDER_TYPE_LIST = 0;
         const RENDER_TYPE_SHOW_ARTICLE = 1;
@@ -250,7 +290,6 @@ server.all("/blogpost", function (req, res, next) {
             edit: RENDER_TYPE_EDIT_ARTICLE
         };
         let method = req.method.toLowerCase();
-        
         if (method === "get") { //获取文章列表
             if (req.query) {
                 let op = req.query.op;
@@ -265,6 +304,9 @@ server.all("/blogpost", function (req, res, next) {
                             if (req.query.type) {
                                 filter.type = parseInt(req.query.type);
                             }
+                            if (domainUser){
+                                filter.authorId = domainUser;
+                            }
                             db.getBlogPost(filter, {
                                 title: true,
                                 time: true,
@@ -278,10 +320,10 @@ server.all("/blogpost", function (req, res, next) {
                                 renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify(renderObject),
                                     editorcontent: showarticlelist(result)
-                                });
+                                },domainUser);
                             }).catch(function (err) {
                                 console.log(err);
-                                renderErrorPage(res, "无法获取文章列表,程序出错。。。");
+                                renderErrorPage(res, "无法获取文章列表,程序出错。。。", domainUser);
                             });
                         }
                         break;
@@ -317,7 +359,7 @@ server.all("/blogpost", function (req, res, next) {
                                     };
                                     let param = {};
                                     if (result.length >= 1) {
-                                        let articleCacheList = cacheManager.get(CACHEKEY_ARTICLE_TITLELIST);
+                                        let articleCacheList = cacheManager.get(cacheKey(CACHEKEY_ARTICLE_TITLELIST,domainUser));
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
                                         renderObject.pageInfo = prevnextInfo;
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
@@ -327,10 +369,10 @@ server.all("/blogpost", function (req, res, next) {
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);
-                                    renderPage(res, "blogpost", param);
+                                    renderPage(res, "blogpost", param, domainUser);
                                 }).catch(function (err) {
                                     console.log(err);
-                                    renderErrorPage(res, "无法显示该文章!");
+                                    renderErrorPage(res, "无法显示该文章!", domainUser);
                                 })
                             } else if (isAdmin) { //编辑一个新增的文章
                                 let userInfo = sessionManager.getUser(req.cookies["u"]);
@@ -338,7 +380,7 @@ server.all("/blogpost", function (req, res, next) {
                                     blogPost: JSON.stringify({
                                         renderType: renderTypeDict[op],
                                         doc: []
-                                    }),
+                                    },domainUser),
                                     editorcontent: showeditor("", "", "","",userInfo.u,userInfo.uname)
                                 });
                             } else {
@@ -354,7 +396,7 @@ server.all("/blogpost", function (req, res, next) {
                                 db.removeBlogPost(id).then(function (result) {
                                     if (result.deletedCount <= 0) {
                                         console.warn("no update on blogpost id " + id);
-                                        renderErrorPage(res, "更新文章失败!");
+                                        renderErrorPage(res, "更新文章失败!", domainUser);
                                     } else {
                                         res.location("/blogpost?op=list");
                                         res.status(302);
@@ -362,7 +404,7 @@ server.all("/blogpost", function (req, res, next) {
                                     }
                                 }).catch(function (err) {
                                     console.warn(err);
-                                    renderErrorPage(res, "服务器提了一个问题。。。");
+                                    renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
                                 });
                             } else {
                                 res.location("/blogpost?op=list");
@@ -378,7 +420,7 @@ server.all("/blogpost", function (req, res, next) {
         } else if (method === "post") { //更新文章
             let isAdmin = sessionManager.isLogin(req.cookies["u"]);
             if (!isAdmin) {
-                renderErrorPage(res, "别瞎搞了~");
+                renderErrorPage(res, "别瞎搞了~",domainUser);
                 return;
             }
             let id = req.body.blogPostId;
@@ -397,7 +439,7 @@ server.all("/blogpost", function (req, res, next) {
                 }).then(function (result) {
                     if (result.modifiedCount <= 0) {
                         console.warn("no update on blogpost id " + id);
-                        renderErrorPage(res, "更新文章失败!");
+                        renderErrorPage(res, "更新文章失败!",domainUser);
                     } else {
                         res.status(302);
                         res.location("/blogpost?op=show&postId=" + id);
@@ -405,7 +447,7 @@ server.all("/blogpost", function (req, res, next) {
                     }
                 }).catch(function (err) {
                     console.warn(err);
-                    renderErrorPage(res, "服务器提了一个问题。。。");
+                    renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
                 });
             } else if (title && content && type >= 0) { //新增文章
                 db.newBlogPost({
@@ -423,11 +465,11 @@ server.all("/blogpost", function (req, res, next) {
                         res.send();
                     } else {
                         console.warn("failed to insert blogpost");
-                        renderErrorPage(res, "新增文章失败");
+                        renderErrorPage(res, "新增文章失败",domainUser);
                     }
                 }).catch(function (err) {
                     console.warn(err);
-                    renderErrorPage(res, "服务器提了一个问题。。。");
+                    renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
                 });
             } else {
                 next();
@@ -436,7 +478,7 @@ server.all("/blogpost", function (req, res, next) {
             next();
         }
     } catch (error) {
-        renderErrorPage(res, "服务器提了一个问题。。。");
+        renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
     }
 });
 

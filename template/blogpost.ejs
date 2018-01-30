@@ -33,6 +33,11 @@
 	    var urlQueryObj = commonlib.getUrlQueryObject(window.location.search); 
         $('.meau_btn').click(function(){
             $('.sidebar').toggleClass('toggle_meau');
+        });
+        $("#back").css({
+            left: ($(window).width() * 0.9),
+            top: ($(window).height() * 0.9),
+            "z-index": 5
         })
         if (blogpost.pageInfo) {
             $("#page_up").text("上一章");
@@ -58,10 +63,11 @@
         }else{
             var pageOffset = urlQueryObj.begin && parseInt(urlQueryObj.begin)|| 0;
             var pageArticles = config.BLOG_POST_ARTICLES;
+            var articleType = urlQueryObj.type?"&type="+urlQueryObj.type:"";
             $("#page_up").text("上一章");
-            $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0));
+            $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0)+articleType);
             $("#page_down").text("下一章");
-            $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles));
+            $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles)+articleType);
         }
       
     </script>

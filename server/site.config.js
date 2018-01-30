@@ -93,5 +93,7 @@ var siteConfig = module.exports = {
     //文章栏目类型
     blogPostTypes: commonConfig.BLOG_POST_TYPES,
     //重建版本信息方法
-    rebuildAssetManifest: rebuildAssetManifest
+    rebuildAssetManifest: rebuildAssetManifest,
+    // hostname
+    hostname:"zxcchen.me:9000"
 };

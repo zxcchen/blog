@@ -55,7 +55,16 @@ db.getUserInfo = function (username, password) {
     return result;
 }
 
-db.getMultiBlogList = function (types, limit) {
+db.getUserList = function (){
+    var collection = conn.collection(userTable);
+    var result = collection.find({}).toArray().catch(function (e){
+         db.globalInit();
+         throw e;
+    });
+    return result;
+}
+
+db.getMultiBlogList = function (user,types, limit) {
     assert.notEqual(conn, null);
     if (!types) {
         types = Object.keys(config.blogPostTypes).sort().map(function (item) {
@@ -70,9 +79,11 @@ db.getMultiBlogList = function (types, limit) {
     let promises = [];
     var articleList = [];
     for (let type of types) {
-        promises.push(collection.find({
-            type: type
-        }, {
+	let filter = {type:type};
+        if(user){
+            filter.authorId = new ObjectId(user);
+        }
+        promises.push(collection.find(filter, {
             _id: true,
             title: true,
             type: true,
@@ -107,6 +118,9 @@ db.getBlogPost = function (options, toShow, start, limit, sortRule = {
         if (options._id) {
             options._id = new ObjectId(options._id);
         }
+	if (options.authorId){
+	    options.authorId = new ObjectId(options.authorId);
+	}
     }
     toShow = toShow || {};
     start = start < 0 ? 0 : start;
