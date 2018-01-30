@@ -95,5 +95,5 @@ var siteConfig = module.exports = {
     //重建版本信息方法
     rebuildAssetManifest: rebuildAssetManifest,
     // hostname
-    hostname:"zxcchen.me:9000"
+    hostname: PROD?"zxcchen.me:9000":"localhost:9000"
 };
