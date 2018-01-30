@@ -24,6 +24,14 @@ function md5(input) {
 }
 
 
+function getDomainUser(hostname){
+    let host = hostname.split("\.");
+    if(host.length>=1){
+       return host[0];
+    }
+    return null;
+}
+
 function currentTime() {
     return parseInt(new Date().getTime() / 1000);
 }
@@ -164,7 +172,8 @@ module.exports = {
     md5: md5,
     currentTime: currentTime,
     bSearch: bSearch,
-    articleListBeforeNext: articleListBeforeNext
+    articleListBeforeNext: articleListBeforeNext,
+    getDomainUser:getDomainUser
 }
 
 

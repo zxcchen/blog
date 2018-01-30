@@ -53,6 +53,7 @@
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.8",
     "ejs": "^2.5.7",
+    "express": "^4.16.2",
     "htmlencode": "0.0.4",
     "jquery": "^3.2.1",
     "mongodb": "^2.2.28",

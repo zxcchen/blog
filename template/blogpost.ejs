@@ -59,10 +59,11 @@
             }else{
                 var pageOffset = urlQueryObj.begin && parseInt(urlQueryObj.begin)|| 0;
                 var pageArticles = config.BLOG_POST_ARTICLES;
+		var articleType = urlQueryObj.type?"&type="+urlQueryObj.type:"";
                 $("#page_up").text("上一章");
-                $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0));
+                $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0)+articleType);
                 $("#page_down").text("下一章");
-                $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles));
+                $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles)+articleType);
             }
             $("#back").click(function () {
                 var time = setInterval(function () {
