@@ -275,6 +275,10 @@ ul li,ol,li{
         width: 100%;
     }
 
+    #article_content svg{
+        max-width:100%;
+    }
+
     .toggle_meau{
         display: block;
         animation: toggleMeau 1s forwards;
