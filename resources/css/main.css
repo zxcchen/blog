@@ -19,7 +19,7 @@ ul li,ol,li{
     left: 0;
     height: 3.5rem;
     line-height: 1.5;
-    background-color:#2e3a41;
+    background-color:#333;
     color: #fff;
     z-index: 100;
 }
@@ -27,9 +27,8 @@ ul li,ol,li{
 .head>div{
     position: relative;
     top: 0.2rem;
-    margin: auto 10%;
+    margin: auto 5%;
 }
-
 
 .login_name{
     font-size: 34px;
@@ -58,21 +57,30 @@ ul li,ol,li{
     color: #2086d7;
 }
 
+.meau_btn{
+    height: 2rem;
+    background-color:#333;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.meau_btn::before{
+    content: "\f0c9";
+}
+
 .content{
-    position: relative;
-    margin: auto 10%;
-    padding-top: 0.6rem;
+    margin: auto 5%;
     display: flex;
     height: 100%;
 }
 
 .sidebar{
-    position: absolute;
+    display: inline-block;
     width: 20%;
 }
 
 .sidebar_box{
     position: relative;
+    padding-left: 1.5rem;
 }
 
 .sidebar_type{
@@ -80,7 +88,7 @@ ul li,ol,li{
 }
 
 .article_list{
-    margin-left: 22%;
+    display: inline-block;
     width: 80%;
 }
 
@@ -88,7 +96,7 @@ ul li,ol,li{
     content: '';
     position: absolute;
     top: 1.5rem;
-    left: 0.5em;
+    left: 1.8em;
     bottom: 0.5rem;
     border-left: 1px dashed #999;
 }
@@ -116,7 +124,6 @@ ul li,ol,li{
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
     color: #535353;
 }
 
@@ -129,15 +136,12 @@ ul li,ol,li{
     margin:100px auto;
 }
 
-.article_list_content{
-}
-
 .article_list_content ul {
-    margin: 20px auto;
+    margin: 0.8rem auto;
 }
 
 .article_list_content ul li {
-    padding: 15px 0;
+    padding: 0.5rem 0;
 }
 
 .article_list_content ul li a,
@@ -213,7 +217,7 @@ ul li,ol,li{
 .article_time{
     font-family: "Roboto Slab";
     text-align: right;
-    padding:20px 0;
+    padding:0.8rem 0;
 
 }
 
@@ -227,4 +231,38 @@ ul li,ol,li{
 .page_btn a:link,
 .page_btn a:visited{
     color:rgb(85,85,85);
+}
+
+@media screen and (max-width:480px){
+    *{
+        font-size: 12px;
+    }
+
+    .login_name{
+        font-size: 26px;
+    }
+
+    .sidebar {
+        width: 90%;
+        background-color: #444;
+        color: white;
+    }
+
+    .sidebar_list li a, .sidebar_list li a:link, .sidebar_list li a:visited{
+        color: white;
+    }
+
+    .article_list {
+        width: 100%;
+    }
+
+    .toggle_meau{
+        animation: toggleMeau 1s forwards;
+        -webkit-animation:toggleMeau 1s forwards;
+    }
+    @keyframes toggleMeau {
+        to{
+            margin-left: -6%;
+        }
+    }
 }

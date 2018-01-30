@@ -12,67 +12,59 @@
   });
     </script>
     <script type="text/javascript" async="" src="resources/js/MathJax/MathJax.js"></script>
-        <div class="content">
-            <%- include("sidebar",{}) %>
-            <script type="text/javascript">
-                var blogpost = <%- blogPost %>;
-            </script>
-            <div class='article_list'>
-                <% if(typeof(editorcontent)!='undefined'){ %>
-                    <%- editorcontent %>
-                <% } %>
-                <div class='page_btn'>
-                    <a id='page_up' href="">上一章</a>
-                    <a id='page_down' href="">下一章</a>
-                </div>
+    <div class="meau_btn"></div>
+    <div class="content">
+        <%- include("sidebar",{}) %>
+        <script type="text/javascript">
+            var blogpost = <%- blogPost %>;
+        </script>
+        <div class='article_list'>
+            <% if(typeof(editorcontent)!='undefined'){ %>
+                <%- editorcontent %>
+            <% } %>
+            <div class='page_btn'>
+                <a id='page_up' href="">上一章</a>
+                <a id='page_down' href="">下一章</a>
             </div>
         </div>
-        <script>
+    </div>
 
+    <script>
 	    var urlQueryObj = commonlib.getUrlQueryObject(window.location.search); 
-            $("#back").css({
-                left: ($(window).width() * 0.9),
-                top: ($(window).height() * 0.9),
-                "z-index": 5
-            })
-            if (blogpost.pageInfo) {
-                $("#page_up").text("上一章");
-                $("#page_down").text("下一章");
-                if (blogpost.pageInfo.prev) {
-                    var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
-                    $("#page_up").attr("title", blogpost.pageInfo.prev.title);
-                    $("#page_up").click(function () {
-                        $("#page_up").attr("href", tmpPrev);
-                    });
-                } else {
-                    $("#page_up").attr("title", "没有了");
-                }
-                if (blogpost.pageInfo.next) {
-                    var tmpNext = "/blogpost?op=show&postId=" + blogpost.pageInfo.next._id;
-                    $("#page_down").attr("title", blogpost.pageInfo.next.title);
-                    $("#page_down").click(function () {
-                        $("#page_down").attr("href", tmpNext);
-                    })
-                } else {
-                    $("#page_down").attr("title", "没有了");
-                }
-            }else{
-                var pageOffset = urlQueryObj.begin && parseInt(urlQueryObj.begin)|| 0;
-                var pageArticles = config.BLOG_POST_ARTICLES;
-                $("#page_up").text("上一章");
-                $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0));
-                $("#page_down").text("下一章");
-                $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles));
+        $('.meau_btn').click(function(){
+            $('.sidebar').toggleClass('toggle_meau');
+        })
+        if (blogpost.pageInfo) {
+            $("#page_up").text("上一章");
+            $("#page_down").text("下一章");
+            if (blogpost.pageInfo.prev) {
+                var tmpPrev = "/blogpost?op=show&postId=" + blogpost.pageInfo.prev._id;
+                $("#page_up").attr("title", blogpost.pageInfo.prev.title);
+                $("#page_up").click(function () {
+                    $("#page_up").attr("href", tmpPrev);
+                });
+            } else {
+                $("#page_up").attr("title", "没有了");
             }
-            $("#back").click(function () {
-                var time = setInterval(function () {
-                    document.body.scrollTop = document.body.scrollTop - 50;
-                    if (document.body.scrollTop === 0) {
-                        clearInterval(time);
-                    }
-                }, 1);
-            })
-        </script>
-    </body>
+            if (blogpost.pageInfo.next) {
+                var tmpNext = "/blogpost?op=show&postId=" + blogpost.pageInfo.next._id;
+                $("#page_down").attr("title", blogpost.pageInfo.next.title);
+                $("#page_down").click(function () {
+                    $("#page_down").attr("href", tmpNext);
+                })
+            } else {
+                $("#page_down").attr("title", "没有了");
+            }
+        }else{
+            var pageOffset = urlQueryObj.begin && parseInt(urlQueryObj.begin)|| 0;
+            var pageArticles = config.BLOG_POST_ARTICLES;
+            $("#page_up").text("上一章");
+            $("#page_up").attr("href","/blogpost?op=list&begin="+(pageOffset>0?pageOffset-pageArticles:0));
+            $("#page_down").text("下一章");
+            $("#page_down").attr("href","/blogpost?op=list&begin="+(pageOffset+pageArticles));
+        }
+      
+    </script>
+</body>
 
-    </html>
+</html>
