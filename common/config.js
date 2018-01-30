@@ -5,7 +5,7 @@ const BLOG_POST_TYPE = {
     3: "数学"
 };
 
-const BLOGPOST_PAGE_ARTICLES = 10;
+const BLOGPOST_PAGE_ARTICLES = 15;
 
 const DOMAIN_USER_MAP = {
     "qiqi":"qiqi",

@@ -67,7 +67,7 @@ function initCache(user) {
     });
 
     if(user){
-	return;
+	    return;
     }
 
     db.getUserList().then(function (result){

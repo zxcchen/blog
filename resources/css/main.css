@@ -14,9 +14,10 @@ ul li,ol,li{
 }
 
 .head{
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
     height: 3.5rem;
     line-height: 1.5;
     background-color:#333;
@@ -58,9 +59,13 @@ ul li,ol,li{
 }
 
 .meau_btn{
+    position: fixed;
+    top: 3rem;
+    width: 100%;
     height: 2rem;
     background-color:#333;
     border-top: 1px solid rgba(255,255,255,0.1);
+    display: none;
 }
 
 .meau_btn::before{
@@ -68,13 +73,14 @@ ul li,ol,li{
 }
 
 .content{
+    position: relative;
     margin: auto 5%;
-    display: flex;
     height: 100%;
 }
 
 .sidebar{
     display: inline-block;
+    margin-top: 5rem;
     width: 20%;
 }
 
@@ -88,8 +94,15 @@ ul li,ol,li{
 }
 
 .article_list{
+    position: absolute;
+    top: 0;
     display: inline-block;
+    margin-top: 5rem;
     width: 80%;
+}
+
+.article_list_content{
+    min-height: 35rem;
 }
 
 .sidebar_list::before{
@@ -190,7 +203,6 @@ ul li,ol,li{
 
 #article_content p{
     line-height: 2;
-    text-indent: 1rem;
     color: rgb(85,85,85);
 }
 
@@ -224,7 +236,7 @@ ul li,ol,li{
 .page_btn{
     display: flex;
     justify-content: space-around;
-    margin-top: 1rem;
+    margin: 1rem 0 2rem;
 }
 
 .page_btn a,
@@ -242,10 +254,16 @@ ul li,ol,li{
         font-size: 26px;
     }
 
+    .meau_btn{
+        display: block;
+    }
+
     .sidebar {
-        width: 90%;
+        position: absolute;
+        margin-left: -6%;
         background-color: #444;
         color: white;
+        display: none;
     }
 
     .sidebar_list li a, .sidebar_list li a:link, .sidebar_list li a:visited{
@@ -253,16 +271,19 @@ ul li,ol,li{
     }
 
     .article_list {
+        position: initial;
         width: 100%;
     }
 
     .toggle_meau{
+        display: block;
         animation: toggleMeau 1s forwards;
         -webkit-animation:toggleMeau 1s forwards;
     }
+
     @keyframes toggleMeau {
         to{
-            margin-left: -6%;
+            width: 90%;
         }
     }
 }
