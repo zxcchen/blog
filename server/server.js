@@ -215,7 +215,9 @@ function renderErrorPage(res, message, domainUser) {
 server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
     let domainUser = util.getDomainUser(req.hostname);
     domainUser = domainUser?domainUserMap[domainUser]:undefined;
-    renderPage(res, "index",{},domainUser);
+    res.location("/blogpost?op=list");
+    res.status(302);
+    res.send();
 });
 
 //设置登录路由
@@ -365,7 +367,7 @@ server.all("/blogpost", function (req, res, next) {
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
                                             param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
-                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].time,result[0].authorName);
+                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);

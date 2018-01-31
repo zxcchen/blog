@@ -88,9 +88,9 @@ function articleListBeforeNext(articleList, time, currentId) {
         while (next < articleList.length && articleList[next]._id != currentId) {
             prev = next++;
         }
-        return {
-            prev: prev < 0 ? null : articleList[prev],
-            next: articleList[next == articleList.length ? -1 : next + 1]
+        return {//按需求下一篇文章显示更新的文章，所以反过来
+            next: prev < 0 ? null : articleList[prev],
+            prev: articleList[next == articleList.length ? -1 : next + 1]
         }
     }
 }
