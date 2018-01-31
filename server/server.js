@@ -174,7 +174,6 @@ function showarticle(blogPostId, title, content, isAdmin, time = new Date().getT
         ${content}
         <div class="article_time">${commonlib.dateString(time)} ${byAuthor}</div>
     </div>
-    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button onclick="blog.deleteArticle(\''+blogPostId+'\')">删除</button>':""}
     `;
     return article;
 }
@@ -291,6 +290,7 @@ server.all("/blogpost", function (req, res, next) {
             show: RENDER_TYPE_SHOW_ARTICLE,
             edit: RENDER_TYPE_EDIT_ARTICLE
         };
+        let isAdmin = sessionManager.isLogin(req.cookies["u"]);
         let method = req.method.toLowerCase();
         if (method === "get") { //获取文章列表
             if (req.query) {
@@ -321,7 +321,8 @@ server.all("/blogpost", function (req, res, next) {
                                 };
                                 renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify(renderObject),
-                                    editorcontent: showarticlelist(result)
+                                    editorcontent: showarticlelist(result),
+                                    isAdmin : isAdmin
                                 },domainUser);
                             }).catch(function (err) {
                                 console.log(err);
@@ -332,7 +333,6 @@ server.all("/blogpost", function (req, res, next) {
                     case "show":
                     case "edit":
                         {
-                            let isAdmin = sessionManager.isLogin(req.cookies["u"]);
                             let id = req.query.postId;
                             if (id) { //存在文章ID，说明是查看某个文章的请求或加载某个文章修改页面的请求
                                 db.getBlogPost({
@@ -359,7 +359,7 @@ server.all("/blogpost", function (req, res, next) {
                                         renderType: renderTypeDict[op],
                                         docs: renderDoc,
                                     };
-                                    let param = {};
+                                    let param = {isAdmin:isAdmin,blogPostId:id};
                                     if (result.length >= 1) {
                                         let articleCacheList = cacheManager.get(cacheKey(CACHEKEY_ARTICLE_TITLELIST,domainUser));
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
