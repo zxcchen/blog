@@ -40,4 +40,8 @@ let queryPath = utils.getQueryPath();
 if(queryPath.match(/\/blogpost\?op=show/)){
     app.addRender(blogpost.renderArticle);
 }else{}
-console.log(queryPath);
+
+//设置主域名
+document.domain=window.location.host.replace(/.+?\./,"");
+console.log(`setting domain=${document.domain}`)
+
