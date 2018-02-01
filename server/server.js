@@ -174,7 +174,6 @@ function showarticle(blogPostId, title, content, isAdmin, time = new Date().getT
         ${content}
         <div class="article_time">${commonlib.dateString(time)} ${byAuthor}</div>
     </div>
-    ${ isAdmin?'<button><a href="/blogpost?op=edit&postId='+blogPostId+'">编辑</a></button>'+' <button onclick="blog.deleteArticle(\''+blogPostId+'\')">删除</button>':""}
     `;
     return article;
 }
@@ -215,7 +214,9 @@ function renderErrorPage(res, message, domainUser) {
 server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
     let domainUser = util.getDomainUser(req.hostname);
     domainUser = domainUser?domainUserMap[domainUser]:undefined;
-    renderPage(res, "index",{},domainUser);
+    res.location("/blogpost?op=list");
+    res.status(302);
+    res.send();
 });
 
 //设置登录路由
@@ -289,6 +290,7 @@ server.all("/blogpost", function (req, res, next) {
             show: RENDER_TYPE_SHOW_ARTICLE,
             edit: RENDER_TYPE_EDIT_ARTICLE
         };
+        let isAdmin = sessionManager.isLogin(req.cookies["u"]);
         let method = req.method.toLowerCase();
         if (method === "get") { //获取文章列表
             if (req.query) {
@@ -319,7 +321,8 @@ server.all("/blogpost", function (req, res, next) {
                                 };
                                 renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify(renderObject),
-                                    editorcontent: showarticlelist(result)
+                                    editorcontent: showarticlelist(result),
+                                    isAdmin : isAdmin
                                 },domainUser);
                             }).catch(function (err) {
                                 console.log(err);
@@ -330,7 +333,6 @@ server.all("/blogpost", function (req, res, next) {
                     case "show":
                     case "edit":
                         {
-                            let isAdmin = sessionManager.isLogin(req.cookies["u"]);
                             let id = req.query.postId;
                             if (id) { //存在文章ID，说明是查看某个文章的请求或加载某个文章修改页面的请求
                                 db.getBlogPost({
@@ -357,7 +359,7 @@ server.all("/blogpost", function (req, res, next) {
                                         renderType: renderTypeDict[op],
                                         docs: renderDoc,
                                     };
-                                    let param = {};
+                                    let param = {isAdmin:isAdmin,blogPostId:id};
                                     if (result.length >= 1) {
                                         let articleCacheList = cacheManager.get(cacheKey(CACHEKEY_ARTICLE_TITLELIST,domainUser));
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
@@ -365,7 +367,7 @@ server.all("/blogpost", function (req, res, next) {
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
                                             param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
-                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].time,result[0].authorName);
+                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);
