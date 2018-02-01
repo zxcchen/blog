@@ -114,9 +114,10 @@ server.use(assetManifest.cdnLocation, express.static(config.cdnRoot, {
 }));
 
 //设置bodyparser
-server.use(bodyparser.json());
+server.use(bodyparser.json({limit:'2mb'}));
 server.use(bodyparser.urlencoded({
-    extended: false
+    extended: false,
+    limit:'2mb'
 }));
 
 //设置cookie parser
