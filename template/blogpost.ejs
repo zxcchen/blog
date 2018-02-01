@@ -15,7 +15,11 @@
     <div class="meau_btn">菜单</div>
     <% if(typeof(isAdmin)!='undefined'&&isAdmin){ %>
         <% if(typeof(blogPostId)!='undefined'){ %>
-            <a class="admin_button admin_button_first" href="/blogpost?op=edit&postId=<%- blogPostId %>">编辑</a>
+            <% if(typeof(editorcontent)!='undefined'){ %>
+                <a class="admin_button admin_button_first" href="javascript:submitEdit();">提交</a>
+            <%}else{ %>
+                <a class="admin_button admin_button_first" href="/blogpost?op=edit&postId=<%- blogPostId %>">编辑</a>
+            <% } %>
             <a class="admin_button admin_button_second" href="javascript:blog.deleteArticle('<%- blogPostId %>');">删除</a>
         <%}else{%>
             <a class="admin_button admin_button_first" href="/blogpost?op=edit">添加文章</a>
@@ -28,8 +32,10 @@
         </script>
         <div class='article_list'>
             
-            <% if(typeof(editorcontent)!='undefined'){ %>
-                <%- editorcontent %>
+            <% if(typeof(articlecontent)!='undefined'){ %>
+                <%- articlecontent %>
+            <% }else if(typeof(editorcontent)!='undefined'){ %>
+                <%- include("editor",editorcontent) %>
             <% } %>
             <div class='page_btn'>
                 <a id='page_up' href="">上一章</a>

@@ -134,37 +134,9 @@ function showeditor(blogPostId, title, content, articleType, userId, userName) {
         let selected = type == articleType ? "selected" : "";
         typeSelect += `<option value=${type} ${selected}>${name}</option>`;
     }
-    let editorContent = `
-    <script type="text/javascript" src="/resources/js/tinymce/tinymce.min.js"></script>
-    <form id="blogpost_form" action="/blogpost" method="post">
-        <input type="hidden" name="blogPostId" value="${blogPostId}">
-        <span>标题:</span><input name="title" type="text" value="${title}" style="width:200px"></input>
-        <span>栏目:</span><select name="type"><option>${typeSelect}</select>
-        <input type="hidden" name="authorId" value="${userId}" />
-        <input type="hidden" name="authorName" value="${userName}" />
-        <textarea name="content" id="blogpost_editor_textarea">${content}</textarea>
-        <input type="submit" value="提交"></input>
-    </form>
-    <script type="text/javascript">
-        tinymce.init({
-            selector : '#blogpost_editor_textarea',
-            height : 800,
-            menubar : true,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table contextmenu paste code'
-            ],
-            cleanup_on_startup: false,
-            trim_span_elements: false,
-            verify_html: true,
-            cleanup: false,
-            toolbar : 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            content_css:['//www.tinymce.com/css/codepen.min.css']
-        });
-    </script>
-    `;
-    return editorContent;
+    return {
+        blogPostId,title,typeSelect,userId,userName,content
+    };
 }
 
 function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000, authorName = "") {
@@ -322,7 +294,7 @@ server.all("/blogpost", function (req, res, next) {
                                 };
                                 renderPage(res, "blogpost", {
                                     blogPost: JSON.stringify(renderObject),
-                                    editorcontent: showarticlelist(result),
+                                    articlecontent: showarticlelist(result),
                                     isAdmin : isAdmin
                                 },domainUser);
                             }).catch(function (err) {
@@ -368,7 +340,7 @@ server.all("/blogpost", function (req, res, next) {
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
                                             param["editorcontent"] = showeditor(result[0]._id, result[0].title, htmlEncode(result[0].content), result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
-                                            param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
+                                            param["articlecontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);
