@@ -16,7 +16,7 @@
     <% if(typeof(isAdmin)!='undefined'&&isAdmin){ %>
         <% if(typeof(blogPostId)!='undefined'){ %>
             <% if(typeof(editorcontent)!='undefined'){ %>
-                <a class="admin_button admin_button_first" href="javascript:submitEdit();">提交</a>
+                <a class="admin_button admin_button_first" href="javascript:blog.submitArticleEditor();">提交</a>
             <%}else{ %>
                 <a class="admin_button admin_button_first" href="/blogpost?op=edit&postId=<%- blogPostId %>">编辑</a>
             <% } %>

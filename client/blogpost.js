@@ -30,3 +30,7 @@ blogpost.deleteArticle = function(postId){
             })
         });
 }
+
+blogpost.submitArticleEditor = function(){
+    $("#blogpost_form").submit();
+}
