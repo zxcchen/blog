@@ -169,14 +169,14 @@ function loadBlogPostToDB(fullFilename, isNew = true) {
 
 function extractParagraphs(content,num = 3){
     num = num<=1?3:num;
-    let re = new RegExp(`((?:(?:\\W|\\w)*?<p>(?:\\W|\\w)+?<\\/p>(?:\\r\\n)*){1,${num}})?`);
+    let re = new RegExp(`((?:(?:\\W|\\w)*?<p>(?:\\W|\\w)+?<\\/p>(?:\\r\\n)*){0,${num}})?`);
     let result = re.exec(content);
     //console.log(result);
     if(result!=null&&result[1]){
         return result[1];
     }else{
         console.warn("failed to extract paragraph from content:",content);
-        return "";
+        return content;
     }
 }
 
@@ -253,6 +253,6 @@ if (require.main === module) {
     //         db.globalRelease();
     //     });
     // });
-    console.log(extractParagraphs("<p></p>\r\n<h4>1.sss</h4>\r\n<p>ddd</p><p>dd</p>",2));
+    console.log(extractParagraphs("<h4>1.sss</h4>\r\n",3));
     //console.log(/(\W|\w)+/.exec("\r\n\\d"));
 }
