@@ -59,7 +59,8 @@ function initCache(user) {
             db.getBlogPost(blogPostFilter, {
                 _id: true,
                 title: true,
-                createtime: true
+                createtime: true,
+                content:true
             }, 0, 0).then(function (result) {
                 result.reverse();
                 cb(result);
@@ -153,15 +154,15 @@ function showarticle(blogPostId, title, content, isAdmin, time = new Date().getT
 }
 
 function showarticlelist(articleList) {
-    let article = "<div class='article_list_content'><ul>";
-    for (let i = 0; i < articleList.length; i++) {
-        let title = articleList[i].title;
-        let id = articleList[i]._id;
-        let createTime = commonlib.dateString(articleList[i].createtime);
-        article += `<li><a href="/blogpost?op=show&postId=${id}" title="${title}      ${createTime}">${title}</a></li>`;
-    }
-    article += "</ul></div>";
-    return article;
+    // let article = "<div class='article_list_content'><ul>";
+    // for (let i = 0; i < articleList.length; i++) {
+    //     let title = articleList[i].title;
+    //     let id = articleList[i]._id;
+    //     let createTime = commonlib.dateString(articleList[i].createtime);
+    //     article += `<li><a href="/blogpost?op=show&postId=${id}" title="${title}      ${createTime}">${title}</a></li>`;
+    // }
+    // article += "</ul></div>";
+    // return article;
 }
 
 function renderPage(res, template, obj, domainUser) {
@@ -267,13 +268,11 @@ server.all("/blogpost", function (req, res, next) {
     let domainUser = util.getDomainUser(req.hostname);
     domainUser = domainUser?domainUserMap[domainUser]:undefined;
     try {
-        const RENDER_TYPE_LIST = 0;
-        const RENDER_TYPE_SHOW_ARTICLE = 1;
-        const RENDER_TYPE_EDIT_ARTICLE = 2;
+        const renderTypeEnum = frontConfig.RENDER_TYPE_ENUM;
         const renderTypeDict = {
-            list: RENDER_TYPE_LIST,
-            show: RENDER_TYPE_SHOW_ARTICLE,
-            edit: RENDER_TYPE_EDIT_ARTICLE
+            list: renderTypeEnum.RENDER_TYPE_LIST,
+            show: renderTypeEnum.RENDER_TYPE_SHOW_ARTICLE,
+            edit: renderTypeEnum.RENDER_TYPE_EDIT_ARTICLE
         };
         let isAdmin = sessionManager.isLogin(req.cookies["u"]);
         let method = req.method.toLowerCase();
@@ -298,8 +297,12 @@ server.all("/blogpost", function (req, res, next) {
                                 title: true,
                                 time: true,
                                 type: true,
-                                createtime: true
+                                createtime: true,
+                                content:true
                             }, start, limit).then(function (result) {
+                                for(let doc of result){
+                                    doc.content = util.extractParagraphs(doc.content,3);
+                                }
                                 let renderObject = {
                                     renderType: renderTypeDict[op],
                                     docs: result
@@ -349,7 +352,7 @@ server.all("/blogpost", function (req, res, next) {
                                         let articleCacheList = cacheManager.get(cacheKey(CACHEKEY_ARTICLE_TITLELIST,domainUser));
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
                                         renderObject.pageInfo = prevnextInfo;
-                                        if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
+                                        if (isAdmin && renderTypeDict[op] == renderTypeEnum.RENDER_TYPE_EDIT_ARTICLE) {
                                             param["editorcontent"] = showeditor(result[0]._id, result[0].title, htmlEncode(result[0].content), result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
                                             param["articlecontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);

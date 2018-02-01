@@ -167,13 +167,27 @@ function loadBlogPostToDB(fullFilename, isNew = true) {
     });
 }
 
+function extractParagraphs(content,num = 3){
+    num = num<=1?3:num;
+    let re = new RegExp(`((?:(?:\\W|\\w)*?<p>(?:\\W|\\w)+?<\\/p>(?:\\r\\n)*){1,${num}})?`);
+    let result = re.exec(content);
+    //console.log(result);
+    if(result!=null&&result[1]){
+        return result[1];
+    }else{
+        console.warn("failed to extract paragraph from content:",content);
+        return "";
+    }
+}
+
 module.exports = {
-    isUserPassOK: isUserPassOK,
-    md5: md5,
-    currentTime: currentTime,
-    bSearch: bSearch,
-    articleListBeforeNext: articleListBeforeNext,
-    getDomainUser:getDomainUser
+    isUserPassOK,
+    md5,
+    currentTime,
+    bSearch,
+    articleListBeforeNext,
+    getDomainUser,
+    extractParagraphs
 }
 
 
@@ -239,4 +253,6 @@ if (require.main === module) {
     //         db.globalRelease();
     //     });
     // });
+    console.log(extractParagraphs("<p></p>\r\n<h4>1.sss</h4>\r\n<p>ddd</p><p>dd</p>",2));
+    //console.log(/(\W|\w)+/.exec("\r\n\\d"));
 }

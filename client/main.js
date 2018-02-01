@@ -37,8 +37,11 @@ window.config = config;
 window.commonlib = commonlib;
 
 let queryPath = utils.getQueryPath();
-if(queryPath.match(/\/blogpost\?op=show/)){
+console.log(queryPath);
+if(queryPath.match(/\/blogpost\?op=(list|show|edit)/)){
     app.addRender(blogpost.renderArticle);
-}else{}
+}else{
+    console.log("why");
+}
 
 
