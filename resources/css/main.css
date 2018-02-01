@@ -234,6 +234,36 @@ ul li,ol,li{
 
 #article_content table{
     color: #535353;
+    border-collapse: collapse;
+}
+
+#article_content table tr{
+    padding: 2px;
+    vertical-align: top;
+}
+
+.ife_tab tr{
+    padding: 2px;
+    vertical-align: top;
+}
+
+.ife_tab tr td{
+    width: 25%;
+}
+
+.ife_head{
+    height: 3rem;
+}
+
+.ife_tab tr td .ife_body{
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    height: 8rem;
+    overflow-y: scroll;
+}
+
+.ife_tab tr td .ife_foot{
+    text-align: center;
 }
 
 #article_content p strong{
