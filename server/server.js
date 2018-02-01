@@ -227,7 +227,7 @@ server.all("/login", function (req, res, next) {
                         let result = doc[0];
                         let cookie = sessionManager.login(result._id,username);
                         res.cookie("u", cookie, {
-                            domain:"*."+config.domain,
+                            domain:"."+config.domain,
                             maxAge: 24 * 3600000
                         });
                         let userDomain = frontConfig.USER_DOMAIN_MAP[username];
