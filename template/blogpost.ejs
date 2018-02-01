@@ -17,13 +17,17 @@
         <% if(typeof(blogPostId)!='undefined'){ %>
             <% if(typeof(editorcontent)!='undefined'){ %>
                 <a class="admin_button admin_button_first" href="javascript:blog.submitArticleEditor();">提交</a>
-            <%}else{ %>
+            <% }else{ %>
                 <a class="admin_button admin_button_first" href="/blogpost?op=edit&postId=<%- blogPostId %>">编辑</a>
             <% } %>
             <a class="admin_button admin_button_second" href="javascript:blog.deleteArticle('<%- blogPostId %>');">删除</a>
-        <%}else{%>
-            <a class="admin_button admin_button_first" href="/blogpost?op=edit">添加文章</a>
-        <%}%>    
+        <% }else{ %>
+            <% if(typeof(editorcontent)!='undefined'){ %>
+                <a class="admin_button admin_button_first" href="javascript:blog.submitArticleEditor();">提交</a>
+            <% }else{ %>
+                <a class="admin_button admin_button_first" href="/blogpost?op=edit">添加文章</a>
+            <% } %>
+        <% } %>    
     <% } %>
     <div class="content">
         <%- include("sidebar",{}) %>

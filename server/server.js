@@ -12,6 +12,7 @@ var sessionManager = require("./session");
 var config = require("./site.config");
 var cacheManager = require("./cache");
 var frontConfig = require("../common/config");
+var uploader = require("multer")({dest:config.uploaddir});
 
 //常量
 const MINUTE_SECOND = 60;
@@ -192,6 +193,16 @@ server.get("(/|/homepage|/index\)(.html)?", function (req, res) {
     res.send();
 });
 
+//管理上传
+server.post("/upload",uploader.single("uploadimage"),function(req,res){
+    if(req.file){
+        res.status(200).json({error:false,file_path:[req.file.path]}).send();
+    }else{
+        console.error("failed to upload file");
+        res.status(500).json({error:true}).send();
+    }
+});
+
 //设置登录路由
 server.all("/login", function (req, res, next) {
     if (req.cookies) {
@@ -353,6 +364,7 @@ server.all("/blogpost", function (req, res, next) {
                             } else if (isAdmin) { //编辑一个新增的文章
                                 let userInfo = sessionManager.getUser(req.cookies["u"]);
                                 renderPage(res, "blogpost", {
+                                    isAdmin,
                                     blogPost: JSON.stringify({
                                         renderType: renderTypeDict[op],
                                         doc: []
@@ -454,6 +466,7 @@ server.all("/blogpost", function (req, res, next) {
             next();
         }
     } catch (error) {
+        console.warn(error);
         renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
     }
 });

@@ -97,5 +97,7 @@ var siteConfig = module.exports = {
     // hostname
     hostname: PROD?"zxcchen.me:9000":"blog.localhost:9000",
     // domain
-    cookieDomain : PROD?".zxcchen.me":"blog.localhost"
+    cookieDomain : PROD?".zxcchen.me":"blog.localhost",
+    // upload direcroty
+    uploaddir : "resources/uploads"
 };
