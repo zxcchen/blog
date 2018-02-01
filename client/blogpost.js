@@ -31,15 +31,21 @@ function renderArticleList(docs){
     html.push("<ul>");
     for(let i=0;i<docs.length;i++){
         let datetime = commonlib.dateString(docs[i].createtime);
-        html.push(`<li>
-                        <a href="/blogpost?op=show&postId=${docs[i]._id}" title="${docs[i].title}            ${datetime}">
-                            <section class="article_item_title"><h3>${docs[i].title}</h3></section>
+        html.push(`<li id="${docs[i]._id}">
+                        <section class="article_item_title"><h3>${docs[i].title}</h3></section>
                             <section class="article_item_content">${docs[i].content}</section>
-                        </a>
                    </li>`);
     }
     html.push("</ul>");
     $(content).html(html.join(""));
+    $(content).click(function(e){
+        e = e.originalEvent;
+        let li = $(e.target).parents("li");
+        if(li&&li.length>0){
+            console.log(li.attr("id"));
+            window.location.href="/blogpost?op=show&postId="+li.attr("id");
+        }
+    });
     articleList.prepend(content);
 }
 
