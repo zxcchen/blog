@@ -4,7 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
-var htmlencode = require("htmlencode");
+var htmlEncode = require("js-htmlencode");
 var util = require("./utils");
 var db = require("./db");
 var commonlib = require("../common/common");
@@ -157,7 +157,7 @@ function showeditor(blogPostId, title, content, articleType, userId, userName) {
             ],
             cleanup_on_startup: false,
             trim_span_elements: false,
-            verify_html: false,
+            verify_html: true,
             cleanup: false,
             toolbar : 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
             content_css:['//www.tinymce.com/css/codepen.min.css']
@@ -352,7 +352,7 @@ server.all("/blogpost", function (req, res, next) {
                                         for (let r of result) {
                                             renderDoc.title = r.title;
                                             renderDoc.time = r.time;
-                                            renderDoc.content = htmlencode.htmlEncode(r.content);
+                                            renderDoc.content = htmlEncode(r.content);
                                             break;
                                         }
                                     }
@@ -366,7 +366,7 @@ server.all("/blogpost", function (req, res, next) {
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
                                         renderObject.pageInfo = prevnextInfo;
                                         if (isAdmin && renderTypeDict[op] == RENDER_TYPE_EDIT_ARTICLE) {
-                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, result[0].content, result[0].type,result[0].authorId,result[0].authorName);
+                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, htmlEncode(result[0].content), result[0].type,result[0].authorId,result[0].authorName);
                                         } else {
                                             param["editorcontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
                                         }

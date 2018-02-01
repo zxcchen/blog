@@ -54,8 +54,8 @@
     "debug": "^2.6.8",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
-    "htmlencode": "0.0.4",
     "jquery": "^3.2.1",
+    "js-htmlencode": "^0.3.0",
     "mongodb": "^2.2.28",
     "webpack": "^1.15.0",
     "webpack-stream": "^2.0.0"
