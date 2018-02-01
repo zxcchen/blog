@@ -452,7 +452,7 @@ server.all("/blogpost", function (req, res, next) {
                     console.warn(err);
                     renderErrorPage(res, "服务器提了一个问题。。。",domainUser);
                 });
-            } else if (title && content && type >= 0) { //新增文章
+            } else if (title.length>0 && content.length>=0 && type >= 0) { //新增文章
                 db.newBlogPost({
                     title: title,
                     time: time,
