@@ -197,6 +197,8 @@ ul li,ol,li{
 .article_list_content li section.article_item_content{
     position: relative;
     padding: 0.5rem 1rem;
+    max-height: 10rem;
+    overflow-y: hidden;
     border-radius: 5px;
     border:solid 1px rgb(85,85,85);
 }
@@ -205,11 +207,11 @@ ul li,ol,li{
     content: '阅读更多...';
     position: absolute;
     bottom: 0;
-    left: 0;
-    z-index: 10;
+    left: 1%;
+    z-index: 5;
     color: #444;
     text-align: center;
-    width: 100%;
+    width: 98%;
     height: 3rem;
     line-height: 3rem;
     background: linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,1));
