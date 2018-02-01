@@ -192,6 +192,7 @@ ul li,ol,li{
 
 .article_list_content li section.article_item_title{
     padding:1rem 0;
+    cursor: pointer;
 }
 
 .article_list_content li section.article_item_content{
@@ -215,6 +216,7 @@ ul li,ol,li{
     height: 3rem;
     line-height: 3rem;
     background: linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,1));
+    cursor: pointer;
 }
 
 .article_list_content h1,
