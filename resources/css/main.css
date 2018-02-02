@@ -186,6 +186,7 @@ ul li,ol,li{
 
 .article_list_content ul li {
     padding: 0.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .article_list_content ul li a,
@@ -223,7 +224,7 @@ ul li,ol,li{
     overflow-y: hidden;
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
-    box-shadow: 0 0 9px 1px hsla(0,3%,62%,.29);
+    box-shadow: 0 0 9px 3px hsla(0,3%,62%,.29);
     line-height: 2;
     color: rgb(85,85,85);
     border-left: 0.5rem solid #333;
