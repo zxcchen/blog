@@ -29,12 +29,24 @@ function renderArticleList(docs){
     content.setAttribute("class","article_list_content");
     let html = [];
     html.push("<ul>");
-    for(let i=0;i<docs.length;i++){
-        let datetime = commonlib.dateString(docs[i].createtime);
-        html.push(`<li id="${docs[i]._id}">
-                        <section class="article_item_title"><h3>${docs[i].title}</h3></section>
-                            <section class="article_item_content">${docs[i].content}</section>
-                   </li>`);
+    try{
+        for(let i=0;i<docs.length;i++){
+            let datetime = commonlib.dateString(docs[i].createtime);
+            let t = [];
+            if(docs[i].tags&&docs[i].tags.length>2){
+                let tags = JSON.parse(docs[i].tags);
+                for(let tag of tags){
+                    t.push(`<a>${tag}</a>`);
+                }
+            }
+            let tags = t.join("");
+            html.push(`<li id="${docs[i]._id}">
+                            <section class="article_item_title"><h3>${docs[i].title}</h3><div  class="article_tags">${tags}</div></section>
+                                <section class="article_item_content">${docs[i].content}</section>
+                    </li>`);
+        }
+    }catch(e){
+        console.log(e);
     }
     html.push("</ul>");
     $(content).html(html.join(""));

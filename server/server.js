@@ -298,7 +298,8 @@ server.all("/blogpost", function (req, res, next) {
                                 time: true,
                                 type: true,
                                 createtime: true,
-                                content:true
+                                content:true,
+                                tags:true
                             }, start, limit).then(function (result) {
                                 for(let doc of result){
                                     doc.content = util.extractParagraphs(doc.content,3);
