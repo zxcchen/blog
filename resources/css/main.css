@@ -196,6 +196,17 @@ ul li,ol,li{
     cursor: pointer;
 }
 
+.article_tags a{
+    width: 5rem;
+    height: 1.5rem;
+    background: #a1a6b1;
+    border-radius: .3rem;
+    text-align: center;
+    display: inline-block;
+    margin: .1rem .4rem;
+    cursor: default;
+}
+
 .article_list_content li section.article_item_content{
     position: relative;
     padding: 0.5rem 1rem;
