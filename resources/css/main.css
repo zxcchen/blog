@@ -197,14 +197,19 @@ ul li,ol,li{
 }
 
 .article_tags>a{
-    width: 5rem;
     height: 1.5rem;
+    padding: 0.05rem 0.5rem;
     background: #a1a6b1;
     border-radius: .3rem;
     text-align: center;
     display: inline-block;
-    margin: .1rem .4rem;
+    margin: .3rem .4rem;
     cursor: default;
+}
+
+.article_day{
+    margin-left: 90%;
+    margin-top: -1.8rem;
 }
 
 .article_list_content li section.article_item_content{
@@ -261,14 +266,18 @@ ul li,ol,li{
 }
 
 #blogpost_form section.editor_tags span{
-    width: 5rem;
     height: 1.5rem;
+    padding: 0.05rem 0.3rem;
     background: #fbf6f6;
     border-radius: 0.3rem;
     text-align: center;
     display: inline-block;
     margin: 0.1rem 0.4rem;
     cursor:default;
+}
+
+#blogpost_form section.editor_tags .add_tags{
+    width: 3rem;
 }
 
 #blogpost_form section.editor_tags span input[type="text"]{
