@@ -220,7 +220,7 @@ ul li,ol,li{
 }
 
 .article_day{
-    margin-left: 90%;
+    margin-left: 96%;
     margin-top: -1.8rem;
 }
 
@@ -463,6 +463,10 @@ ul li,ol,li{
 
     #article_content img {
         max-width:100%;
+    }
+
+    .article_day{
+        margin-left: 90%;
     }
 
     .toggle_meau{
