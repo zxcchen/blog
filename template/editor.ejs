@@ -6,7 +6,7 @@
     <span>栏目:</span><select name="type"><option><%- typeSelect %></select>
     <input type="hidden" name="authorId" value="<%- userId %>" />
     <input type="hidden" name="authorName" value="<%- userName %>" />
-    <input type="hidden" name="tags" value="<%- tags %>"/>
+    <input type="hidden" name="tags" value='<%- tags %>'/>
     <br/><span>标签:</span>
     <section class="editor_tags"><span class="add_tags"><input id="editor_newtag" type="text" value="+"/></span></section>
     <textarea name="content" id="blogpost_editor_textarea"><%- content %></textarea>

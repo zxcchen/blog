@@ -75,6 +75,13 @@ function setEditorTags(tagsJson){
  */
 function prepareEditor(){
     renderEditorTags();
+    function removeOldTags(){
+        let oldtag = $(this).text();
+        let tags = getEditorTags();
+        tags.delete(oldtag);
+        setEditorTags(tags);
+        $(this).remove();
+    }
     $("#blogpost_form .add_tags").click(function(){
         let toAdd = $(this);
         let editTag = $(this).children("input#editor_newtag");
@@ -84,25 +91,17 @@ function prepareEditor(){
                 let newElement = document.createElement("span");
                 newElement.innerText = value;
                 newElement.className = "old_tags";
-                $(newElement).click(function(){
-                    let oldtag = $(this).text();
-                    let tags = getEditorTags();
-                    tags.delete(oldtag);
-                    setEditorTags(tags);
-                    $(this).remove();
-                });
+                $(newElement).click(removeOldTags);
                 $("#blogpost_form section.editor_tags").prepend(newElement);
                 let tags = getEditorTags();
                 tags.add(value);
                 setEditorTags(tags);
             }
             $(this).val("");
-            $(this).css("display","none");
-            toAdd.addClass("add_tags");
         });
         editTag.focus();
-        toAdd.removeClass("add_tags");
     });
+    $("#blogpost_form span.old_tags").click(removeOldTags);
 }
 
 blogpost.renderArticle = function(){
