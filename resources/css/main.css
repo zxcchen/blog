@@ -196,7 +196,7 @@ ul li,ol,li{
 }
 
 .article_list_content li section.article_item_title{
-    padding:1rem 0;
+    padding:0.1rem 0 1rem;
     cursor: pointer;
 }
 
@@ -221,8 +221,12 @@ ul li,ol,li{
     padding: 0.5rem 1rem;
     max-height: 10rem;
     overflow-y: hidden;
-    border-radius: 5px;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
     box-shadow: 0 0 9px 1px hsla(0,3%,62%,.29);
+    line-height: 2;
+    color: rgb(85,85,85);
+    border-left: 0.5rem solid #333;
 }
 
 .article_list_content li section.article_item_content::after{
@@ -251,11 +255,6 @@ ul li,ol,li{
     font-size: 20px;
     color:#2e3a41;
     font-weight:300;
-}
-
-.article_list_content .article_item_content{
-    line-height: 2;
-    color: rgb(85,85,85);
 }
 
 #blogpost_form section.editor_tags{
