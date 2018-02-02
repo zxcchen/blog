@@ -196,7 +196,7 @@ ul li,ol,li{
     cursor: pointer;
 }
 
-.article_tags a{
+.article_tags>a{
     width: 5rem;
     height: 1.5rem;
     background: #a1a6b1;
@@ -222,6 +222,7 @@ ul li,ol,li{
     bottom: 0;
     left: 1%;
     z-index: 5;
+    margin-bottom: 0.5rem;
     color: #444;
     text-align: center;
     width: 98%;
