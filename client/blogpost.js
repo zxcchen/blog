@@ -31,7 +31,12 @@ function renderArticleList(docs){
     html.push("<ul>");
     try{
         for(let i=0;i<docs.length;i++){
-            let datetime = commonlib.dateString(docs[i].createtime);
+            let datetime = commonlib.diffDay(docs[i].createtime);
+            if(datetime==0){
+                datetime = "今天";
+            }else{
+                datetime = datetime+"天前";
+            }
             let t = [];
             if(docs[i].tags&&docs[i].tags.length>2){
                 let tags = JSON.parse(docs[i].tags);
@@ -41,7 +46,7 @@ function renderArticleList(docs){
             }
             let tags = t.join("");
             html.push(`<li id="${docs[i]._id}">
-                            <section class="article_item_title"><h3>${docs[i].title}</h3><div  class="article_tags">${tags}</div></section>
+                            <section class="article_item_title"><h3>${docs[i].title}</h3><div  class="article_tags">${tags}</div><div class="article_day">${datetime}</div></section>
                                 <section class="article_item_content">${docs[i].content}</section>
                     </li>`);
         }

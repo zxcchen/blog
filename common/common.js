@@ -25,5 +25,16 @@ let commonlib = exports = module.exports = {
     dateString : function (timestampSec) {
         var d = new Date(timestampSec * 1000);
         return numPadding(d.getFullYear(), 4) + "-" + numPadding(d.getMonth() + 1, 2) + "-" + numPadding(d.getDate(), 2) + " " + numPadding(d.getHours(), 2) + ":" + numPadding(d.getMinutes(), 2) + ":" + numPadding(d.getSeconds(), 2);
+    },
+
+    /**
+     * 当前时间和给定时间戳相差多少天
+     */
+    diffDay : function(timestampSec){
+        var curDate = new Date();
+        curDate.setHours(0,0,0,0);
+        var givenDate = new Date(timestampSec * 1000);
+        givenDate.setHours(0,0,0,0);
+        return (curDate.getTime()-givenDate.getTime())/3600/24/1000;
     }
 };
