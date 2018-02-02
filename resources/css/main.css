@@ -273,7 +273,6 @@ ul li,ol,li{
     text-align: center;
     display: inline-block;
     margin: 0.1rem 0.4rem;
-    cursor:default;
 }
 
 #blogpost_form section.editor_tags .add_tags{
