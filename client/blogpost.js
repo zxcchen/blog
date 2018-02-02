@@ -68,7 +68,6 @@ function prepareEditor(){
     $("#blogpost_form .add_tags").click(function(){
         let toAdd = $(this);
         let editTag = $(this).children("input#editor_newtag");
-        editTag.css("display","block");
         editTag.blur(function(){
             let value = $(this).val();
             if(value.length>0){
