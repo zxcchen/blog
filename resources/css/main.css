@@ -4,13 +4,20 @@
     font-size: 16px;
     word-break: break-word;
 }
+
+::-webkit-scrollbar{
+    display:none;
+}
+
 html,body{
     height: 100%;
     overflow-x: hidden;
 }
+
 a,a:link,a:visited{
     text-decoration: none;
 }
+
 ul li,ol,li{
     list-style: none;
 }
