@@ -49,12 +49,62 @@ function renderArticleList(docs){
     articleList.prepend(content);
 }
 
+
+function getEditorTags(){
+    let tags = $("#blogpost_form input[name='tags']");
+    let tagsJson = tags.val();
+    return new Set(JSON.parse(tagsJson.length>0?tagsJson:"[]"));
+}
+
+function setEditorTags(tagsJson){
+    let tags = $("#blogpost_form input[name='tags']");   
+    tags.val(JSON.stringify(Array.from(tagsJson)));
+}
+
+/**
+ * 准备编辑器相关逻辑
+ */
+function prepareEditor(){
+    $("#blogpost_form .add_tags").click(function(){
+        let toAdd = $(this);
+        let editTag = $(this).children("input#editor_newtag");
+        editTag.css("display","block");
+        editTag.blur(function(){
+            let value = $(this).val();
+            if(value.length>0){
+                let newElement = document.createElement("span");
+                newElement.innerText = value;
+                newElement.className = "old_tags";
+                $(newElement).click(function(){
+                    let oldtag = $(this).text();
+                    let tags = getEditorTags();
+                    tags.delete(oldtag);
+                    setEditorTags(tags);
+                    $(this).remove();
+                });
+                $("#blogpost_form section.editor_tags").prepend(newElement);
+                let tags = getEditorTags();
+                tags.add(value);
+                setEditorTags(tags);
+            }
+            $(this).val("");
+            $(this).css("display","none");
+            toAdd.addClass("add_tags");
+        });
+        editTag.focus();
+        toAdd.removeClass("add_tags");
+    });
+}
+
 blogpost.renderArticle = function(){
     if(window.blogpost){
         let rendertypes = config.RENDER_TYPE_ENUM;
         switch(window.blogpost.renderType){
             case rendertypes.RENDER_TYPE_LIST:
             renderArticleList(window.blogpost.docs);
+            break;
+            case rendertypes.RENDER_TYPE_EDIT_ARTICLE:
+            prepareEditor();
             default:;
         }
     }
@@ -73,3 +123,4 @@ blogpost.deleteArticle = function(postId){
 blogpost.submitArticleEditor = function(){
     $("#blogpost_form").submit();
 }
+
