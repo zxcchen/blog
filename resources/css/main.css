@@ -126,6 +126,10 @@ ul li,ol,li{
     width: 80%;
 }
 
+#blogpost_form{
+    margin-top: 1rem;
+}
+
 .article_list_content{
     min-height: 35rem;
 }
@@ -255,6 +259,7 @@ ul li,ol,li{
 }
 
 #blogpost_form section.editor_tags{
+    margin: 0.5rem auto;
     width: 100%;
     height: auto;
     border-radius: 0.5rem;
