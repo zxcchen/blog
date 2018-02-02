@@ -129,7 +129,7 @@ server.use(cookieparser());
 server.set("view engine", "ejs");
 server.set("views", config.templateDir);
 
-function showeditor(blogPostId, title, content, articleType, userId, userName) {
+function showeditor(blogPostId, title, content, articleType, userId, userName, tags) {
     let typeSelect = "";
     for (let type in config.blogPostTypes) {
         let name = config.blogPostTypes[type];
@@ -137,11 +137,11 @@ function showeditor(blogPostId, title, content, articleType, userId, userName) {
         typeSelect += `<option value=${type} ${selected}>${name}</option>`;
     }
     return {
-        blogPostId,title,typeSelect,userId,userName,content
+        blogPostId,title,typeSelect,userId,userName,content,tags
     };
 }
 
-function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000, authorName = "") {
+function showarticle(blogPostId, title, content, isAdmin, time = new Date().getTime()/1000, authorName = "",tags = "") {
     let byAuthor = authorName && authorName.length>0? " by "+authorName : "";
     let article = `
     <div id="article_content">
@@ -332,7 +332,8 @@ server.all("/blogpost", function (req, res, next) {
                                     content: true,
                                     createtime: true,
                                     authorId: true,
-                                    authorName: true
+                                    authorName: true,
+                                    tags : true
                                 }, 0, 1).then(function (result) {
                                     let renderDoc = {};
                                     if (result.length >= 0) {
@@ -340,6 +341,7 @@ server.all("/blogpost", function (req, res, next) {
                                             renderDoc.title = r.title;
                                             renderDoc.time = r.time;
                                             renderDoc.content = htmlEncode(r.content);
+                                            renderDoc.tags = r.tags;
                                             break;
                                         }
                                     }
@@ -353,9 +355,9 @@ server.all("/blogpost", function (req, res, next) {
                                         let prevnextInfo = util.articleListBeforeNext(articleCacheList, result[0].createtime, id);
                                         renderObject.pageInfo = prevnextInfo;
                                         if (isAdmin && renderTypeDict[op] == renderTypeEnum.RENDER_TYPE_EDIT_ARTICLE) {
-                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, htmlEncode(result[0].content), result[0].type,result[0].authorId,result[0].authorName);
+                                            param["editorcontent"] = showeditor(result[0]._id, result[0].title, htmlEncode(result[0].content), result[0].type,result[0].authorId,result[0].authorName,result[0].tags);
                                         } else {
-                                            param["articlecontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName);
+                                            param["articlecontent"] = showarticle(result[0]._id, result[0].title, result[0].content, isAdmin, result[0].createtime,result[0].authorName,result[0].tags);
                                         }
                                     }
                                     param.blogPost = JSON.stringify(renderObject);
@@ -421,12 +423,14 @@ server.all("/blogpost", function (req, res, next) {
             let type = parseInt(req.body.type);
             let authorId = req.body.authorId;
             let authorName = req.body.authorName;
+            let tags = req.body.tags;
             if (id && id.length > 0) { //已有文章,进行更新
                 db.updateBlogPost(id, {
                     title: title,
                     time: time,
                     content: content,
-                    type: type
+                    type: type,
+                    tags: tags
                 }).then(function (result) {
                     if (result.modifiedCount <= 0) {
                         console.warn("no update on blogpost id " + id);
@@ -448,7 +452,8 @@ server.all("/blogpost", function (req, res, next) {
                     type: parseInt(type),
                     createtime: time,
                     authorId:authorId,
-                    authorName:authorName
+                    authorName:authorName,
+                    tags : tags
                 }).then(function (result) {
                     if (result.insertedCount > 0) {
                         res.location("/blogpost?op=show&postId=" + result.insertedId);

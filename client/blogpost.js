@@ -49,6 +49,15 @@ function renderArticleList(docs){
     articleList.prepend(content);
 }
 
+function renderEditorTags(){
+    let tags = getEditorTags();
+    let spans = [];
+    for(let tag of tags){
+        spans.push(`<span class='old_tags'>${tag}</span>`);
+    }
+    spans.push('<span class="add_tags"><input id="editor_newtag" type="text" value=""/></span>');
+    $("#blogpost_form .editor_tags").html(spans.join(""));
+}
 
 function getEditorTags(){
     let tags = $("#blogpost_form input[name='tags']");
@@ -65,6 +74,7 @@ function setEditorTags(tagsJson){
  * 准备编辑器相关逻辑
  */
 function prepareEditor(){
+    renderEditorTags();
     $("#blogpost_form .add_tags").click(function(){
         let toAdd = $(this);
         let editTag = $(this).children("input#editor_newtag");
