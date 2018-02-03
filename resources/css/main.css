@@ -241,16 +241,15 @@ ul li,ol,li{
 .article_list_content li section.article_item_content::after{
     content: '阅读更多...';
     position: absolute;
-    bottom: -5%;
-    left: 1%;
+    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 5;
-    margin-bottom: 0.5rem;
     color: #444;
     text-align: center;
-    width: 98%;
     height: 3rem;
     line-height: 3rem;
-    background: linear-gradient(rgba(255,255,255,0.8),rgba(255,255,255,1));
+    background: linear-gradient(rgba(255,255,255,.8),rgba(255,255,255,1));
     cursor: pointer;
 }
 
@@ -442,7 +441,7 @@ ul li,ol,li{
         color: white;
         z-index: 9;
         display: none;
-        width: 80%;
+        width: 75%;
         height: 80%;
         overflow-y: scroll;
     }
