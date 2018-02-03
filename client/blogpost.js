@@ -54,7 +54,8 @@ function renderArticleList(docs){
         console.log(e);
     }
     html.push("</ul>");
-    $(content).html(html.join(""));
+    let htmlStr = html.join("");
+    $(content).html(htmlStr);
     $(content).click(function(e){
         e = e.originalEvent;
         let li = $(e.target).parents("li");
