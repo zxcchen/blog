@@ -442,6 +442,7 @@ ul li,ol,li{
         color: white;
         z-index: 9;
         display: none;
+        width: 80%;
         height: 80%;
         overflow-y: scroll;
     }
