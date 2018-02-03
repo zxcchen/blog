@@ -191,7 +191,6 @@ function extractP(content,num = 3){
         }
         i++;
     }
-    //console.log(tags);
     let stack = [];
     for(let j=0;j<tags.length;j++){
         if(stack.length==0){//empty
@@ -210,6 +209,7 @@ function extractP(content,num = 3){
             }
         }
     }
+    //console.log("extractParagraph return full content",content,tags);
     return content;
 }
 
