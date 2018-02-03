@@ -301,6 +301,14 @@ server.all("/blogpost", function (req, res, next) {
                                 content:true,
                                 tags:true
                             }, start, limit).then(function (result) {
+                                if(result.length==0&&start!=0){
+                                    let redirectUrl = "/blogpost?op=list&begin="+(start-limit)+(req.query.type?"&type="+req.query.type:"");
+                                    console.log("article list reach end,redirect to last page:",redirectUrl);
+                                    res.location(redirectUrl);
+                                    res.status(302);
+                                    res.send();
+                                    return;
+                                }
                                 for(let doc of result){
                                     doc.content = util.extractParagraphs(doc.content,3);
                                 }
