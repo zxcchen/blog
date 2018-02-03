@@ -4,13 +4,20 @@
     font-size: 16px;
     word-break: break-word;
 }
+
+::-webkit-scrollbar{
+    display:none;
+}
+
 html,body{
     height: 100%;
     overflow-x: hidden;
 }
+
 a,a:link,a:visited{
     text-decoration: none;
 }
+
 ul li,ol,li{
     list-style: none;
 }
@@ -186,6 +193,7 @@ ul li,ol,li{
 
 .article_list_content ul li {
     padding: 0.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .article_list_content ul li a,
@@ -212,7 +220,7 @@ ul li,ol,li{
 }
 
 .article_day{
-    margin-left: 90%;
+    margin-left: 96%;
     margin-top: -1.8rem;
     width:40%;
 }
@@ -224,7 +232,7 @@ ul li,ol,li{
     overflow-y: hidden;
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
-    box-shadow: 0 0 9px 1px hsla(0,3%,62%,.29);
+    box-shadow: 0 0 9px 3px hsla(0,3%,62%,.29);
     line-height: 2;
     color: rgb(85,85,85);
     border-left: 0.5rem solid #333;
@@ -233,7 +241,7 @@ ul li,ol,li{
 .article_list_content li section.article_item_content::after{
     content: '阅读更多...';
     position: absolute;
-    bottom: 0;
+    bottom: -5%;
     left: 1%;
     z-index: 5;
     margin-bottom: 0.5rem;
@@ -456,6 +464,10 @@ ul li,ol,li{
 
     #article_content img {
         max-width:100%;
+    }
+
+    .article_day{
+        margin-left: 90%;
     }
 
     .toggle_meau{
