@@ -442,6 +442,8 @@ ul li,ol,li{
         color: white;
         z-index: 9;
         display: none;
+        height: 80%;
+        overflow-y: scroll;
     }
 
     .sidebar_list li a, .sidebar_list li a:link, .sidebar_list li a:visited{
