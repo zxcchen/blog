@@ -167,17 +167,64 @@ function loadBlogPostToDB(fullFilename, isNew = true) {
     });
 }
 
-function extractParagraphs(content,num = 3){
-    num = num<=1?3:num;
-    let re = new RegExp(`((?:(?:\\W|\\w)*?<p>(?:\\W|\\w)+?<\\/p>(?:\\r\\n)*){0,${num}})?`);
-    let result = re.exec(content);
-    //console.log(result);
-    if(result!=null&&result[1]){
-        return result[1];
-    }else{
-        console.warn("failed to extract paragraph from content:",content);
-        return content;
+function extractP(content,num = 3){
+    let i = 0;
+    let tags=[],tagsPos = [];
+    let pCnt = 0;
+    while(i<content.length){
+        if(content[i]=='<'){//遇到标签
+            let j = i+1;
+            while(j<content.length&&content[j]!=' '&&content[j]!='>')j++;
+            if(j>=content.length){
+                break;
+            }
+            let tagBegin = content[i+1]!='/';
+            let t = content.substring(tagBegin?i+1:i+2,j);
+            while(j<content.length&&content[j]!='>')j++;
+            tags.push({tag:t,tagBegin});
+            tagsPos.push({begin:i,end:j});
+            if(j-1<content.length&&content[j-1]=='/'){ //自闭合标签
+                tags.pop();
+                tagsPos.pop();
+            }
+            i=j;
+        }
+        i++;
     }
+    //console.log(tags);
+    let stack = [];
+    for(let j=0;j<tags.length;j++){
+        if(stack.length==0){//empty
+            stack.push(tags[j]);
+        }else{
+            let top = stack[stack.length-1];
+            if(top.tag == tags[j].tag && top.tagBegin == !tags[j].tagBegin){
+                stack.pop();
+                if(stack.length==0&&top.tag=='p'){
+                    if(++pCnt==num){
+                        return content.substring(0,tagsPos[j].end+1);
+                    }
+                }
+            }else{
+                stack.push(tags[j]);
+            }
+        }
+    }
+    return content;
+}
+
+function extractParagraphs(content,num = 3){
+    // num = num<=1?3:num;
+    // let re = new RegExp(`((?:(?:\\W|\\w)*?<p>(?:\\W|\\w)+?<\\/p>(?:\\r\\n)*){0,${num}})?`);
+    // let result = re.exec(content);
+    // //console.log(result);
+    // if(result!=null&&result[1]){
+    //     return result[1];
+    // }else{
+    //     console.warn("failed to extract paragraph from content:",content);
+    //     return content;
+    // }
+    return extractP(content,num);
 }
 
 module.exports = {
@@ -253,6 +300,6 @@ if (require.main === module) {
     //         db.globalRelease();
     //     });
     // });
-    console.log(extractParagraphs("<h4>1.sss</h4>\r\n",3));
-    //console.log(/(\W|\w)+/.exec("\r\n\\d"));
+    //console.log(extractParagraphs("<h4>1.sss</h4>\r\n",3));
+    console.log(extractP("<p></p>sdfa<div id='dfa'><div><p>dddd</p></div><div><p>eee</p></div></div><p>woaiqiqi</p><p>qiqiaiwo</p><div><br/></div>",2));
 }
