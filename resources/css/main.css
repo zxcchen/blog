@@ -214,6 +214,7 @@ ul li,ol,li{
 .article_day{
     margin-left: 90%;
     margin-top: -1.8rem;
+    width:40%;
 }
 
 .article_list_content li section.article_item_content{
