@@ -1,3 +1,6 @@
+在线预览
+http://www.zxcchen.me:9000/blogpost?op=list
+
 博客系统
 
 为了熟悉Node.js，熟悉现代前端开发使用的各种工作流工具，我开发了这个博客系统。
