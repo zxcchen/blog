@@ -95,9 +95,9 @@ var siteConfig = module.exports = {
     //重建版本信息方法
     rebuildAssetManifest: rebuildAssetManifest,
     // hostname
-    hostname: PROD?"zxcchen.me:9000":"blog.localhost:9000",
+    hostname: PROD?"blink.ink:9000":"blog.localhost:9000",
     // domain
-    cookieDomain : PROD?".zxcchen.me":"blog.localhost",
+    cookieDomain : PROD?".blink.ink":"blog.localhost",
     // upload direcroty
     uploaddir : "resources/uploads"
 };
