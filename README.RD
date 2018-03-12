@@ -1,5 +1,5 @@
 在线预览
-http://qiqi.zxcchen.me:9000/blogpost?op=list
+http://qiqi.zxcchen.me/blogpost?op=list
 
 博客系统
 
