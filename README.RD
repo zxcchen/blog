@@ -1,5 +1,5 @@
 在线预览
-http://qiqi.zxcchen.me/blogpost?op=list
+http://qiqi.bling.ink
 
 博客系统
 
